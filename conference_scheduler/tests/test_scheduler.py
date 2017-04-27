@@ -39,7 +39,8 @@ sessions = (
 roles = {
     'speaker': Role(name='speaker'),
     'leader': Role(name='leader'),
-    'mentor': Role(name='mentor')
+    'mentor': Role(name='mentor'),
+    'chair': Role(name='chair')
 }
 
 events = {
