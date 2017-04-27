@@ -1,5 +1,5 @@
 import pulp
-from conference_scheduler.resources import Person, Room, Slot, Session, EventType, Event, Role, Demand
+from conference_scheduler.resources import Person, Room, Slot, Session, EventType, Event, Role, Demand, Unavailability
 from conference_scheduler import scheduler
 
 people = {
@@ -49,6 +49,12 @@ demand = (
     Demand(event=events['workshop_1'], audience=30),
 )
 
+unavailability = (
+    Unavailability(person=people['alice'], slot=slots[0]),
+    Unavailability(person=people['alice'], slot=slots[1]),
+    Unavailability(person=people['bob'], slot=slots[2]),
+    Unavailability(person=people['bob'], slot=slots[3]),
+)
 
 def test_is_valid_schedule():
     # Test empty schedule
