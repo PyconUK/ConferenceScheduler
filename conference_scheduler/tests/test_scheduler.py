@@ -1,7 +1,7 @@
 import pulp
 from conference_scheduler.resources import (
     Person, Room, Slot, Session, EventType, Event, Role, Demand,
-    Unavailability, CHAIR
+    Unavailability
 )
 from conference_scheduler import scheduler
 
