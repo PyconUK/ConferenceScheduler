@@ -60,7 +60,7 @@ def roles():
 
 
 @pytest.fixture(scope="module")
-def events(event_types, roles):
+def events(event_types, roles, people):
     return {
         'talk_1': Event(
             name='Talk 1',

@@ -1,7 +1,7 @@
 from typing import NamedTuple, Callable, List, Dict
 
 
-def variables(people):
+def variables(events, rooms, slots):
     """Defines the required instances of pulp.LpVariable
 
     Parameters
@@ -10,7 +10,8 @@ def variables(people):
     Returns
     -------
     dict
-        mapping a meaningful reference to an instance of pulp.LpVariable
+        mapping an instance of resource.ScheduledItem to an instance of
+        pulp.LpVariable
     """
     variables = {}
     return variables
