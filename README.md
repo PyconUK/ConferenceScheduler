@@ -28,7 +28,7 @@ A Python tool to assist the task of scheduling a conference which:
 * Any person assigned the 'Session Chair' role must not be assigned any other role in the same session
 * No person must be scheduled to chair more sessions than they have specified themselves nor the maximum number defined for the conference
 
-# Optimisation
+# Built-In Optimisations
 * The sum of 'potential disappointments' should be minimised where 'potential disappointments' is defined as the excess of demand over room capacity for every scheduled event
 * The number of time slot/room combinations without a person assigned to the 'Session chair' role should be minimised
 * The number of occasions where the session chair changes for the time slots within a session for any room should be minimised
