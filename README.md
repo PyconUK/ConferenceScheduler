@@ -1,7 +1,7 @@
 # Conference Scheduler
 
 # Overview
-A tool to assist the task of scheduling a conference which:
+A Python tool to assist the task of scheduling a conference which:
 * Can take an existing schedule and validate it against a set of constraints
 * Can calculate a new schedule optimised to be the minimum change necessary from another given schedule
 * Has the constraints and optimisations defined below already built in
