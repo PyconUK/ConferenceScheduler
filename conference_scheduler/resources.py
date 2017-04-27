@@ -12,7 +12,7 @@ class Role(NamedTuple):
 
 class Person(NamedTuple):
     name: str
-    is_chair: bool
+    max_chair_sessions: int = 0
 
 
 class Event(NamedTuple):
