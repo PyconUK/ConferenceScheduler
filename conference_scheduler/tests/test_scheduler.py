@@ -1,5 +1,5 @@
 import pulp
-from conference_scheduler.resources import Person, Room, Slot, Session, EventType, Event, Role
+from conference_scheduler.resources import Person, Room, Slot, Session, EventType, Event, Role, Demand
 from conference_scheduler import scheduler
 
 people = {
@@ -31,17 +31,22 @@ sessions = (
     Session(slots=(slots[2], slots[3]))
 )
 
-
 roles = {
     'speaker': Role(name='speaker'),
     'leader': Role(name='leader'),
     'mentor': Role(name='mentor')
 }
 
-events = (
-    Event(name='Talk 1', event_type=event_types['talk'], roles={roles['speaker']: people['alice']}),
-    Event(name='Talk 2', event_type=event_types['talk'], roles={roles['speaker']: people['bob']}),
-    Event(name='Workshop 1', event_type=event_types['workshop'], roles={roles['leader']: people['charlie']})
+events = {
+    'talk_1': Event(name='Talk 1', event_type=event_types['talk'], roles={roles['speaker']: people['alice']}),
+    'talk_2': Event(name='Talk 2', event_type=event_types['talk'], roles={roles['speaker']: people['bob']}),
+    'workshop_1': Event(name='Workshop 1', event_type=event_types['workshop'], roles={roles['leader']: people['charlie']})
+}
+
+demand = (
+    Demand(event=events['talk_1'], audience=300),
+    Demand(event=events['talk_2'], audience=300),
+    Demand(event=events['workshop_1'], audience=30),
 )
 
 
