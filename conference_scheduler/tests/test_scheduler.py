@@ -1,7 +1,7 @@
 import pulp
 from conference_scheduler.resources import (
     Person, Room, Slot, Session, EventType, Event, Role, Demand,
-    Unavailability
+    Unavailability, CHAIR
 )
 from conference_scheduler import scheduler
 
@@ -38,8 +38,7 @@ sessions = (
 roles = {
     'speaker': Role(name='speaker'),
     'leader': Role(name='leader'),
-    'mentor': Role(name='mentor'),
-    'chair': Role(name='chair')
+    'mentor': Role(name='mentor')
 }
 
 events = {

@@ -10,6 +10,9 @@ class Role(NamedTuple):
     name: str
 
 
+CHAIR = Role(name='chair')
+
+
 class Person(NamedTuple):
     name: str
     max_chair_sessions: int = 0
