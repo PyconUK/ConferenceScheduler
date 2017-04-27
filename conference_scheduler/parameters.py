@@ -1,7 +1,7 @@
-from typing import Callable, List, Dict
+from typing import NamedTuple, Callable, List, Dict
 
 
-def variables():
+def variables(people):
     """Defines the required instances of pulp.LpVariable
 
     Parameters
