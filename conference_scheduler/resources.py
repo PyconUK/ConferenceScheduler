@@ -12,6 +12,7 @@ class Role(NamedTuple):
 
 class Person(NamedTuple):
     name: str
+    is_chair: bool
 
 
 class Event(NamedTuple):

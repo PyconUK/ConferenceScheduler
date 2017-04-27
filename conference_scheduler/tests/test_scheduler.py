@@ -6,9 +6,9 @@ from conference_scheduler.resources import (
 from conference_scheduler import scheduler
 
 people = {
-    'alice': Person(name='Alice'),
-    'bob': Person(name='Bob'),
-    'charlie': Person(name='Charlie')
+    'alice': Person(name='Alice', is_chair=True),
+    'bob': Person(name='Bob', is_chair=True),
+    'charlie': Person(name='Charlie', is_chair=False)
 }
 
 event_types = {
