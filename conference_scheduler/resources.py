@@ -29,7 +29,7 @@ class Room(NamedTuple):
     capacity: int
 
 
-class Session(NamedTuple)
+class Session(NamedTuple):
     slots: Sequence[Slot]
 
 
