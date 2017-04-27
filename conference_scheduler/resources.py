@@ -1,10 +1,9 @@
-from typing import NamedTuple
+from typing import NamedTuple, Sequence
 from datetime import datetime
 
 
-class Demand(NamedTuple):
-    event: Event
-    audience: int
+class EventType(NamedTuple):
+    name: str
 
 
 class Event(NamedTuple):
@@ -12,8 +11,9 @@ class Event(NamedTuple):
     type: EventType
 
 
-class EventType(NamedTuple):
-    name: str
+class Demand(NamedTuple):
+    event: Event
+    audience: int
 
 
 class Person(NamedTuple):
@@ -29,6 +29,11 @@ class Room(NamedTuple):
     capacity: int
 
 
+class Slot(NamedTuple):
+    starts_at: datetime
+    ends_at: datetime
+
+
 class ScheduledItem(NamedTuple):
     event: Event
     room: Room
@@ -37,11 +42,6 @@ class ScheduledItem(NamedTuple):
 
 class Session(NamedTuple):
     slots: Sequence[Slot]
-
-
-class Slot(NamedTuple):
-    starts_at: datetime
-    ends_at: datetime
 
 
 class Unavailability(NamedTuple):
