@@ -76,8 +76,7 @@ unavailability = (
 def test_is_valid_schedule():
     # Test empty schedule
     schedule = tuple()
-    problem = pulp.LpProblem()
-    assert not scheduler.is_valid_schedule(schedule, problem)
+    assert not scheduler.is_valid_schedule(schedule)
 
 
 def test_schedule():

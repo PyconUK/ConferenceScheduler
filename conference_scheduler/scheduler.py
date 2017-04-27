@@ -1,11 +1,10 @@
-def is_valid_schedule(schedule, problem):
+def is_valid_schedule(schedule):
     """Validate an existing schedule against a problem
 
     Parameters
     ---------
     schedule : iterable
         of resources.ScheduledItem
-    problem : pulp.LpProblem
 
     Returns
     -------
@@ -17,12 +16,11 @@ def is_valid_schedule(schedule, problem):
     return True
 
 
-def schedule(problem, existing=None):
+def schedule(existing=None):
     """Compute a new, valid, optimised schedule
 
     Parameters
     ----------
-    problem : pulp.LpProblem
     existing : iterable
         of resources.ScheduledItem.
         Represents an existing schedule.
