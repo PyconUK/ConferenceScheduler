@@ -17,7 +17,6 @@ def is_valid_schedule(schedule, problem):
     return True
 
 
-
 def schedule(problem, existing=None):
     """Compute a new, valid, optimised schedule
 

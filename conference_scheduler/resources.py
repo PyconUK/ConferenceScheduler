@@ -1,4 +1,4 @@
-from typing import NamedTuple, Sequence
+from typing import NamedTuple, Sequence, Dict
 from datetime import datetime
 
 
@@ -6,22 +6,23 @@ class EventType(NamedTuple):
     name: str
 
 
-class Event(NamedTuple):
+class Role(NamedTuple):
     name: str
-    type: EventType
-
-
-class Demand(NamedTuple):
-    event: Event
-    audience: int
 
 
 class Person(NamedTuple):
     name: str
 
 
-class Role(NamedTuple):
+class Event(NamedTuple):
     name: str
+    event_type: EventType
+    roles: Dict[Role, Person]
+
+
+class Demand(NamedTuple):
+    event: Event
+    audience: int
 
 
 class Room(NamedTuple):
