@@ -17,7 +17,7 @@ A Python tool to assist the task of scheduling a conference which:
 * People
 * Roles - e.g. 'Speaker', 'Session Chair', 'Mentor'
 * Unavailability - Time slots for which a person is not available to fulfil a role
-* Events - which might be talks or workshops and may have further classification schema
+* Events - which might be talks or workshops
 * Demand - the predicted size of audience for an event
 
 # Built-In Constraints
