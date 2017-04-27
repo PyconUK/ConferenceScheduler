@@ -28,6 +28,7 @@ A Python tool to assist the task of scheduling a conference which:
 * A person must not be scheduled to fulfil a role in a time slot for which they are unavailable
 * Any person assigned the 'Session Chair' role must not be assigned any other role in the same session
 * No person must be scheduled to chair more sessions than they have specified themselves nor the maximum number defined for the conference
+* A workshop does not require a session chair
 
 # Built-In Optimisations
 * The sum of 'potential disappointments' should be minimised where 'potential disappointments' is defined as the excess of demand over room capacity for every scheduled event
