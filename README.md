@@ -13,7 +13,6 @@ A Python tool to assist the task of scheduling a conference which:
 * Rooms - which have a maximum capacity and are deemed suitable to host a talk, a workshop or either
 * Time slots - which have a start and end time
 * Sessions - which define an ordered series of time slots (e.g. 'the session between coffee and lunch on Friday')
-* Days - which contain an ordered series of sessions
 * People
 * Roles - e.g. 'Speaker', 'Session Chair', 'Mentor'
 * Unavailability - Time slots for which a person is not available to fulfil a role
