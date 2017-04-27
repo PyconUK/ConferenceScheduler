@@ -16,7 +16,6 @@ event_types = {
     'talk': EventType(name='talk')
 }
 
-
 rooms = {
     'main_hall': Room(
         name='Main Hall', capacity=500, suitability=event_types['talk']),

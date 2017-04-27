@@ -27,6 +27,7 @@ A Python tool to assist the task of scheduling a conference which:
 * A person may only perform one role in any time slot except for 'Mentor' which is allowed alongside any other role
 * A person must not be scheduled to fulfil a role in a time slot for which they are unavailable
 * Any person assigned the 'Session Chair' role must not be assigned any other role in the same session
+* A person must only be assigned  the 'Session Chair' role if they have indicated their willingness to do so
 * No person must be scheduled to chair more sessions than they have specified themselves nor the maximum number defined for the conference
 * A workshop does not require a session chair
 
