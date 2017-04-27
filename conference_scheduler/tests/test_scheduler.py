@@ -1,5 +1,8 @@
 import pulp
-from conference_scheduler.resources import Person, Room, Slot, Session, EventType, Event, Role, Demand, Unavailability
+from conference_scheduler.resources import (
+    Person, Room, Slot, Session, EventType, Event, Role, Demand,
+    Unavailability
+)
 from conference_scheduler import scheduler
 
 people = {
@@ -15,8 +18,10 @@ event_types = {
 
 
 rooms = {
-    'main_hall': Room(name='Main Hall', capacity=500, suitability=event_types['talk']),
-    'room_1': Room(name='Room 1', capacity=50, suitability=event_types['workshop'])
+    'main_hall': Room(
+        name='Main Hall', capacity=500, suitability=event_types['talk']),
+    'room_1': Room(
+        name='Room 1', capacity=50, suitability=event_types['workshop'])
 }
 
 slots = (
@@ -38,9 +43,21 @@ roles = {
 }
 
 events = {
-    'talk_1': Event(name='Talk 1', event_type=event_types['talk'], roles={roles['speaker']: people['alice']}),
-    'talk_2': Event(name='Talk 2', event_type=event_types['talk'], roles={roles['speaker']: people['bob']}),
-    'workshop_1': Event(name='Workshop 1', event_type=event_types['workshop'], roles={roles['leader']: people['charlie']})
+    'talk_1': Event(
+        name='Talk 1',
+        event_type=event_types['talk'],
+        roles={roles['speaker']: people['alice']}
+    ),
+    'talk_2': Event(
+        name='Talk 2',
+        event_type=event_types['talk'],
+        roles={roles['speaker']: people['bob']}
+    ),
+    'workshop_1': Event(
+        name='Workshop 1',
+        event_type=event_types['workshop'],
+        roles={roles['leader']: people['charlie']}
+    )
 }
 
 demand = (
@@ -55,6 +72,7 @@ unavailability = (
     Unavailability(person=people['bob'], slot=slots[2]),
     Unavailability(person=people['bob'], slot=slots[3]),
 )
+
 
 def test_is_valid_schedule():
     # Test empty schedule
