@@ -29,6 +29,12 @@ class Room(NamedTuple):
     capacity: int
 
 
+class ScheduledItem(NamedTuple):
+    event: Event
+    room: Room
+    slot: Slot
+
+
 class Session(NamedTuple):
     slots: Sequence[Slot]
 
