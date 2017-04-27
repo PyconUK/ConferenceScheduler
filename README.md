@@ -42,3 +42,6 @@ Some examples of situations which have arisen at previous conferences and should
 * A potential session chair says "I'm happy to chair a session but I've never done it before, so please don't schedule me in the main hall."
 * A speaker says "I'd like to attend talk X, so please don't schedule my talk in the same slot."
 * A first-time speaker is assigned a mentor and requests that the mentor chairs the session in which they are scheduled to give their talk.
+
+# Acknowledgments
+This repository was inspired by a talk given by David MacIver at PyCon UK 2016: http://2016.pyconuk.org/talks/easy-solutions-to-hard-problems/
