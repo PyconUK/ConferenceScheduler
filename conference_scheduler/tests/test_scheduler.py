@@ -8,9 +8,15 @@ people = {
     'charlie': Person(name='Charlie')
 }
 
+event_types = {
+    'workshop': EventType(name='workshop'),
+    'talk': EventType(name='talk')
+}
+
+
 rooms = {
-    'main_hall': Room(name='Main Hall', capacity=500),
-    'room_1': Room(name='Room 1', capacity=50)
+    'main_hall': Room(name='Main Hall', capacity=500, suitability=event_types['talk']),
+    'room_1': Room(name='Room 1', capacity=50, suitability=event_types['workshop'])
 }
 
 slots = (
@@ -25,14 +31,11 @@ sessions = (
     Session(slots=(slots[2], slots[3]))
 )
 
-event_types = {
-    'workshop': EventType(name='workshop'),
-    'talk': EventType(name='talk')
-}
 
 roles = {
     'speaker': Role(name='speaker'),
-    'leader': Role(name='leader')
+    'leader': Role(name='leader'),
+    'mentor': Role(name='mentor')
 }
 
 events = (

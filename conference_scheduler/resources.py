@@ -1,4 +1,4 @@
-from typing import NamedTuple, Sequence, Dict
+from typing import NamedTuple, Sequence, Dict, Iterable
 from datetime import datetime
 
 
@@ -28,6 +28,7 @@ class Demand(NamedTuple):
 class Room(NamedTuple):
     name: str
     capacity: int
+    suitability: Iterable[EventType]
 
 
 class Slot(NamedTuple):
