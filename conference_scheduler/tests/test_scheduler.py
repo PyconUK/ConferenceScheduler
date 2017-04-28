@@ -11,12 +11,14 @@ def test_is_valid_schedule(people):
 def test_schedule(events, rooms, slots):
     schedule = scheduler.schedule(events, rooms, slots)
 
-    # A room may not have more than one event scheduled in any slot
-    scheduled_rooms = Counter([item.room.name for item in schedule])
-    for room in rooms:
-        assert scheduled_rooms[room] <= 1
+    # A room may only have a maximum of one event scheduled in any time slot
 
-    # Each event should be scheduled once and once only
+    # A room may only be scheduled to host an event for which it is deemed
+    # suitable
+    for item in schedule:
+        assert item.event.event_type in item.room.suitability
+
+    # An event may only be scheduled in one combination of room and time slot
     assert len(schedule) == len(events)
     scheduled_events = set([item.event.name for item in schedule])
     assert scheduled_events == set([event.name for event in events])

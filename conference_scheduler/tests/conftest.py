@@ -26,9 +26,9 @@ def event_types():
 def rooms(event_types):
     return (
         Room(
-            name='Main Hall', capacity=500, suitability=event_types['talk']),
+            name='Main Hall', capacity=500, suitability=[event_types['talk']]),
         Room(
-            name='Room 1', capacity=50, suitability=event_types['workshop'])
+            name='Room 1', capacity=50, suitability=[event_types['workshop']])
     )
 
 
