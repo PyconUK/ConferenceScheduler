@@ -1,6 +1,5 @@
-from typing import NamedTuple, Callable, List, Dict, Sequence
+from typing import Sequence
 import pulp
-from .resources import ScheduledItem
 
 
 def variables(events: Sequence, rooms: Sequence, slots: Sequence):
@@ -23,10 +22,10 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
     """
     variables = {
         (events.index(event), rooms.index(room), slots.index(slot)):
-            pulp.LpVariable(
-                f'{event.name}_{room.name}_slot_{slots.index(slot)}',
-                cat='Binary'
-            )
+        pulp.LpVariable(
+            f'{event.name}_{room.name}_slot_{slots.index(slot)}',
+            cat='Binary'
+        )
         for event in events for room in rooms for slot in slots
     }
     return variables
@@ -49,11 +48,3 @@ def constraints(variables, events, rooms, slots):
         )
 
     return constraints
-
-
-class Constraint(NamedTuple):
-    function: Callable
-    args: List
-    kwargs: Dict
-    operator: Callable
-    value: int
