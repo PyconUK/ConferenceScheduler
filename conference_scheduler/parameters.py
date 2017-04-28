@@ -36,10 +36,10 @@ def _max_one_event_per_room_per_slot(variables, events, rooms, slots):
     return [
         sum(
             variables[(event_idx, room_idx, slot_idx)]
-            for event_idx, event in enumerate(events)
+            for event_idx in range(len(events))
         ) <= 1
-        for room_idx, room in enumerate(rooms)
-        for slot_idx, slot in enumerate(slots)
+        for room_idx in range(len(rooms))
+        for slot_idx in range(len(slots))
     ]
 
 
@@ -48,10 +48,10 @@ def _only_once_per_event(variables, events, rooms, slots):
     return [
         sum(
             variables[(event_idx, room_idx, slot_idx)]
-            for room_idx, room in enumerate(rooms)
-            for slot_idx, slot in enumerate(slots)
+            for room_idx in range(len(rooms))
+            for slot_idx in range(len(slots))
         ) == 1
-        for event_idx, event in enumerate(events)
+        for event_idx in range(len(events))
     ]
 
 
