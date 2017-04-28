@@ -34,6 +34,20 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
 def constraints(variables, events, rooms, slots):
     constraints = []
 
+    # A room may not have more than one event scheduled in any slot
+    for room in rooms:
+        for slot in slots:
+            constraints.append(
+                sum(
+                    variables[(
+                        events.index(event),
+                        rooms.index(room),
+                        slots.index(slot)
+                    )]
+                    for event in events
+                ) <= 1
+            )
+
     # Each event should be scheduled once and once only
     for event in events:
         constraints.append(
