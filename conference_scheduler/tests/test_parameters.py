@@ -14,6 +14,7 @@ def test_max_one_event_per_room_per_slot(events, rooms, slots):
     constraints = parameters._max_one_event_per_room_per_slot(
         variables, event_count, room_count, slot_count
     )
+    # There should be one constraint for each combination of room and slot
     assert len(constraints) == 8
 
 
@@ -25,6 +26,7 @@ def test_only_once_per_event(events, rooms, slots):
     constraints = parameters._only_once_per_event(
         variables, event_count, room_count, slot_count
     )
+    # There should be one constraint per event
     assert len(constraints) == 3
 
 
