@@ -12,6 +12,9 @@ def test_schedule(events, rooms, slots):
     schedule = scheduler.schedule(events, rooms, slots)
 
     # A room may only have a maximum of one event scheduled in any time slot
+    scheduled = Counter([(item.room.name, item.slot) for item in schedule])
+    for item, count in scheduled.items():
+        assert count <= 1
 
     # A room may only be scheduled to host an event for which it is deemed
     # suitable
