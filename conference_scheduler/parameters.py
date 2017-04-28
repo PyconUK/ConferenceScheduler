@@ -35,14 +35,11 @@ def _max_one_event_per_room_per_slot(variables, events, rooms, slots):
     # A room may not have more than one event scheduled in any slot
     return [
         sum(
-            variables[(
-                events.index(event),
-                rooms.index(room),
-                slots.index(slot)
-            )]
-            for event in events
+            variables[(event_idx, room_idx, slot_idx)]
+            for event_idx, event in enumerate(events)
         ) <= 1
-        for room in rooms for slot in slots
+        for room_idx, room in enumerate(rooms)
+        for slot_idx, slot in enumerate(slots)
     ]
 
 
@@ -50,14 +47,11 @@ def _only_once_per_event(variables, events, rooms, slots):
     # Each event should be scheduled once and once only
     return [
         sum(
-            variables[(
-                events.index(event),
-                rooms.index(room),
-                slots.index(slot)
-            )]
-            for room in rooms for slot in slots
+            variables[(event_idx, room_idx, slot_idx)]
+            for room_idx, room in enumerate(rooms)
+            for slot_idx, slot in enumerate(slots)
         ) == 1
-        for event in events
+        for event_idx, event in enumerate(events)
     ]
 
 
