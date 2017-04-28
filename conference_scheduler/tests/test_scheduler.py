@@ -7,5 +7,5 @@ def test_is_valid_schedule(people):
     assert not scheduler.is_valid_schedule(schedule)
 
 
-def test_schedule():
-    pass
+def test_schedule(events, rooms, slots):
+    scheduler.schedule(events, rooms, slots)

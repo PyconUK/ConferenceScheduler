@@ -8,6 +8,12 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
 
     Parameters
     ----------
+    events : List or Tuple
+        of resources.Event
+    rooms : List or Tuple
+        of resources.Room
+    slots : List or Tuple
+        of resources.Slot
 
     Returns
     -------
