@@ -9,4 +9,8 @@ def test_is_valid_schedule(people):
 
 def test_schedule(events, rooms, slots):
     schedule = scheduler.schedule(events, rooms, slots)
-    assert schedule == []
+
+    # Each event should be scheduled once and once only
+    assert len(schedule) == len(events)
+    scheduled_events = set([item.event.name for item in schedule])
+    assert scheduled_events == set([event.name for event in events])

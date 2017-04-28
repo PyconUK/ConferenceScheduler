@@ -1,6 +1,7 @@
 import pulp
 from typing import Sequence
 import conference_scheduler.parameters as params
+from conference_scheduler.resources import ScheduledItem
 
 
 def is_valid_schedule(schedule):
@@ -53,6 +54,10 @@ def schedule(
         problem += constraint
     problem.solve()
     return [
-        scheduled_item for scheduled_item, variable in variables.items()
+        ScheduledItem(
+            event=events[item[0]],
+            room=rooms[item[1]],
+            slot=slots[item[2]]
+        ) for item, variable in variables.items()
         if variable.value() > 0
     ]

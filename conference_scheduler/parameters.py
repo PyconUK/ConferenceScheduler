@@ -22,14 +22,11 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
         pulp.LpVariable
     """
     variables = {
-        ScheduledItem(
-            event=events.index(event),
-            room=rooms.index(room),
-            slot=slots.index(slot)
-        ): pulp.LpVariable(
-            f'{event.name}_{room.name}_slot_{slots.index(slot)}',
-            cat='Binary'
-        )
+        (events.index(event), rooms.index(room), slots.index(slot)):
+            pulp.LpVariable(
+                f'{event.name}_{room.name}_slot_{slots.index(slot)}',
+                cat='Binary'
+            )
         for event in events for room in rooms for slot in slots
     }
     return variables
@@ -38,7 +35,7 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
 def constraints(variables, events, rooms, slots):
     constraints = []
 
-    # Only schedule an event once
+    # Each event should be scheduled once and once only
     for event in events:
         constraints.append(
             sum(
