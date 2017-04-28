@@ -1,7 +1,9 @@
-from typing import NamedTuple, Callable, List, Dict
+from typing import NamedTuple, Callable, List, Dict, Sequence
+import pulp
+from .resources import ScheduledItem
 
 
-def variables(events, rooms, slots):
+def variables(events: Sequence, rooms: Sequence, slots: Sequence):
     """Defines the required instances of pulp.LpVariable
 
     Parameters
@@ -13,7 +15,16 @@ def variables(events, rooms, slots):
         mapping an instance of resource.ScheduledItem to an instance of
         pulp.LpVariable
     """
-    variables = {}
+    variables = {
+        ScheduledItem(
+            event=events.index(event),
+            room=rooms.index(room),
+            slot=slots.index(slot)
+        ): pulp.LpVariable(
+            f'{event.name}_{room.name}_slot_{slots.index(slot)}', cat='Binary'
+        )
+        for event in events for room in rooms for slot in slots
+    }
     return variables
 
 

@@ -24,12 +24,12 @@ def event_types():
 
 @pytest.fixture(scope="module")
 def rooms(event_types):
-    return {
-        'main_hall': Room(
+    return (
+        Room(
             name='Main Hall', capacity=500, suitability=event_types['talk']),
-        'room_1': Room(
+        Room(
             name='Room 1', capacity=50, suitability=event_types['workshop'])
-    }
+    )
 
 
 @pytest.fixture(scope="module")
@@ -61,23 +61,23 @@ def roles():
 
 @pytest.fixture(scope="module")
 def events(event_types, roles, people):
-    return {
-        'talk_1': Event(
+    return (
+        Event(
             name='Talk 1',
             event_type=event_types['talk'],
             roles={roles['speaker']: people['alice']}
         ),
-        'talk_2': Event(
+        Event(
             name='Talk 2',
             event_type=event_types['talk'],
             roles={roles['speaker']: people['bob']}
         ),
-        'workshop_1': Event(
+        Event(
             name='Workshop 1',
             event_type=event_types['workshop'],
             roles={roles['leader']: people['charlie']}
         )
-    }
+    )
 
 
 @pytest.fixture(scope="module")
