@@ -49,9 +49,9 @@ def schedule(
     """
     problem = pulp.LpProblem()
     variables = params.variables(events, rooms, slots)
-    problem.solve()
     for constraint in params.constraints(variables, events, rooms, slots):
         problem += constraint
+    problem.solve()
     return [
         scheduled_item for scheduled_item, variable in variables.items()
         if variable.value() > 0
