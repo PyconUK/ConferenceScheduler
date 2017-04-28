@@ -1,5 +1,5 @@
 import pulp
-from typing import Sequence
+from typing import Sequence, Dict
 import conference_scheduler.parameters as params
 from conference_scheduler.resources import ScheduledItem
 
@@ -24,7 +24,9 @@ def is_valid_schedule(schedule):
 
 def schedule(
     events: Sequence, rooms: Sequence, slots: Sequence,
-    existing: Sequence = None
+    variables: Dict = None,
+    constraints: Sequence = None,
+    existing: Sequence = None,
 ):
     """Compute a new, valid, optimised schedule
 
@@ -36,12 +38,16 @@ def schedule(
         of resources.Room
     slots : List or Tuple
         of resources.Slot
-    existing : iterable
+    variables : Dict
+        mapping a tuple of event index, room index and slot index to an
+        instance of pulp.LpVariable.
+    constraints: List or Tuple
+        Ad-hoc constraints to add the problem
+    existing : List or Tuple
         of resources.ScheduledItem.
         Represents an existing schedule.
         If provided, the returned schedule will be optimised to minimise
         changes from this schedule
-
 
     Returns
     -------
@@ -49,9 +55,13 @@ def schedule(
         of resources.ScheduledItem
     """
     problem = pulp.LpProblem()
-    variables = params.variables(events, rooms, slots)
+    if variables is None:
+        variables = params.variables(events, rooms, slots)
     for constraint in params.constraints(variables, events, rooms, slots):
         problem += constraint
+    if constraints is not None:
+        for constraint in constraints:
+            problem += constraint
     problem.solve()
     return [
         ScheduledItem(
