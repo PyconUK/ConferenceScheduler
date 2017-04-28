@@ -17,8 +17,8 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
     Returns
     -------
     dict
-        mapping an instance of resource.ScheduledItem to an instance of
-        pulp.LpVariable
+        mapping a tuple of event index, room index and slot index to an
+        instance of pulp.LpVariable.
     """
     variables = {
         (events.index(event), rooms.index(room), slots.index(slot)):
