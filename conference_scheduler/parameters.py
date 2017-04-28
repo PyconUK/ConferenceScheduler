@@ -27,11 +27,31 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
             room=rooms.index(room),
             slot=slots.index(slot)
         ): pulp.LpVariable(
-            f'{event.name}_{room.name}_slot_{slots.index(slot)}', cat='Binary'
+            f'{event.name}_{room.name}_slot_{slots.index(slot)}',
+            cat='Binary'
         )
         for event in events for room in rooms for slot in slots
     }
     return variables
+
+
+def constraints(variables, events, rooms, slots):
+    constraints = []
+
+    # Only schedule an event once
+    for event in events:
+        constraints.append(
+            sum(
+                variables[(
+                    events.index(event),
+                    rooms.index(room),
+                    slots.index(slot)
+                )]
+                for room in rooms for slot in slots
+            ) == 1
+        )
+
+    return constraints
 
 
 class Constraint(NamedTuple):

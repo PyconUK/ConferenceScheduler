@@ -50,7 +50,9 @@ def schedule(
     problem = pulp.LpProblem()
     variables = params.variables(events, rooms, slots)
     problem.solve()
+    for constraint in params.constraints(variables, events, rooms, slots):
+        problem += constraint
     return [
         scheduled_item for scheduled_item, variable in variables.items()
-        if pulp.value(variable) > 0
+        if variable.value() > 0
     ]
