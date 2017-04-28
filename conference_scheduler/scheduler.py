@@ -50,4 +50,7 @@ def schedule(
     problem = pulp.LpProblem()
     variables = params.variables(events, rooms, slots)
     problem.solve()
-    return tuple()
+    return [
+        scheduled_item for scheduled_item, variable in variables.items()
+        if pulp.value(variable) > 0
+    ]

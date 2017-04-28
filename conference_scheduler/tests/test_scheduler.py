@@ -8,4 +8,5 @@ def test_is_valid_schedule(people):
 
 
 def test_schedule(events, rooms, slots):
-    scheduler.schedule(events, rooms, slots)
+    schedule = scheduler.schedule(events, rooms, slots)
+    assert schedule == []
