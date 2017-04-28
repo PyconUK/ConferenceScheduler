@@ -62,12 +62,15 @@ def schedule(
     if constraints is not None:
         for constraint in constraints:
             problem += constraint
-    problem.solve()
-    return [
-        ScheduledItem(
-            event=events[item[0]],
-            room=rooms[item[1]],
-            slot=slots[item[2]]
-        ) for item, variable in variables.items()
-        if variable.value() > 0
-    ]
+    status = problem.solve()
+    if status == 1:
+        return [
+            ScheduledItem(
+                event=events[item[0]],
+                room=rooms[item[1]],
+                slot=slots[item[2]]
+            ) for item, variable in variables.items()
+            if variable.value() > 0
+        ]
+    else:
+        raise ValueError('No valid schedule found')
