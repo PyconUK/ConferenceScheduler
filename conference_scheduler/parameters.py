@@ -45,9 +45,7 @@ def _max_one_event_per_room_per_slot(
     ]
 
 
-def _only_once_per_event(
-    variables, event_count, room_count, slot_count
-):
+def _only_once_per_event(variables, event_count, room_count, slot_count):
     # An event may only be scheduled in one combination of room and time slot
     return [
         sum(
@@ -56,6 +54,23 @@ def _only_once_per_event(
             for slot_idx in range(slot_count)
         ) == 1
         for event_idx in range(event_count)
+    ]
+
+
+def _is_suitable_room(event, room):
+    return event.event_type in room.suitability
+
+
+def _room_suitability(variables, events, rooms, slot_count):
+    # A room may only be scheduled to host an event for which it is deemed
+    # suitable
+    return [
+        sum(
+            variables[(events.index(event), rooms.index(room), slot_idx)]
+            for slot_idx in range(slot_count)
+        ) == 0
+        for room in rooms for event in events
+        if not _is_suitable_room(event, room)
     ]
 
 
@@ -74,5 +89,6 @@ def constraints(variables, events, rooms, slots):
             variables, event_count, room_count, slot_count
         )
     )
+    constraints.extend(_room_suitability(variables, events, rooms, slot_count))
 
     return constraints

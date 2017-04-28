@@ -4,6 +4,7 @@ from conference_scheduler.resources import (
     Unavailability
 )
 from conference_scheduler import scheduler
+from conference_scheduler import parameters
 
 
 @pytest.fixture(scope="module")
@@ -98,6 +99,11 @@ def unavailability(people, slots):
         Unavailability(person=people['bob'], slot=slots[2]),
         Unavailability(person=people['bob'], slot=slots[3]),
     )
+
+
+@pytest.fixture(scope='module')
+def variables(events, rooms, slots):
+    return parameters.variables(events, rooms, slots)
 
 
 @pytest.fixture(scope='module')
