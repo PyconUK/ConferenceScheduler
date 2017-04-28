@@ -31,35 +31,48 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
     return variables
 
 
-def _max_one_event_per_room_per_slot(variables, events, rooms, slots):
+def _max_one_event_per_room_per_slot(
+    variables, event_count, room_count, slot_count
+):
     # A room may not have more than one event scheduled in any slot
     return [
         sum(
             variables[(event_idx, room_idx, slot_idx)]
-            for event_idx in range(len(events))
+            for event_idx in range(event_count)
         ) <= 1
-        for room_idx in range(len(rooms))
-        for slot_idx in range(len(slots))
+        for room_idx in range(room_count)
+        for slot_idx in range(slot_count)
     ]
 
 
-def _only_once_per_event(variables, events, rooms, slots):
+def _only_once_per_event(
+    variables, event_count, room_count, slot_count
+):
     # Each event should be scheduled once and once only
     return [
         sum(
             variables[(event_idx, room_idx, slot_idx)]
-            for room_idx in range(len(rooms))
-            for slot_idx in range(len(slots))
+            for room_idx in range(room_count)
+            for slot_idx in range(slot_count)
         ) == 1
-        for event_idx in range(len(events))
+        for event_idx in range(event_count)
     ]
 
 
 def constraints(variables, events, rooms, slots):
+    event_count = len(events)
+    room_count = len(rooms)
+    slot_count = len(slots)
     constraints = []
     constraints.extend(
-        _max_one_event_per_room_per_slot(variables, events, rooms, slots)
+        _max_one_event_per_room_per_slot(
+            variables, event_count, room_count, slot_count
+        )
     )
-    constraints.extend(_only_once_per_event(variables, events, rooms, slots))
+    constraints.extend(
+        _only_once_per_event(
+            variables, event_count, room_count, slot_count
+        )
+    )
 
     return constraints
