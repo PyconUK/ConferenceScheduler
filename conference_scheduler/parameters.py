@@ -31,34 +31,41 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
     return variables
 
 
+def _max_one_event_per_room_per_slot(variables, events, rooms, slots):
+    # A room may not have more than one event scheduled in any slot
+    return [
+        sum(
+            variables[(
+                events.index(event),
+                rooms.index(room),
+                slots.index(slot)
+            )]
+            for event in events
+        ) <= 1
+        for room in rooms for slot in slots
+    ]
+
+
+def _only_once_per_event(variables, events, rooms, slots):
+    # Each event should be scheduled once and once only
+    return [
+        sum(
+            variables[(
+                events.index(event),
+                rooms.index(room),
+                slots.index(slot)
+            )]
+            for room in rooms for slot in slots
+        ) == 1
+        for event in events
+    ]
+
+
 def constraints(variables, events, rooms, slots):
     constraints = []
-
-    # A room may not have more than one event scheduled in any slot
-    for room in rooms:
-        for slot in slots:
-            constraints.append(
-                sum(
-                    variables[(
-                        events.index(event),
-                        rooms.index(room),
-                        slots.index(slot)
-                    )]
-                    for event in events
-                ) <= 1
-            )
-
-    # Each event should be scheduled once and once only
-    for event in events:
-        constraints.append(
-            sum(
-                variables[(
-                    events.index(event),
-                    rooms.index(room),
-                    slots.index(slot)
-                )]
-                for room in rooms for slot in slots
-            ) == 1
-        )
+    constraints.extend(
+        _max_one_event_per_room_per_slot(variables, events, rooms, slots)
+    )
+    constraints.extend(_only_once_per_event(variables, events, rooms, slots))
 
     return constraints
