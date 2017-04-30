@@ -76,9 +76,23 @@ def _room_suitability(variables, shape, events, rooms):
 
 def constraints(variables, events, rooms, slots):
     shape = Shape(len(events), len(rooms), len(slots))
-    constraints = []
-    constraints.extend(_max_one_event_per_room_per_slot(variables, shape))
-    constraints.extend(_only_once_per_event(variables, shape))
-    constraints.extend(_room_suitability(variables, shape, events, rooms))
-
+    generators = (
+        {
+            'function': _max_one_event_per_room_per_slot,
+            'args': (variables, shape)
+        },
+        {
+            'function': _only_once_per_event,
+            'args': (variables, shape)
+        },
+        {
+            'function': _room_suitability,
+            'args': (variables, shape, events, rooms)
+        },
+    )
+    constraints = (
+        constraint
+        for g in generators
+        for constraint in g['function'](*g['args'])
+    )
     return constraints

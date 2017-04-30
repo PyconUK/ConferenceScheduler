@@ -41,5 +41,6 @@ def test_room_suitability(variables, events, rooms, slots):
 def test_constraints(events, rooms, slots):
     shape = parameters.Shape(len(events), len(rooms), len(slots))
     variables = parameters.variables(shape)
-    constraints = parameters.constraints(variables, events, rooms, slots)
+    constraints = [
+        c for c in parameters.constraints(variables, events, rooms, slots)]
     assert len(constraints) == 14
