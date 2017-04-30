@@ -9,17 +9,12 @@ class Shape(NamedTuple):
     slots: int
 
 
-def variables(events: Sequence, rooms: Sequence, slots: Sequence):
+def variables(shape):
     """Defines the required instances of pulp.LpVariable
 
     Parameters
     ----------
-    events : List or Tuple
-        of resources.Event
-    rooms : List or Tuple
-        of resources.Room
-    slots : List or Tuple
-        of resources.Slot
+    shape
 
     Returns
     -------
@@ -27,12 +22,13 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
         mapping a tuple of event index, room index and slot index to an
         instance of pulp.LpVariable.
     """
-    shape = Shape(len(events), len(rooms), len(slots))
     return pulp.LpVariable.dicts(
-        "x", itertools.product(
-            range(shape.events), range(shape.rooms), range(shape.slots)),
-            cat=pulp.LpBinary
-        )
+        "x",
+        itertools.product(
+            range(shape.events), range(shape.rooms), range(shape.slots)
+        ),
+        cat=pulp.LpBinary
+    )
 
 
 def _max_one_event_per_room_per_slot(variables, shape):

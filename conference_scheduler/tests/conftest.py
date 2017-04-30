@@ -103,7 +103,8 @@ def unavailability(people, slots):
 
 @pytest.fixture(scope='module')
 def variables(events, rooms, slots):
-    return parameters.variables(events, rooms, slots)
+    shape = parameters.Shape(len(events), len(rooms), len(slots))
+    return parameters.variables(shape)
 
 
 @pytest.fixture(scope='module')

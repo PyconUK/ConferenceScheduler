@@ -56,7 +56,8 @@ def schedule(
     """
     problem = pulp.LpProblem()
     if variables is None:
-        variables = params.variables(events, rooms, slots)
+        shape = params.Shape(len(events), len(rooms), len(slots))
+        variables = params.variables(shape)
     for constraint in params.constraints(variables, events, rooms, slots):
         problem += constraint
     if constraints is not None:

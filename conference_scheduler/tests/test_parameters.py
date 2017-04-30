@@ -2,7 +2,8 @@ from conference_scheduler import parameters
 
 
 def test_variables(events, rooms, slots):
-    variables = parameters.variables(events, rooms, slots)
+    shape = parameters.Shape(len(events), len(rooms), len(slots))
+    variables = parameters.variables(shape)
     assert len(variables) == 24
 
 
@@ -38,6 +39,7 @@ def test_room_suitability(variables, events, rooms, slots):
 
 
 def test_constraints(events, rooms, slots):
-    variables = parameters.variables(events, rooms, slots)
+    shape = parameters.Shape(len(events), len(rooms), len(slots))
+    variables = parameters.variables(shape)
     constraints = parameters.constraints(variables, events, rooms, slots)
     assert len(constraints) == 14
