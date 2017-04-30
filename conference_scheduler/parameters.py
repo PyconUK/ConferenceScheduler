@@ -4,6 +4,8 @@ import pulp
 
 
 class Shape(NamedTuple):
+    """Represents the shape of a 3 dimensional matrix of events, slots
+    and rooms"""
     events: int
     rooms: int
     slots: int
@@ -14,7 +16,7 @@ def variables(shape):
 
     Parameters
     ----------
-    shape
+    shape : Shape
 
     Returns
     -------
@@ -33,26 +35,26 @@ def variables(shape):
 
 def _max_one_event_per_room_per_slot(variables, shape):
     # A room may only have a maximum of one event scheduled in any time slot
-    return [
+    return (
         sum(
             variables[(event_idx, room_idx, slot_idx)]
             for event_idx in range(shape.events)
         ) <= 1
         for room_idx in range(shape.rooms)
         for slot_idx in range(shape.slots)
-    ]
+    )
 
 
 def _only_once_per_event(variables, shape):
     # An event may only be scheduled in one combination of room and time slot
-    return [
+    return (
         sum(
             variables[(event_idx, room_idx, slot_idx)]
             for room_idx in range(shape.rooms)
             for slot_idx in range(shape.slots)
         ) == 1
         for event_idx in range(shape.events)
-    ]
+    )
 
 
 def _is_suitable_room(event, room):
@@ -62,14 +64,14 @@ def _is_suitable_room(event, room):
 def _room_suitability(variables, shape, events, rooms):
     # A room may only be scheduled to host an event for which it is deemed
     # suitable
-    return [
+    return (
         sum(
             variables[(events.index(event), rooms.index(room), slot_idx)]
             for slot_idx in range(shape.slots)
         ) == 0
         for room in rooms for event in events
         if not _is_suitable_room(event, room)
-    ]
+    )
 
 
 def constraints(variables, events, rooms, slots):

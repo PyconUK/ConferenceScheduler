@@ -9,18 +9,18 @@ def test_variables(events, rooms, slots):
 
 def test_max_one_event_per_room_per_slot(variables, events, rooms, slots):
     shape = parameters.Shape(len(events), len(rooms), len(slots))
-    constraints = parameters._max_one_event_per_room_per_slot(
+    constraints = [c for c in parameters._max_one_event_per_room_per_slot(
         variables, shape
-    )
+    )]
     # There should be one constraint for each combination of room and slot
     assert len(constraints) == 8
 
 
 def test_only_once_per_event(variables, events, rooms, slots):
     shape = parameters.Shape(len(events), len(rooms), len(slots))
-    constraints = parameters._only_once_per_event(
+    constraints = [c for c in parameters._only_once_per_event(
         variables, shape
-    )
+    )]
     # There should be one constraint per event
     assert len(constraints) == 3
 
@@ -32,9 +32,9 @@ def test_is_suitable_room(events, rooms):
 
 def test_room_suitability(variables, events, rooms, slots):
     shape = parameters.Shape(len(events), len(rooms), len(slots))
-    constraints = parameters._room_suitability(
+    constraints = [c for c in parameters._room_suitability(
         variables, shape, events, rooms
-    )
+    )]
     assert len(constraints) == 3
 
 
