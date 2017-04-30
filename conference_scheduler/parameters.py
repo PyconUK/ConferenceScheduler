@@ -1,4 +1,5 @@
 from typing import NamedTuple, Sequence
+import itertools
 import pulp
 
 
@@ -26,15 +27,12 @@ def variables(events: Sequence, rooms: Sequence, slots: Sequence):
         mapping a tuple of event index, room index and slot index to an
         instance of pulp.LpVariable.
     """
-    variables = {
-        (events.index(event), rooms.index(room), slots.index(slot)):
-        pulp.LpVariable(
-            f'{event.name}_{room.name}_slot_{slots.index(slot)}',
-            cat='Binary'
+    shape = Shape(len(events), len(rooms), len(slots))
+    return pulp.LpVariable.dicts(
+        "x", itertools.product(
+            range(shape.events), range(shape.rooms), range(shape.slots)),
+            cat=pulp.LpBinary
         )
-        for event in events for room in rooms for slot in slots
-    }
-    return variables
 
 
 def _max_one_event_per_room_per_slot(variables, shape):
