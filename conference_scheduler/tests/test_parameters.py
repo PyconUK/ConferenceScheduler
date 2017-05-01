@@ -5,6 +5,12 @@ def test_tag_array(events):
     tag_array = parameters.tag_array(events)
     assert np.array_equal(tag_array, np.array([[1, 0], [1, 1], [0, 1]]))
 
+def test_session_array(events):
+    session_array = parameters.session_array(events)
+    assert np.array_equal(session_array, np.array([[1, 1, 1, 0, 0],
+                                                   [0, 0, 0, 1, 1]]))
+
+
 def test_variables(shape):
     X = parameters.variables(shape)
     assert len(X) == 21
