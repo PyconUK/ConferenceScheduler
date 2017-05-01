@@ -59,26 +59,42 @@ def test_max_one_events_per_slot_pass_np(shape):
     assert constraint is True
 
 
-def test_talks_in_session_share_a_tag(session_array, tag_array, X):
+def test_slots_in_session(session_array):
+    assert np.array_equal(parameters._slots_in_session(0, session_array),
+                          np.array([0, 1, 2]))
+    assert np.array_equal(parameters._slots_in_session(3, session_array),
+                          np.array([6]))
+
+
+def test_events_with_diff_tags(tag_array):
+    assert np.array_equal(parameters._events_with_diff_tag(0, tag_array),
+                          np.array([2]))
+    assert np.array_equal(parameters._events_with_diff_tag(1, tag_array),
+                          np.array([]))
+    assert np.array_equal(parameters._events_with_diff_tag(2, tag_array),
+                          np.array([0]))
+
+
+def test_events_in_session_share_a_tag(session_array, tag_array, X):
     constraints = [c for c in
-            parameters._talks_in_session_share_a_tag(session_array, tag_array, X)]
+            parameters._events_in_session_share_a_tag(session_array, tag_array, X)]
     assert len(constraints) == 16
 
-def test_talks_in_session_share_a_tag_fails_np(session_array, tag_array):
+def test_events_in_session_share_a_tag_fails_np(session_array, tag_array):
     # An array where two talks are in same session but share no tag
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._talks_in_session_share_a_tag(session_array,
+    constraint = all(parameters._events_in_session_share_a_tag(session_array,
                                                               tag_array, X))
     assert constraint is False
 
-def test_talks_in_session_share_a_tag_passes_np(session_array, tag_array):
+def test_events_in_session_share_a_tag_passes_np(session_array, tag_array):
     # An array where no two talks are in same session if they do not share tags
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 0, 0, 1, 0, 0, 0]])
-    test = all(parameters._talks_in_session_share_a_tag(session_array,
+    test = all(parameters._events_in_session_share_a_tag(session_array,
                                                         tag_array, X))
     assert test is True
 
