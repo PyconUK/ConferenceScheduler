@@ -1,5 +1,9 @@
 from conference_scheduler import parameters
+import numpy as np
 
+def test_tags(events):
+    tags = parameters.tags(events)
+    assert np.array_equal(tags, np.array([[1, 0], [1, 1], [0, 1]]))
 
 def test_variables(shape):
     X = parameters.variables(shape)
