@@ -20,6 +20,10 @@ def test_max_one_event_per_slot(shape, X):
     assert len(constraints) == 7
 
 
+def test_all_talks_in_session_share_a_tag(events):
+    constraints = list(parameters._all_talks_in_session_share_a_tag(tags, X))
+    assert len(constraints) == 7
+
 def test_constraints(shape, X):
     constraints = [c for c in parameters.constraints(shape, X)]
     assert len(constraints) == 10
