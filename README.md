@@ -9,20 +9,19 @@ A Python tool to assist the task of scheduling a conference which:
 * Has a simple mechanism for defining new constraints and optimisations
 * Is a standalone tool which takes simple data types as input and produces simple data types as output (i.e. does no IO or presentation)
 
-# Resources
-* Rooms - which have a maximum capacity and are deemed suitable to host a talk, a workshop or either
-* Time slots - which have a start and end time
-* Sessions - which define an ordered series of time slots (e.g. 'the session between coffee and lunch on Friday')
+# Terms
+* Room - which has a maximum capacity and is deemed suitable to host a talk, a workshop or either
+* Period - a period of time with defined start and end times
+* Slot - a combination of room and period
+* Session -  an ordered series of slots (e.g. 'the session in room 1 between coffee and lunch on Friday')
 * People
-* Roles - e.g. 'Speaker', 'Session Chair', 'Mentor'
-* Unavailability - Time slots for which a person is not available to fulfil a role
-* Events - talks or workshops
+* Role - e.g. 'Speaker', 'Session Chair', 'Mentor'
+* Event - a talk or workshop
 * Demand - the predicted size of audience for an event
 
 # Built-In Constraints
-* A room may only have a maximum of one event scheduled in any time slot
+* A slot may only have a maximum of one event scheduled
 * A room may only be scheduled to host an event for which it is deemed suitable
-* An event may only be scheduled in one combination of room and time slot
 * An event has at least one defined role, none of which may be 'Session Chair'
 * A person may only perform one role in any time slot except for 'Mentor' which is allowed alongside any other role
 * A person must not be scheduled to fulfil a role in a time slot for which they are unavailable
