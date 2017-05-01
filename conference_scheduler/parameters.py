@@ -25,6 +25,20 @@ def tag_array(events):
             array[row, all_tags.index(tag)] = 1
     return array
 
+def session_array(sessions):
+    """
+    Return a numpy array mapping sessions to slots
+
+    - Rows corresponds to sessions
+    - Columns correspond to slots
+    """
+    # Flatten the list: this assumes that the sessions do not share slots
+    all_slots = [slot for session in sessions for slot in session.slots]
+    array = np.zeros((len(sessions), len(all_slots)))
+    for row, session in enumerate(sessions):
+        for slot in session.slots:
+            array[row, all_slots.index(slot)] = 1
+    return array
 
 def _schedule_all_events(shape, X):
     for event in range(shape.events):
