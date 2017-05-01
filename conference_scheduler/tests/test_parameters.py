@@ -24,10 +24,15 @@ def test_max_one_event_per_slot(shape, X):
     constraints = [c for c in parameters._max_one_event_per_slot(shape, X)]
     assert len(constraints) == 7
 
-def test_talks_in_session_share_a_tag(session_array, tag_array, X):
-    constraints = [c for c in parameters._talks_in_session_share_a_tag(shape, X)]
-    assert len(constraints) == 7
 
-def test_constraints(shape, X):
-    constraints = [c for c in parameters.constraints(shape, X)]
-    assert len(constraints) == 10
+def test_talks_in_session_share_a_tag(session_array, tag_array, X):
+    constraints = [c for c in
+            parameters._talks_in_session_share_a_tag(session_array, tag_array, X)]
+    assert len(constraints) == 16
+
+
+
+def test_constraints(shape, session_array, tag_array, X):
+    constraints = [c for c in parameters.constraints(shape, session_array,
+                                                     tag_array, X)]
+    assert len(constraints) == 26

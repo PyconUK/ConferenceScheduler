@@ -133,8 +133,8 @@ def X(shape):
 
 
 @pytest.fixture(scope='module')
-def solution(shape):
-    return [item for item in scheduler.solution(shape)]
+def solution(shape, events, sessions):
+    return [item for item in scheduler.solution(shape, events, sessions)]
 
 
 @pytest.fixture(scope='module')
