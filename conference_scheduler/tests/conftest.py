@@ -75,19 +75,22 @@ def events(event_types, roles, people):
             name='Talk 1',
             event_type=event_types['talk'],
             duration=30,
-            roles={roles['speaker']: people['alice']}
+            roles={roles['speaker']: people['alice']},
+            tags=['community']
         ),
         Event(
             name='Talk 2',
             event_type=event_types['talk'],
             duration=30,
-            roles={roles['speaker']: people['bob']}
+            roles={roles['speaker']: people['bob']},
+            tags=['community', 'documentation']
         ),
         Event(
             name='Workshop 1',
             event_type=event_types['workshop'],
             duration=60,
-            roles={roles['leader']: people['charlie']}
+            roles={roles['leader']: people['charlie']},
+            tags=['documentation']
         )
     )
 
