@@ -1,5 +1,6 @@
 import pulp
 import itertools
+import numpy as np
 from conference_scheduler.resources import Shape
 
 
@@ -9,6 +10,20 @@ def variables(shape: Shape):
         itertools.product(range(shape.events), range(shape.slots)),
         cat=pulp.LpBinary
     )
+
+def tags(events):
+    """
+    Return a numpy array mapping events to tags
+
+    - Rows corresponds to events
+    - Columns correspond to tags
+    """
+    all_tags = sorted(set(tag for event in events for tag in event.tags))
+    array = np.zeros((len(events), len(all_tags)))
+    for row, event in enumerate(events):
+        for tag in event.tags:
+            array[row, all_tags.index(tag)] = 1
+    return array
 
 
 def _schedule_all_events(shape, X):
