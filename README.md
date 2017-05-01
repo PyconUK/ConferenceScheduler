@@ -31,8 +31,8 @@ A Python tool to assist the task of scheduling a conference which:
 
 # Built-In Optimisations
 * The sum of 'potential disappointments' should be minimised where 'potential disappointments' is defined as the excess of demand over room capacity for every scheduled event
-* The number of time slot/room/talk combinations without a person assigned to the 'Session chair' role should be minimised
-* The number of occasions where the session chair changes for the time slots within a session for any room should be minimised
+* The number of slot/talk combinations without a person assigned to the 'Session chair' role should be minimised
+* The number of occasions where the session chair changes within a session for any room should be minimised
 
 # Ad-Hoc Constraints and Optimisations
 Some examples of situations which have arisen at previous conferences and should be handled by defining ad-hoc constraints or optimisations:
