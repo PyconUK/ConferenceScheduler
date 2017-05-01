@@ -11,7 +11,7 @@ def variables(shape: Shape):
         cat=pulp.LpBinary
     )
 
-def tags(events):
+def tag_array(events):
     """
     Return a numpy array mapping events to tags
 
@@ -34,6 +34,13 @@ def _schedule_all_events(shape, X):
 def _max_one_event_per_slot(shape, X):
     for slot in range(shape.slots):
         yield sum(X[(event, slot)] for event in range(shape.events)) <= 1
+
+
+def _all_talks_in_session_share_a_tag(tags, sessions, X):
+    """
+    Constraint that ensures that if a talk is in a given session then it must
+    share at least one tag with all other talks in that session.
+    """
 
 
 def constraints(shape, X):

@@ -1,9 +1,9 @@
 from conference_scheduler import parameters
 import numpy as np
 
-def test_tags(events):
-    tags = parameters.tags(events)
-    assert np.array_equal(tags, np.array([[1, 0], [1, 1], [0, 1]]))
+def test_tag_array(events):
+    tag_array = parameters.tag_array(events)
+    assert np.array_equal(tag_array, np.array([[1, 0], [1, 1], [0, 1]]))
 
 def test_variables(shape):
     X = parameters.variables(shape)
@@ -19,10 +19,6 @@ def test_max_one_event_per_slot(shape, X):
     constraints = [c for c in parameters._max_one_event_per_slot(shape, X)]
     assert len(constraints) == 7
 
-
-def test_all_talks_in_session_share_a_tag(events):
-    constraints = list(parameters._all_talks_in_session_share_a_tag(tags, X))
-    assert len(constraints) == 7
 
 def test_constraints(shape, X):
     constraints = [c for c in parameters.constraints(shape, X)]
