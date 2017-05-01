@@ -21,6 +21,7 @@ class Person(NamedTuple):
 class Event(NamedTuple):
     name: str
     event_type: EventType
+    duration: int
     roles: Dict[Role, Person]
 
 
@@ -36,13 +37,13 @@ class Room(NamedTuple):
 
 
 class Slot(NamedTuple):
+    room: Room
     starts_at: datetime
-    ends_at: datetime
+    duration: int
 
 
 class ScheduledItem(NamedTuple):
     event: Event
-    room: Room
     slot: Slot
 
 
@@ -53,3 +54,9 @@ class Session(NamedTuple):
 class Unavailability(NamedTuple):
     person: Person
     slot: Slot
+
+
+class Shape(NamedTuple):
+    """Represents the shape of a 2 dimensional array of events and slots"""
+    events: int
+    slots: int

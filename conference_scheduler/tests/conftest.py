@@ -28,27 +28,34 @@ def event_types():
 def rooms(event_types):
     return (
         Room(
-            name='Main Hall', capacity=500, suitability=[event_types['talk']]),
+            name='Main Hall',
+            capacity=500,
+            suitability=[event_types['talk']]),
         Room(
-            name='Room 1', capacity=50, suitability=[event_types['workshop']])
+            name='Room 2.32',
+            capacity=50,
+            suitability=[event_types['workshop']])
     )
 
 
 @pytest.fixture(scope="module")
-def slots():
+def slots(rooms):
     return (
-        Slot(starts_at='15-Sep-2016 09:30', ends_at='15-Sep-2016 10:00'),
-        Slot(starts_at='15-Sep-2016 10:00', ends_at='15-Sep-2016 10:30'),
-        Slot(starts_at='15-Sep-2016 11:30', ends_at='15-Sep-2016 12:00'),
-        Slot(starts_at='15-Sep-2016 12:00', ends_at='15-Sep-2016 12:30'),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 09:30', duration=30),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 10:00', duration=30),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 11:30', duration=30),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 12:00', duration=30),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 12:30', duration=30),
+        Slot(room=rooms[1], starts_at='15-Sep-2016 09:30', duration=90),
+        Slot(room=rooms[1], starts_at='15-Sep-2016 11:30', duration=90)
     )
 
 
 @pytest.fixture(scope="module")
 def sessions(slots):
     return (
-        Session(slots=(slots[0], slots[1])),
-        Session(slots=(slots[2], slots[3]))
+        Session(slots=(slots[0], slots[1], slots[2])),
+        Session(slots=(slots[3], slots[4])),
     )
 
 
@@ -67,16 +74,19 @@ def events(event_types, roles, people):
         Event(
             name='Talk 1',
             event_type=event_types['talk'],
+            duration=30,
             roles={roles['speaker']: people['alice']}
         ),
         Event(
             name='Talk 2',
             event_type=event_types['talk'],
+            duration=30,
             roles={roles['speaker']: people['bob']}
         ),
         Event(
             name='Workshop 1',
             event_type=event_types['workshop'],
+            duration=60,
             roles={roles['leader']: people['charlie']}
         )
     )
@@ -102,11 +112,20 @@ def unavailability(people, slots):
 
 
 @pytest.fixture(scope='module')
-def variables(events, rooms, slots):
-    shape = parameters.Shape(len(events), len(rooms), len(slots))
+def shape(events, slots):
+    return parameters.Shape(len(events), len(slots))
+
+
+@pytest.fixture(scope='module')
+def X(shape):
     return parameters.variables(shape)
 
 
 @pytest.fixture(scope='module')
-def schedule(events, rooms, slots):
-    return scheduler.schedule(events, rooms, slots)
+def solution(shape):
+    return [item for item in scheduler.solution(shape)]
+
+
+@pytest.fixture(scope='module')
+def schedule(events, slots):
+    return [item for item in scheduler.schedule(events, slots)]
