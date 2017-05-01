@@ -56,6 +56,8 @@ def sessions(slots):
     return (
         Session(slots=(slots[0], slots[1], slots[2])),
         Session(slots=(slots[3], slots[4])),
+        Session(slots=(slots[5],)),
+        Session(slots=(slots[6],)),
     )
 
 
