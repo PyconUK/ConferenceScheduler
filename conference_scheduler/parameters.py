@@ -87,8 +87,9 @@ def constraints(shape, session_array, tag_array, X):
         _max_one_event_per_slot,
         _events_in_session_share_a_tag,
     )
-    args = ((shape, ), (shape, ), (session_array, tag_array))
+    generator_kwargs = ({"shape":shape}, {"shape":shape},
+                        {"session_array": session_array, "tag_array": tag_array})
 
-    for generator, arg in zip(generators, args):
-        for constraint in generator(*arg, X):
+    for generator, kwargs in zip(generators, generator_kwargs):
+        for constraint in generator(**kwargs, X=X):
             yield constraint
