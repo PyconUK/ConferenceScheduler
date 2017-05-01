@@ -10,7 +10,6 @@ def test_session_array(sessions):
     assert np.array_equal(session_array, np.array([[1, 1, 1, 0, 0],
                                                    [0, 0, 0, 1, 1]]))
 
-
 def test_variables(shape):
     X = parameters.variables(shape)
     assert len(X) == 21
@@ -25,6 +24,9 @@ def test_max_one_event_per_slot(shape, X):
     constraints = [c for c in parameters._max_one_event_per_slot(shape, X)]
     assert len(constraints) == 7
 
+def test_talks_in_session_share_a_tag(session_array, tag_array, X):
+    constraints = [c for c in parameters._talks_in_session_share_a_tag(shape, X)]
+    assert len(constraints) == 7
 
 def test_constraints(shape, X):
     constraints = [c for c in parameters.constraints(shape, X)]

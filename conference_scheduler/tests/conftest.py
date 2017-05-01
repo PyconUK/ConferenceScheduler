@@ -122,6 +122,10 @@ def shape(events, slots):
 def tag_array(events):
     return parameters.tag_array(events)
 
+@pytest.fixture(scope='module')
+def session_array(sessions):
+    return parameters.session_array(sessions)
+
 
 @pytest.fixture(scope='module')
 def X(shape):
