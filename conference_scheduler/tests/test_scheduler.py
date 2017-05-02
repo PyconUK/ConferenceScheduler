@@ -4,9 +4,11 @@ from conference_scheduler import scheduler
 
 
 def test_is_valid_solution(valid_solution, shape, sessions, events):
+    assert scheduler.is_valid_solution(valid_solution, shape, sessions, events)
+
+    # Test that an empty solution is invalid
     solution = []
     assert not scheduler.is_valid_solution(solution, shape, sessions, events)
-    assert scheduler.is_valid_solution(valid_solution, shape, sessions, events)
 
     # solution with event 1 scheduled twice
     solution = np.array([
