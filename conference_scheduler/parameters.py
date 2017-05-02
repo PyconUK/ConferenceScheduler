@@ -11,6 +11,7 @@ def variables(shape: Shape):
         cat=pulp.LpBinary
     )
 
+
 def tag_array(events):
     """
     Return a numpy array mapping events to tags
