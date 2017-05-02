@@ -83,9 +83,8 @@ def test_events_with_diff_tags(tag_array):
 
 
 def test_events_in_session_share_a_tag(session_array, tag_array, X):
-    constraints = [c for c in
-            parameters._events_in_session_share_a_tag(session_array,
-                                                      tag_array, X)]
+    constraints = [c for c in parameters._events_in_session_share_a_tag(
+        session_array, tag_array, X)]
     assert len(constraints) == 16
 
 
