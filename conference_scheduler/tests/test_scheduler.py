@@ -1,4 +1,3 @@
-import pytest
 import numpy as np
 from collections import Counter
 from conference_scheduler import scheduler
