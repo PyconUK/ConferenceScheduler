@@ -121,9 +121,11 @@ def unavailability(people, slots):
 def shape(events, slots):
     return parameters.Shape(len(events), len(slots))
 
+
 @pytest.fixture(scope='module')
 def tag_array(events):
     return parameters.tag_array(events)
+
 
 @pytest.fixture(scope='module')
 def session_array(sessions):
