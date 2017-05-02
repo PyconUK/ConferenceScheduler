@@ -42,12 +42,14 @@ def session_array(sessions):
             array[row, all_slots.index(slot)] = 1
     return array
 
-def availability_array(events, slots):
+def slot_availability_array(events, slots):
     """
     Return a numpy array mapping events to slots
 
     - Rows corresponds to events
     - Columns correspond to stags
+
+    Array has value 0 if event cannot be scheduled in a given slot (1 otherwise)
     """
     array = np.ones((len(events), len(slots)))
     for row, event in enumerate(events):

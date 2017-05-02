@@ -6,10 +6,10 @@ from conference_scheduler.resources import ScheduledItem
 def _all_constraints(shape, sessions, events, X, constraints=None):
     session_array = params.session_array(sessions)
     tag_array = params.tag_array(events)
-    availability_array = params.availability_array(events, slots)
+    slot_availability_array = params.slot_availability_array(events, slots)
 
     generators = [params.constraints(shape, session_array, tag_array,
-                                     availability_array, X)]
+                                     slot_availability_array, X)]
     if constraints is not None:
         generators.append(constraints)
     for generator in generators:
