@@ -16,7 +16,7 @@ def test_constraint_violations(valid_solution, shape, sessions, events):
     ])
     violations = scheduler.constraint_violations(
         solution, shape, sessions, events)
-    assert violations == ['schedule_all_events event - 1']
+    assert violations == ['schedule_all_events - event: 1']
 
     # solution with event 0 scheduled twice
     solution = np.array([
@@ -26,7 +26,7 @@ def test_constraint_violations(valid_solution, shape, sessions, events):
     ])
     violations = scheduler.constraint_violations(
         solution, shape, sessions, events)
-    assert violations == ['max_one_event_per_slot slot - 0']
+    assert violations == ['max_one_event_per_slot - slot: 0']
 
     # solution where events 0 and 2 are in same session but share no tag
     solution = np.array([
@@ -37,8 +37,8 @@ def test_constraint_violations(valid_solution, shape, sessions, events):
     violations = scheduler.constraint_violations(
         solution, shape, sessions, events)
     assert violations == [
-        'events_in_session_share_a_tag - event: 0 slot: 0',
-        'events_in_session_share_a_tag - event: 2 slot: 1'
+        'events_in_session_share_a_tag - event: 0, slot: 0',
+        'events_in_session_share_a_tag - event: 2, slot: 1'
     ]
 
 
