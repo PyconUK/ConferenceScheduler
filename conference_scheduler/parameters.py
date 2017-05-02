@@ -1,5 +1,5 @@
 import pulp
-import itertools
+import itertools as it
 import numpy as np
 from conference_scheduler.resources import Shape
 
@@ -7,7 +7,7 @@ from conference_scheduler.resources import Shape
 def variables(shape: Shape):
     return pulp.LpVariable.dicts(
         "x",
-        itertools.product(range(shape.events), range(shape.slots)),
+        it.product(range(shape.events), range(shape.slots)),
         cat=pulp.LpBinary
     )
 
@@ -25,6 +25,7 @@ def tag_array(events):
             array[row, all_tags.index(tag)] = 1
     return array
 
+
 def session_array(sessions):
     """
     Return a numpy array mapping sessions to slots
@@ -39,6 +40,7 @@ def session_array(sessions):
         for slot in session.slots:
             array[row, all_slots.index(slot)] = 1
     return array
+
 
 def _schedule_all_events(shape, X):
     for event in range(shape.events):
@@ -56,12 +58,14 @@ def _slots_in_session(slot, session_array):
     """
     return np.nonzero(session_array[slot])[0]
 
+
 def _events_with_diff_tag(talk, tag_array):
     """
     Return the indices of the events with no tag in common as tag
     """
     event_categories = np.nonzero(tag_array[talk])[0]
     return np.nonzero(sum(tag_array.transpose()[event_categories]) == 0)[0]
+
 
 def _events_in_session_share_a_tag(session_array, tag_array, X):
     """
@@ -72,9 +76,9 @@ def _events_in_session_share_a_tag(session_array, tag_array, X):
     session_indices = range(len(session_array))
     for session in session_indices:
         slots = _slots_in_session(session, session_array)
-        for slot, event in itertools.product(slots, event_indices):
+        for slot, event in it.product(slots, event_indices):
             other_events = _events_with_diff_tag(event, tag_array)
-            for other_slot, other_event in itertools.product(slots, other_events):
+            for other_slot, other_event in it.product(slots, other_events):
                 if other_slot != slot and other_event != event:
                     # If they have different tags they cannot be scheduled
                     # together
@@ -87,8 +91,10 @@ def constraints(shape, session_array, tag_array, X):
         _max_one_event_per_slot,
         _events_in_session_share_a_tag,
     )
-    generator_kwargs = ({"shape":shape}, {"shape":shape},
-                        {"session_array": session_array, "tag_array": tag_array})
+    generator_kwargs = (
+        {"shape":shape}, {"shape":shape},
+        {"session_array": session_array, "tag_array": tag_array}
+    )
 
     for generator, kwargs in zip(generators, generator_kwargs):
         for constraint in generator(**kwargs, X=X):
