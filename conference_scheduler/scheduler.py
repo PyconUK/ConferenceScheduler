@@ -14,17 +14,21 @@ def _all_constraints(shape, sessions, events, X, constraints=None):
             yield constraint
 
 
-def is_valid_solution(solution, sessions, events, constraints=None):
+def is_valid_solution(solution, shape, sessions, events, constraints=None):
     if len(solution) == 0:
         return False
-    return all([c for c in _all_constraints(sessions, events, constraints)])
+    return all([c for c in _all_constraints(
+        shape, sessions, events, solution, constraints)
+    ])
 
 
 def solution(shape, events, sessions, constraints=None, existing=None):
     problem = pulp.LpProblem()
     X = params.variables(shape)
 
-    for constraint in _all_constraints(shape, sessions, events, X, constraints):
+    for constraint in _all_constraints(
+        shape, sessions, events, X, constraints
+    ):
         problem += constraint
     status = problem.solve()
     if status == 1:

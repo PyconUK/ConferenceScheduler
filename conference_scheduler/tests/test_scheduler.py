@@ -3,32 +3,18 @@ from collections import Counter
 from conference_scheduler import scheduler
 
 
-def test_is_valid_ssolution():
-    talks, slots = 2, 3
+def test_is_valid_solution(valid_solution, shape, sessions, events):
+    solution = []
+    assert not scheduler.is_valid_solution(solution, shape, sessions, events)
+    assert scheduler.is_valid_solution(valid_solution, shape, sessions, events)
 
-    # a valid solution with one talk per slot
-    X = np.array([
-        [1, 0, 0],
-        [0, 1, 0]
+    # solution with event 1 scheduled twice
+    solution = np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0]
     ])
-    # a list of constraints specifying that a slot may have at most one talk
-    constraints = (
-        sum(X[(talk, slot)] for talk in range(talks)) <= 1
-        for slot in range(slots)
-    )
-    assert scheduler.is_valid_solution(X, constraints)
-
-    # An invalid solution with 2 talks scheduled in slot 1
-    X = np.array([
-        [1, 0, 0],
-        [1, 0, 0]
-    ])
-    # a list of constraints specifying that a slot may have at most one talk
-    constraints = (
-        sum(X[(talk, slot)] for talk in range(talks)) <= 1
-        for slot in range(slots)
-    )
-    assert not scheduler.is_valid_solution(X, constraints)
+    assert not scheduler.is_valid_solution(solution, shape, sessions, events)
 
 
 def test_schedule_has_content(solution):

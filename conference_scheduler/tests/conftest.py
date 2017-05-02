@@ -1,4 +1,5 @@
 import pytest
+import numpy as np
 from conference_scheduler.resources import (
     Person, Room, Slot, Session, EventType, Event, Role, Demand,
     Unavailability
@@ -142,3 +143,12 @@ def solution(shape, events, sessions):
 @pytest.fixture(scope='module')
 def schedule(events, slots):
     return [item for item in scheduler.schedule(events, slots)]
+
+
+@pytest.fixture(scope='module')
+def valid_solution():
+    return np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0]
+    ])
