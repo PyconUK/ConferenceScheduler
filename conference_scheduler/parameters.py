@@ -118,12 +118,15 @@ def _events_available_in_scheduled_slot(availability_array, X):
         for col, availability in enumerate(event):
             yield X[row, col] <=  availability
 
-def constraints(shape, session_array, tag_array, X):
+
+def constraints(shape, session_array, tag_array, availability_array, X):
     generators = (
         _schedule_all_events,
         _max_one_event_per_slot,
         _events_in_session_share_a_tag,
+        _events_available_in_scheduled_slot,
     )
+
     generator_kwargs = (
         {"shape": shape},
         {"shape": shape},

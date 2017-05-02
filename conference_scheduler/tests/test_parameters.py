@@ -144,7 +144,8 @@ def test_events_available_in_scheduled_slot_passes_np(availability_array):
     assert constraint is True
 
 
-def test_constraints(shape, session_array, tag_array, X):
+def test_constraints(shape, session_array, tag_array, availability_array, X):
     constraints = [c for c in parameters.constraints(shape, session_array,
-                                                     tag_array, X)]
-    assert len(constraints) == 26
+                                                     tag_array,
+                                                     availability_array, X)]
+    assert len(constraints) == 47

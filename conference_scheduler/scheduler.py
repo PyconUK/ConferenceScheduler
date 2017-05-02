@@ -6,7 +6,10 @@ from conference_scheduler.resources import ScheduledItem
 def _all_constraints(shape, sessions, events, X, constraints=None):
     session_array = params.session_array(sessions)
     tag_array = params.tag_array(events)
-    generators = [params.constraints(shape, session_array, tag_array, X)]
+    availability_array = params.availability_array(events, slots)
+
+    generators = [params.constraints(shape, session_array, tag_array,
+                                     availability_array, X)]
     if constraints is not None:
         generators.append(constraints)
     for generator in generators:
@@ -31,7 +34,7 @@ def is_valid_solution(solution, shape, sessions, events, constraints=None):
     return len(violations) == 0
 
 
-def solution(shape, events, sessions, constraints=None, existing=None):
+def solution(shape, events, slots, sessions, constraints=None, existing=None):
     problem = pulp.LpProblem()
     X = params.variables(shape)
 
@@ -39,6 +42,7 @@ def solution(shape, events, sessions, constraints=None, existing=None):
         shape, sessions, events, X, constraints
     ):
         problem += constraint.condition
+
     status = problem.solve()
     if status == 1:
         return (
