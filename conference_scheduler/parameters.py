@@ -93,7 +93,8 @@ def constraints(shape, session_array, tag_array, X):
         _events_in_session_share_a_tag,
     )
     generator_kwargs = (
-        {"shape":shape}, {"shape":shape},
+        {"shape": shape},
+        {"shape":shape},
         {"session_array": session_array, "tag_array": tag_array}
     )
 
