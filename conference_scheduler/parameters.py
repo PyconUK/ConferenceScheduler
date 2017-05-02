@@ -46,7 +46,7 @@ def session_array(sessions):
 def _schedule_all_events(shape, X):
     for event in range(shape.events):
         yield Constraint(
-            f'schedule_all_events event: {event}',
+            f'schedule_all_events event - {event}',
             sum(X[event, slot] for slot in range(shape.slots)) == 1
         )
 
@@ -54,7 +54,7 @@ def _schedule_all_events(shape, X):
 def _max_one_event_per_slot(shape, X):
     for slot in range(shape.slots):
         yield Constraint(
-            f'max_one_event_per_slot slot: {slot}',
+            f'max_one_event_per_slot slot - {slot}',
             sum(X[(event, slot)] for event in range(shape.events)) <= 1
         )
 
@@ -91,7 +91,7 @@ def _events_in_session_share_a_tag(session_array, tag_array, X):
                     # If they have different tags they cannot be scheduled
                     # together
                     yield Constraint(
-                        f'{label}: {event} slot: {slot}',
+                        f'{label} - event: {event} slot: {slot}',
                         X[(event, slot)] + X[(other_event, other_slot)] <= 1
                     )
 
