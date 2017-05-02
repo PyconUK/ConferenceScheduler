@@ -124,6 +124,10 @@ def tag_array(events):
 def session_array(sessions):
     return parameters.session_array(sessions)
 
+@pytest.fixture(scope='module')
+def availability_array(events, slots):
+    return parameters.availability_array(events, slots)
+
 
 @pytest.fixture(scope='module')
 def X(shape):
