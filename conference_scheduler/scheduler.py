@@ -19,14 +19,14 @@ def constraint_violations(solution, shape, sessions, events, constraints=None):
         c.label
         for c in _all_constraints(
             shape, sessions, events, solution, constraints)
-        if not c.expression
+        if not c.condition
     ]
 
 
 def is_valid_solution(solution, shape, sessions, events, constraints=None):
     if len(solution) == 0:
         return False
-    return all([c.expression for c in _all_constraints(
+    return all([c.condition for c in _all_constraints(
         shape, sessions, events, solution, constraints)
     ])
 
@@ -38,7 +38,7 @@ def solution(shape, events, sessions, constraints=None, existing=None):
     for constraint in _all_constraints(
         shape, sessions, events, X, constraints
     ):
-        problem += constraint.expression
+        problem += constraint.condition
     status = problem.solve()
     if status == 1:
         return (

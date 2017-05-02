@@ -22,7 +22,7 @@ def test_variables(shape):
 
 def test_schedule_all_events(shape, X):
     constraints = [
-        c.expression for c in parameters._schedule_all_events(shape, X)]
+        c.condition for c in parameters._schedule_all_events(shape, X)]
     assert len(constraints) == 3
 
 
@@ -32,7 +32,7 @@ def test_schedule_all_events_fails_np(shape):
                   [0, 0, 0, 0, 1, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0]])
     constraints = [
-        c.expression for c in parameters._schedule_all_events(shape, X)]
+        c.condition for c in parameters._schedule_all_events(shape, X)]
     assert not all(constraints)
 
 
@@ -42,13 +42,13 @@ def test_schedule_all_events_pass_np(shape):
                   [0, 0, 0, 0, 1, 0, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
     constraints = [
-        c.expression for c in parameters._schedule_all_events(shape, X)]
+        c.condition for c in parameters._schedule_all_events(shape, X)]
     assert all(constraints)
 
 
 def test_max_one_event_per_slot(shape, X):
     constraints = [
-        c.expression for c in parameters._max_one_event_per_slot(shape, X)]
+        c.condition for c in parameters._max_one_event_per_slot(shape, X)]
     assert len(constraints) == 7
 
 
@@ -58,7 +58,7 @@ def test_max_one_events_per_slot_fail_np(shape):
                   [1, 0, 0, 0, 0, 0, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
     constraints = [
-        c.expression for c in parameters._max_one_event_per_slot(shape, X)]
+        c.condition for c in parameters._max_one_event_per_slot(shape, X)]
     assert not all(constraints)
 
 
@@ -68,7 +68,7 @@ def test_max_one_events_per_slot_pass_np(shape):
                   [0, 0, 0, 1, 0, 0, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
     constraints = [
-        c.expression for c in parameters._max_one_event_per_slot(shape, X)]
+        c.condition for c in parameters._max_one_event_per_slot(shape, X)]
     assert all(constraints)
 
 
@@ -100,7 +100,7 @@ def test_events_in_session_share_a_tag_fails_np(session_array, tag_array):
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
     constraints = [
-        c.expression for c in parameters._events_in_session_share_a_tag(
+        c.condition for c in parameters._events_in_session_share_a_tag(
             session_array, tag_array, X)]
     assert not all(constraints)
 

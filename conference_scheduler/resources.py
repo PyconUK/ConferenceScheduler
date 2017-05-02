@@ -65,4 +65,4 @@ class Shape(NamedTuple):
 
 class Constraint(NamedTuple):
     label: str
-    expression: bool
+    condition: bool
