@@ -1,4 +1,22 @@
+import numpy as np
 from collections import Counter
+from conference_scheduler import scheduler
+
+
+def test_is_valid_solution(valid_solution, shape, sessions, events):
+    assert scheduler.is_valid_solution(valid_solution, shape, sessions, events)
+
+    # Test that an empty solution is invalid
+    solution = []
+    assert not scheduler.is_valid_solution(solution, shape, sessions, events)
+
+    # solution with event 1 scheduled twice
+    solution = np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0]
+    ])
+    assert not scheduler.is_valid_solution(solution, shape, sessions, events)
 
 
 def test_schedule_has_content(solution):

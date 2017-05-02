@@ -13,5 +13,5 @@ setup(
     description='',
     install_requires=['pulp'],
     setup_requires=['pytest-runner'],
-    tests_require=['pytest']
+    tests_require=['pytest', 'pytest-pep8']
 )
