@@ -18,19 +18,6 @@ class Person(NamedTuple):
     max_chair_sessions: int = 0
 
 
-class Event(NamedTuple):
-    name: str
-    event_type: EventType
-    duration: int
-    roles: Dict[Role, Person]
-    tags: List[str]
-
-
-class Demand(NamedTuple):
-    event: Event
-    audience: int
-
-
 class Room(NamedTuple):
     name: str
     capacity: int
@@ -41,6 +28,20 @@ class Slot(NamedTuple):
     room: Room
     starts_at: datetime
     duration: int
+
+
+class Event(NamedTuple):
+    name: str
+    event_type: EventType
+    duration: int
+    roles: Dict[Role, Person]
+    tags: List[str]
+    unavailability: List[Slot]
+
+
+class Demand(NamedTuple):
+    event: Event
+    audience: int
 
 
 class ScheduledItem(NamedTuple):

@@ -72,28 +72,31 @@ def roles():
 
 
 @pytest.fixture(scope="module")
-def events(event_types, roles, people):
+def events(event_types, roles, people, slots):
     return (
         Event(
             name='Talk 1',
             event_type=event_types['talk'],
             duration=30,
             roles={roles['speaker']: people['alice']},
-            tags=['community']
+            tags=['community'],
+            unavailability=[slots[0], slots[1]]
         ),
         Event(
             name='Talk 2',
             event_type=event_types['talk'],
             duration=30,
             roles={roles['speaker']: people['bob']},
-            tags=['community', 'documentation']
+            tags=['community', 'documentation'],
+            unavailability=[slots[2], slots[3]]
         ),
         Event(
             name='Workshop 1',
             event_type=event_types['workshop'],
             duration=60,
             roles={roles['leader']: people['charlie']},
-            tags=['documentation']
+            tags=['documentation'],
+            unavailability=[]
         )
     )
 
@@ -104,16 +107,6 @@ def demand(events):
         Demand(event=events['talk_1'], audience=300),
         Demand(event=events['talk_2'], audience=300),
         Demand(event=events['workshop_1'], audience=30),
-    )
-
-
-@pytest.fixture(scope="module")
-def unavailability(people, slots):
-    return (
-        Unavailability(person=people['alice'], slot=slots[0]),
-        Unavailability(person=people['alice'], slot=slots[1]),
-        Unavailability(person=people['bob'], slot=slots[2]),
-        Unavailability(person=people['bob'], slot=slots[3]),
     )
 
 
