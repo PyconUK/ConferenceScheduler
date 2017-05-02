@@ -17,7 +17,7 @@ def _all_constraints(shape, sessions, events, X, constraints=None):
 def is_valid_solution(solution, shape, sessions, events, constraints=None):
     if len(solution) == 0:
         return False
-    return all([c for c in _all_constraints(
+    return all([c.expression for c in _all_constraints(
         shape, sessions, events, solution, constraints)
     ])
 
@@ -29,7 +29,7 @@ def solution(shape, events, sessions, constraints=None, existing=None):
     for constraint in _all_constraints(
         shape, sessions, events, X, constraints
     ):
-        problem += constraint
+        problem += constraint.expression
     status = problem.solve()
     if status == 1:
         return (
