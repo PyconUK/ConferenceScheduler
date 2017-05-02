@@ -3,23 +3,29 @@ import conference_scheduler.parameters as params
 from conference_scheduler.resources import ScheduledItem
 
 
-def is_valid_solution(solution, constraints):
+def _all_constraints(shape, sessions, events, X, constraints=None):
+    session_array = params.session_array(sessions)
+    tag_array = params.tag_array(events)
+    generators = [params.constraints(shape, session_array, tag_array, X)]
+    if constraints is not None:
+        generators.append(constraints)
+    for generator in generators:
+        for constraint in generator:
+            yield constraint
+
+
+def is_valid_solution(solution, sessions, events, constraints=None):
     if len(solution) == 0:
         return False
-    return all([constraint for constraint in constraints])
+    return all([c for c in _all_constraints(sessions, events, constraints)])
 
 
 def solution(shape, events, sessions, constraints=None, existing=None):
     problem = pulp.LpProblem()
     X = params.variables(shape)
-    session_array = params.session_array(sessions)
-    tag_array = params.tag_array(events)
 
-    for constraint in params.constraints(shape, session_array, tag_array, X):
+    for constraint in _all_constraints(shape, sessions, events, X, constraints):
         problem += constraint
-    if constraints is not None:
-        for constraint in constraints:
-            problem += constraint
     status = problem.solve()
     if status == 1:
         return (
