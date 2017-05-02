@@ -3,10 +3,10 @@ import conference_scheduler.parameters as params
 from conference_scheduler.resources import ScheduledItem
 
 
-def is_valid_schedule(schedule):
-    if len(schedule) == 0:
+def is_valid_solution(solution, constraints):
+    if len(solution) == 0:
         return False
-    return True
+    return all([constraint for constraint in constraints])
 
 
 def solution(shape, events, sessions, constraints=None, existing=None):

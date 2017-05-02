@@ -1,4 +1,30 @@
+import numpy as np
 from collections import Counter
+from conference_scheduler import scheduler
+
+
+def test_is_valid_schedule():
+    talks, slots = 2, 3
+    X = np.array(
+        [[1, 0, 0],
+        [0, 1, 0]]
+    )
+    constraints = (
+        sum(X[(talk, slot)] for talk in range(talks)) <= 1
+        for slot in range(slots)
+    )
+    assert scheduler.is_valid_solution(X, constraints)
+
+
+    X = np.array(
+        [[1, 0, 0],
+        [1, 0, 0]]
+    )
+    constraints = (
+        sum(X[(talk, slot)] for talk in range(talks)) <= 1
+        for slot in range(slots)
+    )
+    assert not scheduler.is_valid_solution(X, constraints)
 
 
 def test_schedule_has_content(solution):
