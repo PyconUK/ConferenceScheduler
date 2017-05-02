@@ -8,7 +8,7 @@ setup(
     ],
     url='',
     license='MIT',
-    author='Owen Campbell',
+    author='Owen Campbell, Vince Knight',
     author_email='Owen Campbell <owen.campbell@tanti.org.uk>',
     description='',
     install_requires=['pulp'],
