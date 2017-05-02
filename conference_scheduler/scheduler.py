@@ -9,10 +9,13 @@ def is_valid_schedule(schedule):
     return True
 
 
-def solution(shape, constraints=None, existing=None):
+def solution(shape, events, sessions, constraints=None, existing=None):
     problem = pulp.LpProblem()
     X = params.variables(shape)
-    for constraint in params.constraints(shape, X):
+    session_array = params.session_array(sessions)
+    tag_array = params.tag_array(events)
+
+    for constraint in params.constraints(shape, session_array, tag_array, X):
         problem += constraint
     if constraints is not None:
         for constraint in constraints:

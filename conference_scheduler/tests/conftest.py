@@ -56,6 +56,8 @@ def sessions(slots):
     return (
         Session(slots=(slots[0], slots[1], slots[2])),
         Session(slots=(slots[3], slots[4])),
+        Session(slots=(slots[5],)),
+        Session(slots=(slots[6],)),
     )
 
 
@@ -75,19 +77,22 @@ def events(event_types, roles, people):
             name='Talk 1',
             event_type=event_types['talk'],
             duration=30,
-            roles={roles['speaker']: people['alice']}
+            roles={roles['speaker']: people['alice']},
+            tags=['community']
         ),
         Event(
             name='Talk 2',
             event_type=event_types['talk'],
             duration=30,
-            roles={roles['speaker']: people['bob']}
+            roles={roles['speaker']: people['bob']},
+            tags=['community', 'documentation']
         ),
         Event(
             name='Workshop 1',
             event_type=event_types['workshop'],
             duration=60,
-            roles={roles['leader']: people['charlie']}
+            roles={roles['leader']: people['charlie']},
+            tags=['documentation']
         )
     )
 
@@ -115,6 +120,14 @@ def unavailability(people, slots):
 def shape(events, slots):
     return parameters.Shape(len(events), len(slots))
 
+@pytest.fixture(scope='module')
+def tag_array(events):
+    return parameters.tag_array(events)
+
+@pytest.fixture(scope='module')
+def session_array(sessions):
+    return parameters.session_array(sessions)
+
 
 @pytest.fixture(scope='module')
 def X(shape):
@@ -122,8 +135,8 @@ def X(shape):
 
 
 @pytest.fixture(scope='module')
-def solution(shape):
-    return [item for item in scheduler.solution(shape)]
+def solution(shape, events, sessions):
+    return [item for item in scheduler.solution(shape, events, sessions)]
 
 
 @pytest.fixture(scope='module')

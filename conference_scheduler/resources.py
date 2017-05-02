@@ -1,4 +1,4 @@
-from typing import NamedTuple, Sequence, Dict, Iterable
+from typing import NamedTuple, Sequence, Dict, Iterable, List
 from datetime import datetime
 
 
@@ -23,6 +23,7 @@ class Event(NamedTuple):
     event_type: EventType
     duration: int
     roles: Dict[Role, Person]
+    tags: List[str]
 
 
 class Demand(NamedTuple):
