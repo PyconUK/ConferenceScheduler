@@ -123,7 +123,7 @@ def test_events_in_session_share_a_tag_passes_np(session_array, tag_array):
 def test_events_available_in_scheduled_slot(availability_array, X):
     constraints = [c for c in
             parameters._events_available_in_scheduled_slot(availability_array, X)]
-    assert len(constraints) == 16
+    assert len(constraints) == 21
 
 
 def test_events_available_in_scheduled_slot_fails_np(availability_array):
@@ -131,8 +131,7 @@ def test_events_available_in_scheduled_slot_fails_np(availability_array):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._events_available_in_scheduled_slot(availability_array,
-                                                       X))
+    constraint = all(parameters._events_available_in_scheduled_slot(availability_array, X))
     assert constraint is False
 
 
@@ -141,10 +140,8 @@ def test_events_available_in_scheduled_slot_passes_np(availability_array):
     X = np.array([[0, 0, 1, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._events_available_in_scheduled_slot(availability_array,
-                                                       X))
-    assert constraint is False
-
+    constraint = all(parameters._events_available_in_scheduled_slot(availability_array, X))
+    assert constraint is True
 
 
 def test_constraints(shape, session_array, tag_array, X):

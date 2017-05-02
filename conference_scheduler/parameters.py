@@ -89,8 +89,8 @@ def _events_with_diff_tag(talk, tag_array):
 
 def _events_in_session_share_a_tag(session_array, tag_array, X):
     """
-    Constraint that ensures that if a talk is in a given session then it must
-    share at least one tag with all other talks in that session.
+    Constraint that ensures that if an event is in a given session then it must
+    share at least one tag with all other event in that session.
     """
     event_indices = range(len(tag_array))
     session_indices = range(len(session_array))
@@ -108,6 +108,15 @@ def _events_in_session_share_a_tag(session_array, tag_array, X):
                         X[(event, slot)] + X[(other_event, other_slot)] <= 1
                     )
 
+
+def _events_available_in_scheduled_slot(availability_array, X):
+    """
+    Constraint that ensures that an event is scheduled in slots for which it is
+    available
+    """
+    for row, event in enumerate(availability_array):
+        for col, availability in enumerate(event):
+            yield X[row, col] <=  availability
 
 def constraints(shape, session_array, tag_array, X):
     generators = (
