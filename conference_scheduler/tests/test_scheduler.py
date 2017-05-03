@@ -76,6 +76,7 @@ def test_event_scheduled_within_unavailability_has_violations(
     shape, sessions, slots, events
 ):
     # solution where event 1 is incorrectly scheduled against event 0
+    # as slots 2 and 6 both begin at 11:30
     solution = np.array([
         [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 1],
