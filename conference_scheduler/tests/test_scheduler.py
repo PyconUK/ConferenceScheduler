@@ -57,7 +57,7 @@ def test_session_with_multiple_tags_has_violations(
     # solution where events 0 and 2 are in same session but share no tag
     solution = np.array([
         [0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0]
     ])
     violations = list(scheduler.constraint_violations(
@@ -80,7 +80,7 @@ def test_event_scheduled_within_unavailability_has_violations(
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
     assert violations == [
-        'events_available_during_other_events - event: 1, slot: 6'
+        'events_available_during_other_events - event: 0 clashes with event: 1'
     ]
 
 

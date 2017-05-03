@@ -192,7 +192,7 @@ def _events_available_during_other_events(
         for row, event in enumerate(event_availability_array):
             for col, availability in enumerate(event):
                 yield Constraint(
-                    f'{label} - event: {row}, slot: {col}',
+                    f'{label} - event: {row} clashes with event: {col}',
                     X[row, slot1] + X[col, slot2] <= 1 + availability
                 )
 
