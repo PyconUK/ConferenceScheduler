@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/PyconUK/ConferenceScheduler/badge.svg?branch=master)](https://coveralls.io/github/PyconUK/ConferenceScheduler?branch=master)
+
 # Conference Scheduler
 
 # Overview
