@@ -43,6 +43,7 @@ def session_array(sessions):
             array[row, all_slots.index(slot)] = 1
     return array
 
+
 def slot_availability_array(events, slots):
     """
     Return a numpy array mapping events to slots
@@ -50,7 +51,8 @@ def slot_availability_array(events, slots):
     - Rows corresponds to events
     - Columns correspond to stags
 
-    Array has value 0 if event cannot be scheduled in a given slot (1 otherwise)
+    Array has value 0 if event cannot be scheduled in a given slot
+    (1 otherwise)
     """
     array = np.ones((len(events), len(slots)))
     for row, event in enumerate(events):
@@ -78,6 +80,7 @@ def event_availability_array(events):
                 array[col, row] = 0
     return array
 
+
 def start_and_end_dates(slot):
     """
     Return the start and end date of a time slot
@@ -85,6 +88,7 @@ def start_and_end_dates(slot):
     startdate = datetime.datetime.strptime(slot.starts_at, '%d-%b-%Y %H:%M')
     enddate = startdate + datetime.timedelta(minutes=slot.duration)
     return startdate, enddate
+
 
 def slots_overlap(slot, other_slot):
     """
@@ -171,21 +175,24 @@ def _events_available_in_scheduled_slot(slot_availability_array, X):
         for col, availability in enumerate(event):
             yield Constraint(
                     f'Event {event} cannot be scheduled in slot {col}',
-                    X[row, col] <=  availability)
+                    X[row, col] <= availability)
 
 
-def _events_available_during_other_events(event_availability_array,
-        slots, X):
+def _events_available_during_other_events(
+    event_availability_array, slots, X
+):
     """
     Constraint that ensures that an event is not scheduled at the same time as
     another event for which it is unavailable.
     """
+    label = 'Event cannot be scheduled at the same time as event'
     for slot1, slot2 in concurrent_slots(slots):
         for row, event in enumerate(event_availability_array):
             for col, availability in enumerate(event):
                 yield Constraint(
-           f'Event {event} cannot be scheduled at the same time as event {col}',
-                X[row, slot1] + X[col, slot2] <= 1 + availability)
+                    f'{label} - event: {event}, slot: {col}',
+                    X[row, slot1] + X[col, slot2] <= 1 + availability
+                )
 
 
 def constraints(shape, session_array, tag_array, slot_availability_array, X):
@@ -195,10 +202,12 @@ def constraints(shape, session_array, tag_array, slot_availability_array, X):
         _events_in_session_share_a_tag,
         _events_available_in_scheduled_slot,
     )
-    generator_kwargs = ({"shape":shape}, {"shape":shape},
-                        {"session_array": session_array, "tag_array": tag_array},
-                        {"slot_availability_array": slot_availability_array})
-
+    generator_kwargs = (
+        {"shape": shape},
+        {"shape": shape},
+        {"session_array": session_array, "tag_array": tag_array},
+        {"slot_availability_array": slot_availability_array}
+    )
 
     for generator, kwargs in zip(generators, generator_kwargs):
         for constraint in generator(**kwargs, X=X):
