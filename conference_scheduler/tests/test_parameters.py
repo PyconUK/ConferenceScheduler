@@ -14,6 +14,7 @@ def test_session_array(sessions):
                                                    [0, 0, 0, 0, 0, 1, 0],
                                                    [0, 0, 0, 0, 0, 0, 1]]))
 
+
 def test_slot_availability_array(events, slots):
     slot_availability_array = parameters.slot_availability_array(events, slots)
     assert np.array_equal(slot_availability_array, np.array(
@@ -21,12 +22,14 @@ def test_slot_availability_array(events, slots):
          [1, 1, 0, 0, 1, 1, 1],
          [1, 1, 1, 1, 1, 1, 1]]))
 
+
 def test_event_availability_array(events):
     event_availability_array = parameters.event_availability_array(events)
     assert np.array_equal(event_availability_array, np.array(
         [[1, 0, 1, ],
          [0, 1, 1, ],
          [1, 1, 1, ]]))
+
 
 def test_slots_overlap(slots):
     assert parameters.slots_overlap(slots[0], slots[1]) is False
@@ -46,9 +49,11 @@ def test_slots_overlap(slots):
     assert parameters.slots_overlap(slots[5], slots[1]) is True
     assert parameters.slots_overlap(slots[6], slots[6]) is True
 
+
 def test_concurrent_slots(slots):
     slots = list(parameters.concurrent_slots(slots))
     assert slots == [(0, 5), (1, 5), (2, 6), (3, 6), (4, 6)]
+
 
 def test_variables(shape):
     X = parameters.variables(shape)
@@ -151,9 +156,9 @@ def test_events_in_session_share_a_tag_passes_np(session_array, tag_array):
 
 
 def test_events_available_in_scheduled_slot(slot_availability_array, X):
-    constraints = [c for c in
-            parameters._events_available_in_scheduled_slot(
-                slot_availability_array, X)]
+    constraints = [
+        c for c in parameters._events_available_in_scheduled_slot(
+            slot_availability_array, X)]
     assert len(constraints) == 21
 
 
@@ -162,7 +167,9 @@ def test_events_available_in_scheduled_slot_fails_np(slot_availability_array):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraints = [c.condition for c in parameters._events_available_in_scheduled_slot(slot_availability_array, X)]
+    constraints = [
+        c.condition for c in parameters._events_available_in_scheduled_slot(
+            slot_availability_array, X)]
     assert all(constraints) is False
 
 
@@ -171,42 +178,51 @@ def test_events_available_in_scheduled_slot_passes_np(slot_availability_array):
     X = np.array([[0, 0, 1, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraints = [c.condition for c in parameters._events_available_in_scheduled_slot(slot_availability_array, X)]
+    constraints = [
+        c.condition
+        for c in parameters._events_available_in_scheduled_slot(
+            slot_availability_array, X)]
     assert all(constraints) is True
 
 
-def test_events_available_during_other_events(event_availability_array, slots, X):
-    constraints = [c for c in
-            parameters._events_available_during_other_events(
-                event_availability_array, slots, X)]
+def test_events_available_during_other_events(
+    event_availability_array, slots, X
+):
+    constraints = [
+        c for c in parameters._events_available_during_other_events(
+            event_availability_array, slots, X)]
     assert len(constraints) == 45
 
 
-def test_events_available_during_other_events_fails_np(event_availability_array,
-                                                       slots):
+def test_events_available_during_other_events_fails_np(
+    event_availability_array, slots
+):
     # First event is scheduled during second event
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 1, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraints = [c.condition for c in
-            parameters._events_available_during_other_events(event_availability_array,
-                slots, X)]
+    constraints = [
+        c.condition for c in parameters._events_available_during_other_events(
+            event_availability_array, slots, X)]
     assert all(constraints) is False
 
-def test_events_available_during_other_events_pass_np(event_availability_array,
-                                                       slots):
+
+def test_events_available_during_other_events_pass_np(
+    event_availability_array, slots
+):
     # First event is scheduled during second event
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraints = [c.condition for c in
-            parameters._events_available_during_other_events(event_availability_array,
-                slots, X)]
+    constraints = [
+        c.condition for c in parameters._events_available_during_other_events(
+            event_availability_array, slots, X)]
     assert all(constraints) is True
 
 
 def test_constraints(shape, session_array, tag_array,
                      slot_availability_array, X):
-    constraints = [c for c in parameters.constraints(shape,
-        session_array, tag_array, slot_availability_array, X)]
+    constraints = [
+        c for c in parameters.constraints(
+            shape, session_array, tag_array, slot_availability_array, X)]
     assert len(constraints) == 47
