@@ -14,7 +14,7 @@ def test_valid_solution_has_no_violations(
 def test_unscheduled_event_has_violations(shape, sessions, slots, events):
     # solution with event 1 not scheduled
     solution = np.array([
-        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
@@ -28,13 +28,27 @@ def test_multiple_event_schedule_has_violations(
 ):
     # solution with event 0 scheduled twice
     solution = np.array([
-        [1, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
-    assert violations == ['max_one_event_per_slot - slot: 0']
+    assert violations == ['schedule_all_events - event: 0']
+
+
+def test_multiple_slot_schedule_has_violations(
+    shape, sessions, slots, events
+):
+    # solution with slot 5 scheduled twice
+    solution = np.array([
+        [0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 1, 0]
+    ])
+    violations = list(scheduler.constraint_violations(
+        solution, shape, sessions, events, slots))
+    assert violations == ['max_one_event_per_slot - slot: 5']
 
 
 def test_session_with_multiple_tags_has_violations(
@@ -42,15 +56,15 @@ def test_session_with_multiple_tags_has_violations(
 ):
     # solution where events 0 and 2 are in same session but share no tag
     solution = np.array([
-        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 1],
-        [0, 1, 0, 0, 0, 0, 0]
+        [0, 0, 0, 0, 1, 0, 0]
     ])
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
     assert violations == [
-        'events_in_session_share_a_tag - event: 0, slot: 0',
-        'events_in_session_share_a_tag - event: 2, slot: 1'
+        'events_in_session_share_a_tag - event: 0, slot: 3',
+        'events_in_session_share_a_tag - event: 2, slot: 4'
     ]
 
 
