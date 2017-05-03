@@ -1,17 +1,17 @@
 import pulp
 import numpy as np
-import conference_scheduler.parameters as params
+import conference_scheduler.lp_problem as lp
 from conference_scheduler.resources import ScheduledItem, Shape
 
 
 def _all_constraints(events, slots, sessions, X, constraints=None):
 
-    session_array = params.session_array(sessions)
-    tag_array = params.tag_array(events)
-    slot_availability_array = params.slot_availability_array(events, slots)
-    event_availability_array = params.event_availability_array(events)
+    session_array = lp.utils.session_array(sessions)
+    tag_array = lp.utils.tag_array(events)
+    slot_availability_array = lp.utils.slot_availability_array(events, slots)
+    event_availability_array = lp.utils.event_availability_array(events)
 
-    generators = [params.constraints(
+    generators = [lp.constraints.constraints(
         events, slots, session_array, tag_array, slot_availability_array,
         event_availability_array, X
     )]
@@ -76,7 +76,7 @@ def schedule_violations(schedule, events, slots, sessions, constraints=None):
 def solution(events, slots, sessions, constraints=None, existing=None):
     shape = Shape(len(events), len(slots))
     problem = pulp.LpProblem()
-    X = params.variables(shape)
+    X = lp.utils.variables(shape)
 
     for constraint in _all_constraints(
         events, slots, sessions, X, constraints
@@ -94,7 +94,7 @@ def solution(events, slots, sessions, constraints=None, existing=None):
 
 
 def schedule(events, slots, constraints=None, existing=None):
-    shape = params.Shape(len(events), len(slots))
+    shape = Shape(len(events), len(slots))
     return (
         ScheduledItem(
             event=events[item[0]],
