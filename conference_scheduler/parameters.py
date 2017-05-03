@@ -174,8 +174,9 @@ def _events_available_in_scheduled_slot(slot_availability_array, X):
     for row, event in enumerate(slot_availability_array):
         for col, availability in enumerate(event):
             yield Constraint(
-                    f'Event {event} cannot be scheduled in slot {col}',
-                    X[row, col] <= availability)
+                f'Event {event} cannot be scheduled in slot {col}',
+                X[row, col] <= availability
+            )
 
 
 def _events_available_during_other_events(
