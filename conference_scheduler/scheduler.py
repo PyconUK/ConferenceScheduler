@@ -1,9 +1,10 @@
 import pulp
+import numpy as np
 import conference_scheduler.parameters as params
-from conference_scheduler.resources import ScheduledItem
+from conference_scheduler.resources import ScheduledItem, Shape
 
 
-def _all_constraints(shape, sessions, events, slots, X, constraints=None):
+def _all_constraints(sessions, events, slots, X, constraints=None):
 
     session_array = params.session_array(sessions)
     tag_array = params.tag_array(events)
@@ -11,7 +12,7 @@ def _all_constraints(shape, sessions, events, slots, X, constraints=None):
     event_availability_array = params.event_availability_array(events)
 
     generators = [params.constraints(
-        shape, slots, session_array, tag_array, slot_availability_array,
+        events, slots, session_array, tag_array, slot_availability_array,
         event_availability_array, X
     )]
     if constraints is not None:
@@ -22,43 +23,49 @@ def _all_constraints(shape, sessions, events, slots, X, constraints=None):
 
 
 def constraint_violations(
-    solution, shape, sessions, events, slots, constraints=None
+    solution, sessions, events, slots, constraints=None
 ):
     return (
         c.label
         for c in _all_constraints(
-            shape, sessions, events, slots, solution, constraints)
+            sessions, events, slots, solution, constraints)
         if not c.condition
     )
 
 
 def is_valid_solution(
-    solution, shape, sessions, events, slots, constraints=None
+    solution, sessions, events, slots, constraints=None
 ):
     if len(solution) == 0:
         return False
     violations = sum(1 for c in (constraint_violations(
-        solution, shape, sessions, events, slots, constraints)))
+        solution, sessions, events, slots, constraints)))
     return violations == 0
 
 
-def _schedule_to_solution(items, shape):
-    pass
+def _schedule_to_solution(schedule, events, slots):
+    array = np.zeros(len(events), len(slots))
+    for item in schedule:
+        array[events.index(item.event), slots.index(item.slot)] == 1
+    return array
 
 
 def is_valid_schedule(
-    schedule, shape, sessions, events, slots, constraints=None
+    schedule, sessions, events, slots, constraints=None
 ):
     if len(schedule) == 0:
         return False
+    solution = _schedule_to_solution(schedule, events, slots)
+    return is_valid_solution(solution, sessions, events, slots)
 
 
-def solution(shape, events, slots, sessions, constraints=None, existing=None):
+def solution(events, slots, sessions, constraints=None, existing=None):
+    shape = Shape(len(events), len(slots))
     problem = pulp.LpProblem()
     X = params.variables(shape)
 
     for constraint in _all_constraints(
-        shape, sessions, events, slots, X, constraints
+        sessions, events, slots, X, constraints
     ):
         problem += constraint.condition
 

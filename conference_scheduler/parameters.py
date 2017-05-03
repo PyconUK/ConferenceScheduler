@@ -200,9 +200,10 @@ def _events_available_during_other_events(
 
 
 def constraints(
-    shape, slots, session_array, tag_array, slot_availability_array,
+    events, slots, session_array, tag_array, slot_availability_array,
     event_availability_array, X
 ):
+    shape = Shape(len(events), len(slots))
     generators = (
         _schedule_all_events,
         _max_one_event_per_slot,

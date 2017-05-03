@@ -2,7 +2,7 @@ import pytest
 import numpy as np
 from conference_scheduler.resources import (
     Person, Room, Slot, Session, EventType, Event, Role, Demand,
-    Unavailability
+    Unavailability, ScheduledItem
 )
 from conference_scheduler import scheduler
 from conference_scheduler import parameters
@@ -137,9 +137,9 @@ def X(shape):
 
 
 @pytest.fixture(scope='module')
-def solution(shape, events, slots, sessions):
+def solution(events, slots, sessions):
     return [
-        item for item in scheduler.solution(shape, events, slots, sessions)
+        item for item in scheduler.solution(events, slots, sessions)
     ]
 
 
@@ -155,3 +155,12 @@ def valid_solution():
         [0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
+
+
+@pytest.fixture(scope='module')
+def valid_schedule(events, slots):
+    return [
+        ScheduledItem(event=events[0], slot=slots[2]),
+        ScheduledItem(event=events[1], slot=slots[4]),
+        ScheduledItem(event=events[2], slot=slots[5])
+    ]
