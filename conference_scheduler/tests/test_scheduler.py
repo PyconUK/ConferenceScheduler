@@ -44,7 +44,7 @@ def test_constraint_violations(valid_solution, shape, sessions, slots, events):
 
 def test_is_valid_solution(valid_solution, shape, sessions, slots, events):
     assert scheduler.is_valid_solution(
-        valid_solution, shape, sessions, slots, events)
+        valid_solution, shape, sessions, events, slots)
 
     # Test that an empty solution is invalid
     solution = []
