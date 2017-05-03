@@ -228,4 +228,4 @@ def test_constraints(
         c for c in parameters.constraints(
             shape, slots, session_array, tag_array, slot_availability_array,
             event_availability_array, X)]
-    assert len(constraints) == 47
+    assert len(constraints) == 92
