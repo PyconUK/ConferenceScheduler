@@ -42,13 +42,20 @@ def rooms(event_types):
 @pytest.fixture(scope="module")
 def slots(rooms):
     return (
-        Slot(room=rooms[0], starts_at='15-Sep-2016 09:30', duration=30),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 10:00', duration=30),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 11:30', duration=30),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 12:00', duration=30),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 12:30', duration=30),
-        Slot(room=rooms[1], starts_at='15-Sep-2016 09:30', duration=90),
-        Slot(room=rooms[1], starts_at='15-Sep-2016 11:30', duration=90)
+        Slot(room=rooms[0], starts_at='15-Sep-2016 09:30', duration=30,
+             capacity=50),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 10:00', duration=30,
+             capacity=50),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 11:30', duration=30,
+             capacity=50),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 12:00', duration=30,
+             capacity=10),
+        Slot(room=rooms[0], starts_at='15-Sep-2016 12:30', duration=30,
+             capacity=50),
+        Slot(room=rooms[1], starts_at='15-Sep-2016 09:30', duration=90,
+             capacity=200),
+        Slot(room=rooms[1], starts_at='15-Sep-2016 11:30', duration=90,
+             capacity=200)
     )
 
 
@@ -79,21 +86,24 @@ def events(event_types, roles, people, slots):
         duration=30,
         roles={roles['speaker']: people['alice']},
         tags=['community'],
-        unavailability=[slots[0], slots[1]])
+        unavailability=[slots[0], slots[1]],
+        demand=30)
     event2 = Event(
         name='Talk 2',
         event_type=event_types['talk'],
         duration=30,
         roles={roles['speaker']: people['bob']},
         tags=['community', 'documentation'],
-        unavailability=[slots[2], slots[3], event1])
+        unavailability=[slots[2], slots[3], event1],
+        demand=500)
     event3 = Event(
         name='Workshop 1',
         event_type=event_types['workshop'],
         duration=60,
         roles={roles['leader']: people['charlie']},
         tags=['documentation'],
-        unavailability=[])
+        unavailability=[],
+        demand=20)
     return (event1, event2, event3)
 
 
