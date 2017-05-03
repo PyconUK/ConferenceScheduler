@@ -64,7 +64,23 @@ def test_session_with_multiple_tags_has_violations(
         solution, shape, sessions, events, slots))
     assert violations == [
         'events_in_session_share_a_tag - event: 0, slot: 3',
-        'events_in_session_share_a_tag - event: 2, slot: 4'
+        'events_in_session_share_a_tag - event: 2, slot: 4',
+    ]
+
+
+def test_event_scheduled_within_unavailability_has_violations(
+    shape, sessions, slots, events
+):
+    # solution where event 1 is incorrectly scheduled against event 0
+    solution = np.array([
+        [0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 1, 0, 0]
+    ])
+    violations = list(scheduler.constraint_violations(
+        solution, shape, sessions, events, slots))
+    assert violations == [
+        'events_available_during_other_events - event: 1, slot: 6'
     ]
 
 
