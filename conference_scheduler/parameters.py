@@ -171,10 +171,11 @@ def _events_available_in_scheduled_slot(slot_availability_array, X):
     Constraint that ensures that an event is scheduled in slots for which it is
     available
     """
+    label = 'events_available_in_scheduled_slot'
     for row, event in enumerate(slot_availability_array):
         for col, availability in enumerate(event):
             yield Constraint(
-                f'Event {event} cannot be scheduled in slot {col}',
+                f'{label} - event: {event}, slot: {col}',
                 X[row, col] <= availability
             )
 
@@ -186,7 +187,7 @@ def _events_available_during_other_events(
     Constraint that ensures that an event is not scheduled at the same time as
     another event for which it is unavailable.
     """
-    label = 'Event cannot be scheduled at the same time as event'
+    label = 'events_available_during_other_events'
     for slot1, slot2 in concurrent_slots(slots):
         for row, event in enumerate(event_availability_array):
             for col, availability in enumerate(event):
