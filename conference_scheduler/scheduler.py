@@ -3,10 +3,17 @@ import conference_scheduler.parameters as params
 from conference_scheduler.resources import ScheduledItem
 
 
-def _all_constraints(shape, sessions, events, X, constraints=None):
+def _all_constraints(shape, sessions, events, slots, X, constraints=None):
+
     session_array = params.session_array(sessions)
     tag_array = params.tag_array(events)
-    generators = [params.constraints(shape, session_array, tag_array, X)]
+    slot_availability_array = params.slot_availability_array(events, slots)
+    event_availability_array = params.event_availability_array(events)
+
+    generators = [params.constraints(
+        shape, slots, session_array, tag_array, slot_availability_array,
+        event_availability_array, X
+    )]
     if constraints is not None:
         generators.append(constraints)
     for generator in generators:
@@ -14,31 +21,36 @@ def _all_constraints(shape, sessions, events, X, constraints=None):
             yield constraint
 
 
-def constraint_violations(solution, shape, sessions, events, constraints=None):
+def constraint_violations(
+    solution, shape, sessions, events, slots, constraints=None
+):
     return (
         c.label
         for c in _all_constraints(
-            shape, sessions, events, solution, constraints)
+            shape, sessions, events, slots, solution, constraints)
         if not c.condition
     )
 
 
-def is_valid_solution(solution, shape, sessions, events, constraints=None):
+def is_valid_solution(
+    solution, shape, sessions, events, slots, constraints=None
+):
     if len(solution) == 0:
         return False
     violations = sum(1 for c in (constraint_violations(
-        solution, shape, sessions, events, constraints)))
+        solution, shape, sessions, events, slots, constraints)))
     return violations == 0
 
 
-def solution(shape, events, sessions, constraints=None, existing=None):
+def solution(shape, events, slots, sessions, constraints=None, existing=None):
     problem = pulp.LpProblem()
     X = params.variables(shape)
 
     for constraint in _all_constraints(
-        shape, sessions, events, X, constraints
+        shape, sessions, events, slots, X, constraints
     ):
         problem += constraint.condition
+
     status = problem.solve()
     if status == 1:
         return (

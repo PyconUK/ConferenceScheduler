@@ -72,30 +72,29 @@ def roles():
 
 
 @pytest.fixture(scope="module")
-def events(event_types, roles, people):
-    return (
-        Event(
-            name='Talk 1',
-            event_type=event_types['talk'],
-            duration=30,
-            roles={roles['speaker']: people['alice']},
-            tags=['community']
-        ),
-        Event(
-            name='Talk 2',
-            event_type=event_types['talk'],
-            duration=30,
-            roles={roles['speaker']: people['bob']},
-            tags=['community', 'documentation']
-        ),
-        Event(
-            name='Workshop 1',
-            event_type=event_types['workshop'],
-            duration=60,
-            roles={roles['leader']: people['charlie']},
-            tags=['documentation']
-        )
-    )
+def events(event_types, roles, people, slots):
+    event1 = Event(
+        name='Talk 1',
+        event_type=event_types['talk'],
+        duration=30,
+        roles={roles['speaker']: people['alice']},
+        tags=['community'],
+        unavailability=[slots[0], slots[1]])
+    event2 = Event(
+        name='Talk 2',
+        event_type=event_types['talk'],
+        duration=30,
+        roles={roles['speaker']: people['bob']},
+        tags=['community', 'documentation'],
+        unavailability=[slots[2], slots[3], event1])
+    event3 = Event(
+        name='Workshop 1',
+        event_type=event_types['workshop'],
+        duration=60,
+        roles={roles['leader']: people['charlie']},
+        tags=['documentation'],
+        unavailability=[])
+    return (event1, event2, event3)
 
 
 @pytest.fixture(scope="module")
@@ -104,16 +103,6 @@ def demand(events):
         Demand(event=events['talk_1'], audience=300),
         Demand(event=events['talk_2'], audience=300),
         Demand(event=events['workshop_1'], audience=30),
-    )
-
-
-@pytest.fixture(scope="module")
-def unavailability(people, slots):
-    return (
-        Unavailability(person=people['alice'], slot=slots[0]),
-        Unavailability(person=people['alice'], slot=slots[1]),
-        Unavailability(person=people['bob'], slot=slots[2]),
-        Unavailability(person=people['bob'], slot=slots[3]),
     )
 
 
@@ -133,13 +122,25 @@ def session_array(sessions):
 
 
 @pytest.fixture(scope='module')
+def slot_availability_array(events, slots):
+    return parameters.slot_availability_array(events, slots)
+
+
+@pytest.fixture(scope='module')
+def event_availability_array(events, slots):
+    return parameters.event_availability_array(events)
+
+
+@pytest.fixture(scope='module')
 def X(shape):
     return parameters.variables(shape)
 
 
 @pytest.fixture(scope='module')
-def solution(shape, events, sessions):
-    return [item for item in scheduler.solution(shape, events, sessions)]
+def solution(shape, events, slots, sessions):
+    return [
+        item for item in scheduler.solution(shape, events, slots, sessions)
+    ]
 
 
 @pytest.fixture(scope='module')
@@ -150,7 +151,7 @@ def schedule(events, slots):
 @pytest.fixture(scope='module')
 def valid_solution():
     return np.array([
-        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
