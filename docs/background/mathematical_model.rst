@@ -9,6 +9,7 @@ the schedule is mathematically represented by a binary matrix :math:`X\in\{0,
 1\}^{M\times N}`. Every row corresponds to an event and every column to a slot:
 
 .. math::
+   :label: variable
 
    X_{ij} =
    \begin{cases}
@@ -26,6 +27,7 @@ For every row (event), we sum over every column of :math:`X` and must have total
 sum 1.
 
 .. math::
+   :label: all_events_scheduled
 
    \sum_{j=1}^{N} X_{ij} = 1\text{ for all }1\leq i\leq M
 
@@ -37,6 +39,7 @@ For every column (slot), we sum over every row of :math:`X` and must have total
 sum at most 1.
 
 .. math::
+   :label: all_slots_at_most_1_event
 
    \sum_{i=1}^{M} X_{ij} \leq 1\text{ for all }1\leq j\leq N
 
