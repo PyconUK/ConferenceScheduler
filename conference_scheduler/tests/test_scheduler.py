@@ -3,11 +3,15 @@ from collections import Counter
 from conference_scheduler import scheduler
 
 
-def test_constraint_violations(valid_solution, shape, sessions, slots, events):
+def test_valid_solution_has_no_violations(
+    valid_solution, shape, sessions, slots, events
+):
     violations = list(scheduler.constraint_violations(
         valid_solution, shape, sessions, events, slots))
     assert len(violations) == 0
 
+
+def test_unscheduled_event_has_violations(shape, sessions, slots, events):
     # solution with event 1 not scheduled
     solution = np.array([
         [1, 0, 0, 0, 0, 0, 0],
@@ -18,6 +22,10 @@ def test_constraint_violations(valid_solution, shape, sessions, slots, events):
         solution, shape, sessions, events, slots))
     assert violations == ['schedule_all_events - event: 1']
 
+
+def test_multiple_event_schedule_has_violations(
+    shape, sessions, slots, events
+):
     # solution with event 0 scheduled twice
     solution = np.array([
         [1, 0, 0, 0, 0, 0, 0],
@@ -28,6 +36,10 @@ def test_constraint_violations(valid_solution, shape, sessions, slots, events):
         solution, shape, sessions, events, slots))
     assert violations == ['max_one_event_per_slot - slot: 0']
 
+
+def test_session_with_multiple_tags_has_violations(
+    shape, sessions, slots, events
+):
     # solution where events 0 and 2 are in same session but share no tag
     solution = np.array([
         [1, 0, 0, 0, 0, 0, 0],
@@ -42,23 +54,15 @@ def test_constraint_violations(valid_solution, shape, sessions, slots, events):
     ]
 
 
-def test_is_valid_solution(valid_solution, shape, sessions, slots, events):
+def test_valid_solution_passes(valid_solution, shape, sessions, slots, events):
     assert scheduler.is_valid_solution(
         valid_solution, shape, sessions, events, slots)
 
-    # Test that an empty solution is invalid
+
+def test_empty_solution_fails(shape, sessions, slots, events):
     solution = []
     assert not scheduler.is_valid_solution(
-        solution, shape, sessions, slots, events)
-
-    # solution with event 1 scheduled twice
-    solution = np.array([
-        [1, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 0]
-    ])
-    assert not scheduler.is_valid_solution(
-        solution, shape, sessions, slots, events)
+        solution, shape, sessions, events, slots)
 
 
 def test_schedule_has_content(solution):

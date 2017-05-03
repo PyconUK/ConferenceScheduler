@@ -151,7 +151,7 @@ def schedule(events, slots):
 @pytest.fixture(scope='module')
 def valid_solution():
     return np.array([
-        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
