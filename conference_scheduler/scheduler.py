@@ -14,12 +14,21 @@ def _all_constraints(shape, sessions, events, X, constraints=None):
             yield constraint
 
 
+def constraint_violations(solution, shape, sessions, events, constraints=None):
+    return [
+        c.label
+        for c in _all_constraints(
+            shape, sessions, events, solution, constraints)
+        if not c.condition
+    ]
+
+
 def is_valid_solution(solution, shape, sessions, events, constraints=None):
     if len(solution) == 0:
         return False
-    return all(
-        _all_constraints(shape, sessions, events, solution, constraints)
-    )
+    violations = constraint_violations(
+        solution, shape, sessions, events, constraints)
+    return len(violations) == 0
 
 
 def solution(shape, events, sessions, constraints=None, existing=None):
@@ -29,7 +38,7 @@ def solution(shape, events, sessions, constraints=None, existing=None):
     for constraint in _all_constraints(
         shape, sessions, events, X, constraints
     ):
-        problem += constraint
+        problem += constraint.condition
     status = problem.solve()
     if status == 1:
         return (

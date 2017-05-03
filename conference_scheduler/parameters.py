@@ -1,7 +1,7 @@
 import pulp
 import itertools as it
 import numpy as np
-from conference_scheduler.resources import Shape
+from conference_scheduler.resources import Shape, Constraint
 
 
 def variables(shape: Shape):
@@ -45,12 +45,18 @@ def session_array(sessions):
 
 def _schedule_all_events(shape, X):
     for event in range(shape.events):
-        yield sum(X[event, slot] for slot in range(shape.slots)) == 1
+        yield Constraint(
+            f'schedule_all_events - event: {event}',
+            sum(X[event, slot] for slot in range(shape.slots)) == 1
+        )
 
 
 def _max_one_event_per_slot(shape, X):
     for slot in range(shape.slots):
-        yield sum(X[(event, slot)] for event in range(shape.events)) <= 1
+        yield Constraint(
+            f'max_one_event_per_slot - slot: {slot}',
+            sum(X[(event, slot)] for event in range(shape.events)) <= 1
+        )
 
 
 def _slots_in_session(slot, session_array):
@@ -75,6 +81,7 @@ def _events_in_session_share_a_tag(session_array, tag_array, X):
     """
     event_indices = range(len(tag_array))
     session_indices = range(len(session_array))
+    label = 'events_in_session_share_a_tag'
     for session in session_indices:
         slots = _slots_in_session(session, session_array)
         for slot, event in it.product(slots, event_indices):
@@ -83,7 +90,10 @@ def _events_in_session_share_a_tag(session_array, tag_array, X):
                 if other_slot != slot and other_event != event:
                     # If they have different tags they cannot be scheduled
                     # together
-                    yield X[(event, slot)] + X[(other_event, other_slot)] <= 1
+                    yield Constraint(
+                        f'{label} - event: {event}, slot: {slot}',
+                        X[(event, slot)] + X[(other_event, other_slot)] <= 1
+                    )
 
 
 def constraints(shape, session_array, tag_array, X):

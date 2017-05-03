@@ -61,3 +61,8 @@ class Shape(NamedTuple):
     """Represents the shape of a 2 dimensional array of events and slots"""
     events: int
     slots: int
+
+
+class Constraint(NamedTuple):
+    label: str
+    condition: bool

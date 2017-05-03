@@ -21,7 +21,8 @@ def test_variables(shape):
 
 
 def test_schedule_all_events(shape, X):
-    constraints = [c for c in parameters._schedule_all_events(shape, X)]
+    constraints = [
+        c.condition for c in parameters._schedule_all_events(shape, X)]
     assert len(constraints) == 3
 
 
@@ -30,8 +31,9 @@ def test_schedule_all_events_fails_np(shape):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 1, 0, 0],
                   [0, 0, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._schedule_all_events(shape, X))
-    assert constraint is False
+    constraints = [
+        c.condition for c in parameters._schedule_all_events(shape, X)]
+    assert not all(constraints)
 
 
 def test_schedule_all_events_pass_np(shape):
@@ -39,12 +41,14 @@ def test_schedule_all_events_pass_np(shape):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 1, 0, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._schedule_all_events(shape, X))
-    assert constraint is True
+    constraints = [
+        c.condition for c in parameters._schedule_all_events(shape, X)]
+    assert all(constraints)
 
 
 def test_max_one_event_per_slot(shape, X):
-    constraints = [c for c in parameters._max_one_event_per_slot(shape, X)]
+    constraints = [
+        c.condition for c in parameters._max_one_event_per_slot(shape, X)]
     assert len(constraints) == 7
 
 
@@ -53,8 +57,9 @@ def test_max_one_events_per_slot_fail_np(shape):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [1, 0, 0, 0, 0, 0, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._max_one_event_per_slot(shape, X))
-    assert constraint is False
+    constraints = [
+        c.condition for c in parameters._max_one_event_per_slot(shape, X)]
+    assert not all(constraints)
 
 
 def test_max_one_events_per_slot_pass_np(shape):
@@ -62,8 +67,9 @@ def test_max_one_events_per_slot_pass_np(shape):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 1, 0, 0, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._max_one_event_per_slot(shape, X))
-    assert constraint is True
+    constraints = [
+        c.condition for c in parameters._max_one_event_per_slot(shape, X)]
+    assert all(constraints)
 
 
 def test_slots_in_session(session_array):
@@ -93,9 +99,10 @@ def test_events_in_session_share_a_tag_fails_np(session_array, tag_array):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._events_in_session_share_a_tag(session_array,
-                                                               tag_array, X))
-    assert constraint is False
+    constraints = [
+        c.condition for c in parameters._events_in_session_share_a_tag(
+            session_array, tag_array, X)]
+    assert not all(constraints)
 
 
 def test_events_in_session_share_a_tag_passes_np(session_array, tag_array):
