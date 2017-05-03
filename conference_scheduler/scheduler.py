@@ -4,7 +4,7 @@ import conference_scheduler.parameters as params
 from conference_scheduler.resources import ScheduledItem, Shape
 
 
-def _all_constraints(sessions, events, slots, X, constraints=None):
+def _all_constraints(events, slots, sessions, X, constraints=None):
 
     session_array = params.session_array(sessions)
     tag_array = params.tag_array(events)
@@ -23,40 +23,40 @@ def _all_constraints(sessions, events, slots, X, constraints=None):
 
 
 def constraint_violations(
-    solution, sessions, events, slots, constraints=None
+    solution, events, slots, sessions, constraints=None
 ):
     return (
         c.label
         for c in _all_constraints(
-            sessions, events, slots, solution, constraints)
+            events, slots, sessions, solution, constraints)
         if not c.condition
     )
 
 
 def is_valid_solution(
-    solution, sessions, events, slots, constraints=None
+    solution, events, slots, sessions, constraints=None
 ):
     if len(solution) == 0:
         return False
     violations = sum(1 for c in (constraint_violations(
-        solution, sessions, events, slots, constraints)))
+        solution, events, slots, sessions, constraints)))
     return violations == 0
 
 
 def _schedule_to_solution(schedule, events, slots):
-    array = np.zeros(len(events), len(slots))
+    array = np.zeros((len(events), len(slots)))
     for item in schedule:
-        array[events.index(item.event), slots.index(item.slot)] == 1
+        array[events.index(item.event), slots.index(item.slot)] = 1
     return array
 
 
 def is_valid_schedule(
-    schedule, sessions, events, slots, constraints=None
+    schedule, events, slots, sessions, constraints=None
 ):
     if len(schedule) == 0:
         return False
     solution = _schedule_to_solution(schedule, events, slots)
-    return is_valid_solution(solution, sessions, events, slots)
+    return is_valid_solution(solution, events, slots, sessions)
 
 
 def solution(events, slots, sessions, constraints=None, existing=None):
@@ -65,7 +65,7 @@ def solution(events, slots, sessions, constraints=None, existing=None):
     X = params.variables(shape)
 
     for constraint in _all_constraints(
-        sessions, events, slots, X, constraints
+        events, slots, sessions, X, constraints
     ):
         problem += constraint.condition
 
