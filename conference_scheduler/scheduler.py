@@ -15,19 +15,19 @@ def _all_constraints(shape, sessions, events, X, constraints=None):
 
 
 def constraint_violations(solution, shape, sessions, events, constraints=None):
-    return [
+    return (
         c.label
         for c in _all_constraints(
             shape, sessions, events, solution, constraints)
         if not c.condition
-    ]
+    )
 
 
 def is_valid_solution(solution, shape, sessions, events, constraints=None):
     if len(solution) == 0:
         return False
-    violations = constraint_violations(
-        solution, shape, sessions, events, constraints)
+    violations = list(constraint_violations(
+        solution, shape, sessions, events, constraints))
     return len(violations) == 0
 
 

@@ -4,8 +4,8 @@ from conference_scheduler import scheduler
 
 
 def test_constraint_violations(valid_solution, shape, sessions, events):
-    violations = scheduler.constraint_violations(
-        valid_solution, shape, sessions, events)
+    violations = list(scheduler.constraint_violations(
+        valid_solution, shape, sessions, events))
     assert len(violations) == 0
 
     # solution with event 1 not scheduled
@@ -14,8 +14,8 @@ def test_constraint_violations(valid_solution, shape, sessions, events):
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
-    violations = scheduler.constraint_violations(
-        solution, shape, sessions, events)
+    violations = list(scheduler.constraint_violations(
+        solution, shape, sessions, events))
     assert violations == ['schedule_all_events - event: 1']
 
     # solution with event 0 scheduled twice
@@ -24,8 +24,8 @@ def test_constraint_violations(valid_solution, shape, sessions, events):
         [1, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
-    violations = scheduler.constraint_violations(
-        solution, shape, sessions, events)
+    violations = list(scheduler.constraint_violations(
+        solution, shape, sessions, events))
     assert violations == ['max_one_event_per_slot - slot: 0']
 
     # solution where events 0 and 2 are in same session but share no tag
@@ -34,8 +34,8 @@ def test_constraint_violations(valid_solution, shape, sessions, events):
         [0, 0, 0, 0, 0, 0, 1],
         [0, 1, 0, 0, 0, 0, 0]
     ])
-    violations = scheduler.constraint_violations(
-        solution, shape, sessions, events)
+    violations = list(scheduler.constraint_violations(
+        solution, shape, sessions, events))
     assert violations == [
         'events_in_session_share_a_tag - event: 0, slot: 0',
         'events_in_session_share_a_tag - event: 2, slot: 1'
