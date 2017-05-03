@@ -11,7 +11,7 @@ def _all_constraints(events, slots, sessions, X, constraints=None):
     slot_availability_array = lp.utils.slot_availability_array(events, slots)
     event_availability_array = lp.utils.event_availability_array(events)
 
-    generators = [lp.constraints.constraints(
+    generators = [lp.constraints.all(
         events, slots, session_array, tag_array, slot_availability_array,
         event_availability_array, X
     )]

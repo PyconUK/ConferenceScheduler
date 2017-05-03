@@ -171,7 +171,7 @@ def test_constraints(
     event_availability_array, X
 ):
     constraints = [
-        c for c in lpc.constraints(
+        c for c in lpc.all(
             events, slots, session_array, tag_array, slot_availability_array,
             event_availability_array, X)]
     assert len(constraints) == 92
