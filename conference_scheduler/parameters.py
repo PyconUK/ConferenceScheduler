@@ -195,18 +195,22 @@ def _events_available_during_other_events(
                 )
 
 
-def constraints(shape, session_array, tag_array, slot_availability_array, X):
+def constraints(
+    shape, slots, session_array, tag_array, slot_availability_array, X
+):
     generators = (
         _schedule_all_events,
         _max_one_event_per_slot,
         _events_in_session_share_a_tag,
         _events_available_in_scheduled_slot,
+        _events_available_during_other_events
     )
     generator_kwargs = (
         {"shape": shape},
         {"shape": shape},
         {"session_array": session_array, "tag_array": tag_array},
-        {"slot_availability_array": slot_availability_array}
+        {"slot_availability_array": slot_availability_array},
+        {"slot_availability_array": slot_availability_array, 'slots': slots}
     )
 
     for generator, kwargs in zip(generators, generator_kwargs):
