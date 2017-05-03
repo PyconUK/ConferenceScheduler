@@ -120,9 +120,11 @@ def tag_array(events):
 def session_array(sessions):
     return parameters.session_array(sessions)
 
+
 @pytest.fixture(scope='module')
 def slot_availability_array(events, slots):
     return parameters.slot_availability_array(events, slots)
+
 
 @pytest.fixture(scope='module')
 def event_availability_array(events, slots):
@@ -136,7 +138,9 @@ def X(shape):
 
 @pytest.fixture(scope='module')
 def solution(shape, events, slots, sessions):
-    return [item for item in scheduler.solution(shape, events, slots, sessions)]
+    return [
+        item for item in scheduler.solution(shape, events, slots, sessions)
+    ]
 
 
 @pytest.fixture(scope='module')
