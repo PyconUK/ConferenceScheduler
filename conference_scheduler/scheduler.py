@@ -42,6 +42,14 @@ def is_valid_solution(
     return violations == 0
 
 
+def _schedule_to_solution(items, shape):
+    pass
+
+
+def is_valid_schedule(items, shape, sessions, events, constraints=None):
+    return True
+
+
 def solution(shape, events, slots, sessions, constraints=None, existing=None):
     problem = pulp.LpProblem()
     X = params.variables(shape)
