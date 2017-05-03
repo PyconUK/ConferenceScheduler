@@ -91,14 +91,3 @@ def solution(events, slots, sessions, constraints=None, existing=None):
         )
     else:
         raise ValueError('No valid solution found')
-
-
-def schedule(events, slots, constraints=None, existing=None):
-    shape = Shape(len(events), len(slots))
-    return (
-        ScheduledItem(
-            event=events[item[0]],
-            slot=slots[item[1]]
-        )
-        for item in solution(shape, constraints, existing)
-    )
