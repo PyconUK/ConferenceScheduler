@@ -26,9 +26,9 @@ def constraint_violations(solution, shape, sessions, events, constraints=None):
 def is_valid_solution(solution, shape, sessions, events, constraints=None):
     if len(solution) == 0:
         return False
-    violations = list(constraint_violations(
-        solution, shape, sessions, events, constraints))
-    return len(violations) == 0
+    violations = sum(1 for c in (constraint_violations(
+        solution, shape, sessions, events, constraints)))
+    return violations == 0
 
 
 def solution(shape, events, sessions, constraints=None, existing=None):
