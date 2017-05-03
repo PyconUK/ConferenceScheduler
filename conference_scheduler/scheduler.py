@@ -59,6 +59,12 @@ def is_valid_schedule(
     return is_valid_solution(solution, events, slots, sessions)
 
 
+def schedule_violations(schedule, events, slots, sessions, constraints=None):
+    solution = _schedule_to_solution(schedule, events, slots)
+    return constraint_violations(
+        solution, events, slots, sessions, constraints)
+
+
 def solution(events, slots, sessions, constraints=None, existing=None):
     shape = Shape(len(events), len(slots))
     problem = pulp.LpProblem()

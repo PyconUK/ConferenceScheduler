@@ -1,6 +1,7 @@
 import numpy as np
 from collections import Counter
 from conference_scheduler import scheduler
+from conference_scheduler.resources import ScheduledItem
 
 
 def test_valid_solution_has_no_violations(
@@ -11,7 +12,7 @@ def test_valid_solution_has_no_violations(
     assert len(violations) == 0
 
 
-def test_unscheduled_event_has_violations(shape, events, slots, sessions):
+def test_unscheduled_event_has_violations(events, slots, sessions):
     # solution with event 1 not scheduled
     solution = np.array([
         [0, 0, 1, 0, 0, 0, 0],
@@ -101,6 +102,19 @@ def test_empty_schedule_fails(events, slots, sessions):
 
 def test_valid_schedule_passes(valid_schedule, events, slots, sessions):
     assert scheduler.is_valid_schedule(valid_schedule, events, slots, sessions)
+
+
+def test_schedule_unscheduled_event_has_violations(events, slots, sessions):
+    # schedule with event 1 not scheduled
+    schedule = (
+        ScheduledItem(event=events[0], slot=slots[2]),
+        ScheduledItem(event=events[2], slot=slots[5])
+    )
+    violations = list(scheduler.schedule_violations(
+        schedule, events, slots, sessions))
+    assert violations == [
+        'Event either not scheduled or scheduled multiple times - event: 1'
+    ]
 
 
 def test_schedule_has_content(solution):
