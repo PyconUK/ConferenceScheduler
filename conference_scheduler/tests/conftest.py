@@ -73,32 +73,28 @@ def roles():
 
 @pytest.fixture(scope="module")
 def events(event_types, roles, people, slots):
-    return (
-        Event(
-            name='Talk 1',
-            event_type=event_types['talk'],
-            duration=30,
-            roles={roles['speaker']: people['alice']},
-            tags=['community'],
-            unavailability=[slots[0], slots[1]]
-        ),
-        Event(
-            name='Talk 2',
-            event_type=event_types['talk'],
-            duration=30,
-            roles={roles['speaker']: people['bob']},
-            tags=['community', 'documentation'],
-            unavailability=[slots[2], slots[3]]
-        ),
-        Event(
-            name='Workshop 1',
-            event_type=event_types['workshop'],
-            duration=60,
-            roles={roles['leader']: people['charlie']},
-            tags=['documentation'],
-            unavailability=[]
-        )
-    )
+    event1 = Event(
+        name='Talk 1',
+        event_type=event_types['talk'],
+        duration=30,
+        roles={roles['speaker']: people['alice']},
+        tags=['community'],
+        unavailability=[slots[0], slots[1]])
+    event2 = Event(
+        name='Talk 2',
+        event_type=event_types['talk'],
+        duration=30,
+        roles={roles['speaker']: people['bob']},
+        tags=['community', 'documentation'],
+        unavailability=[slots[2], slots[3], event1])
+    event3 = Event(
+        name='Workshop 1',
+        event_type=event_types['workshop'],
+        duration=60,
+        roles={roles['leader']: people['charlie']},
+        tags=['documentation'],
+        unavailability=[])
+    return (event1, event2, event3)
 
 
 @pytest.fixture(scope="module")
@@ -125,8 +121,12 @@ def session_array(sessions):
     return parameters.session_array(sessions)
 
 @pytest.fixture(scope='module')
-def availability_array(events, slots):
-    return parameters.availability_array(events, slots)
+def slot_availability_array(events, slots):
+    return parameters.slot_availability_array(events, slots)
+
+@pytest.fixture(scope='module')
+def event_availability_array(events, slots):
+    return parameters.event_availability_array(events)
 
 
 @pytest.fixture(scope='module')

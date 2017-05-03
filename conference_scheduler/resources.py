@@ -36,7 +36,7 @@ class Event(NamedTuple):
     duration: int
     roles: Dict[Role, Person]
     tags: List[str]
-    unavailability: List[Slot]
+    unavailability: List
 
 
 class Demand(NamedTuple):

@@ -21,6 +21,35 @@ def test_slot_availability_array(events, slots):
          [1, 1, 0, 0, 1, 1, 1],
          [1, 1, 1, 1, 1, 1, 1]]))
 
+def test_event_availability_array(events):
+    event_availability_array = parameters.event_availability_array(events)
+    assert np.array_equal(event_availability_array, np.array(
+        [[1, 0, 1, ],
+         [0, 1, 1, ],
+         [1, 1, 1, ]]))
+
+def test_slots_overlap(slots):
+    assert parameters.slots_overlap(slots[0], slots[1]) is False
+    assert parameters.slots_overlap(slots[0], slots[2]) is False
+    assert parameters.slots_overlap(slots[0], slots[3]) is False
+    assert parameters.slots_overlap(slots[0], slots[4]) is False
+    assert parameters.slots_overlap(slots[0], slots[6]) is False
+    assert parameters.slots_overlap(slots[1], slots[6]) is False
+    assert parameters.slots_overlap(slots[1], slots[4]) is False
+    assert parameters.slots_overlap(slots[6], slots[1]) is False
+    assert parameters.slots_overlap(slots[1], slots[6]) is False
+
+    assert parameters.slots_overlap(slots[0], slots[0]) is True
+    assert parameters.slots_overlap(slots[5], slots[0]) is True
+    assert parameters.slots_overlap(slots[0], slots[5]) is True
+    assert parameters.slots_overlap(slots[1], slots[5]) is True
+    assert parameters.slots_overlap(slots[5], slots[1]) is True
+    assert parameters.slots_overlap(slots[6], slots[6]) is True
+
+def test_concurrent_slots(slots):
+    slots = list(parameters.concurrent_slots(slots))
+    assert slots == [(0, 5), (1, 5), (2, 6), (3, 6), (4, 6)]
+
 def test_variables(shape):
     X = parameters.variables(shape)
     assert len(X) == 21
@@ -145,6 +174,32 @@ def test_events_available_in_scheduled_slot_passes_np(slot_availability_array):
                   [0, 1, 0, 0, 0, 0, 0]])
     constraint = all(parameters._events_available_in_scheduled_slot(
         slot_availability_array, X))
+    assert constraint is True
+
+
+def test_events_available_during_other_events(event_availability_array, slots, X):
+    constraints = [c for c in
+            parameters._events_available_during_other_events(
+                event_availability_array, slots, X)]
+    assert len(constraints) == 45
+
+
+def test_events_available_during_other_events_fails_np(event_availability_array,
+                                                       slots):
+    # First event is scheduled during second event
+    X = np.array([[1, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 1, 0],
+                  [0, 1, 0, 0, 0, 0, 0]])
+    constraint = all(parameters._events_available_during_other_events(event_availability_array, slots, X))
+    assert constraint is False
+
+def test_events_available_during_other_events_pass_np(event_availability_array,
+                                                       slots):
+    # First event is scheduled during second event
+    X = np.array([[1, 0, 0, 0, 0, 0, 0],
+                  [0, 0, 0, 0, 0, 0, 1],
+                  [0, 1, 0, 0, 0, 0, 0]])
+    constraint = all(parameters._events_available_during_other_events(event_availability_array, slots, X))
     assert constraint is True
 
 
