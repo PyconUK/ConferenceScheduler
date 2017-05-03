@@ -28,6 +28,7 @@ class Slot(NamedTuple):
     room: Room
     starts_at: datetime
     duration: int
+    capacity: int
 
 
 class Event(NamedTuple):
@@ -37,6 +38,7 @@ class Event(NamedTuple):
     roles: Dict[Role, Person]
     tags: List[str]
     unavailability: List
+    demand: int
 
 
 class Demand(NamedTuple):

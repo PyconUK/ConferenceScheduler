@@ -2,6 +2,7 @@ import numpy as np
 from collections import Counter
 from conference_scheduler import scheduler
 from conference_scheduler.resources import ScheduledItem
+from conference_scheduler.lp_problem import objective_functions as of
 
 
 def test_valid_solution_has_no_violations(
@@ -147,3 +148,10 @@ def test_slots_scheduled_once_only(solution):
 def test_events_scheduled_once_only(solution):
     for event, count in Counter(item[0] for item in solution).items():
         assert count == 1
+
+
+def test_optimal_schedule(slots, events, sessions):
+    solution = scheduler.solution(
+            events=events, slots=slots, sessions=sessions,
+            objective_function=of.capacity_demand_difference)
+    assert list(solution) == [(0, 3), (1, 4), (2, 0)]

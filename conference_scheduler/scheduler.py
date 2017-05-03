@@ -73,7 +73,8 @@ def schedule_violations(schedule, events, slots, sessions, constraints=None):
         solution, events, slots, sessions, constraints)
 
 
-def solution(events, slots, sessions, constraints=None, existing=None):
+def solution(events, slots, sessions, constraints=None, existing=None,
+             objective_function=None):
     shape = Shape(len(events), len(slots))
     problem = pulp.LpProblem()
     X = lp.utils.variables(shape)
@@ -82,6 +83,10 @@ def solution(events, slots, sessions, constraints=None, existing=None):
         events, slots, sessions, X, constraints
     ):
         problem += constraint.condition
+
+    if objective_function is not None:
+        problem += objective_function(events=events, slots=slots,
+                                      sessions=sessions, X=X)
 
     status = problem.solve()
     if status == 1:
