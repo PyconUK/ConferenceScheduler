@@ -20,7 +20,9 @@ def test_unscheduled_event_has_violations(shape, sessions, slots, events):
     ])
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
-    assert violations == ['schedule_all_events - event: 1']
+    assert violations == [
+        'Event either not scheduled or scheduled multiple times - event: 1'
+    ]
 
 
 def test_multiple_event_schedule_has_violations(
@@ -34,7 +36,9 @@ def test_multiple_event_schedule_has_violations(
     ])
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
-    assert violations == ['schedule_all_events - event: 0']
+    assert violations == [
+        'Event either not scheduled or scheduled multiple times - event: 0'
+    ]
 
 
 def test_multiple_slot_schedule_has_violations(
@@ -48,7 +52,7 @@ def test_multiple_slot_schedule_has_violations(
     ])
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
-    assert violations == ['max_one_event_per_slot - slot: 5']
+    assert violations == ['Slot with multiple events scheduled - slot: 5']
 
 
 def test_session_with_multiple_tags_has_violations(
@@ -63,8 +67,8 @@ def test_session_with_multiple_tags_has_violations(
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
     assert violations == [
-        'events_in_session_share_a_tag - event: 0, slot: 3',
-        'events_in_session_share_a_tag - event: 2, slot: 4',
+        'Dissimilar events schedule in same session - event: 0, slot: 3',
+        'Dissimilar events schedule in same session - event: 2, slot: 4',
     ]
 
 
@@ -80,7 +84,7 @@ def test_event_scheduled_within_unavailability_has_violations(
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
     assert violations == [
-        'events_available_during_other_events - event: 0 clashes with event: 1'
+        'Event clashes with other event - event: 0 and event: 1'
     ]
 
 
