@@ -11,7 +11,7 @@ install:
   - pip install coverage
   - pip install coveralls
 script:
-  - coverage run --source=axelrod -m pytest
+  - coverage run --source=conference_scheduler -m pytest
   - coverage report -m
 after_success:
   - coveralls
