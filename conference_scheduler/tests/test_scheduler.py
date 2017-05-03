@@ -95,6 +95,11 @@ def test_empty_solution_fails(events, slots, sessions):
         solution, events, slots, sessions)
 
 
+def test_schedule_to_solution(valid_schedule, valid_solution, events, slots):
+    solution = scheduler._schedule_to_solution(valid_schedule, events, slots)
+    assert np.array_equal(solution, valid_solution)
+
+
 def test_empty_schedule_fails(events, slots, sessions):
     schedule = []
     assert not scheduler.is_valid_schedule(schedule, events, slots, sessions)
