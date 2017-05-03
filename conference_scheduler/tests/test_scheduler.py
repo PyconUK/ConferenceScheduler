@@ -100,6 +100,13 @@ def test_schedule_to_solution(valid_schedule, valid_solution, events, slots):
     assert np.array_equal(solution, valid_solution)
 
 
+def test_solution_to_schedule(valid_schedule, valid_solution, events, slots):
+    schedule = list(
+        scheduler._solution_to_schedule(valid_solution, events, slots)
+    )
+    assert schedule == valid_schedule
+
+
 def test_empty_schedule_fails(events, slots, sessions):
     schedule = []
     assert not scheduler.is_valid_schedule(schedule, events, slots, sessions)

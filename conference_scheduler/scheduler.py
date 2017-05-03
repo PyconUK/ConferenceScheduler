@@ -50,6 +50,14 @@ def _schedule_to_solution(schedule, events, slots):
     return array
 
 
+def _solution_to_schedule(solution, events, slots):
+    scheduled = np.transpose(np.nonzero(solution))
+    return (
+        ScheduledItem(event=events[item[0]], slot=slots[item[1]])
+        for item in scheduled
+    )
+
+
 def is_valid_schedule(
     schedule, events, slots, sessions, constraints=None
 ):
