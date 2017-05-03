@@ -189,7 +189,7 @@ def _events_available_during_other_events(
     Constraint that ensures that an event is not scheduled at the same time as
     another event for which it is unavailable.
     """
-    label = 'Event clashes with other event'
+    label = 'Event clashes with another event'
     for slot1, slot2 in concurrent_slots(slots):
         for row, event in enumerate(event_availability_array):
             for col, availability in enumerate(event):

@@ -84,7 +84,7 @@ def test_event_scheduled_within_unavailability_has_violations(
     violations = list(scheduler.constraint_violations(
         solution, shape, sessions, events, slots))
     assert violations == [
-        'Event clashes with other event - event: 0 and event: 1'
+        'Event clashes with another event - event: 0 and event: 1'
     ]
 
 
