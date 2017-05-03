@@ -3,7 +3,8 @@ import conference_scheduler.parameters as params
 from conference_scheduler.resources import ScheduledItem
 
 
-def _all_constraints(shape, sessions, events, X, constraints=None):
+def _all_constraints(shape, sessions, events, slots, X, constraints=None):
+
     session_array = params.session_array(sessions)
     tag_array = params.tag_array(events)
     slot_availability_array = params.slot_availability_array(events, slots)
@@ -39,7 +40,7 @@ def solution(shape, events, slots, sessions, constraints=None, existing=None):
     X = params.variables(shape)
 
     for constraint in _all_constraints(
-        shape, sessions, events, X, constraints
+        shape, sessions, events, slots, X, constraints
     ):
         problem += constraint.condition
 

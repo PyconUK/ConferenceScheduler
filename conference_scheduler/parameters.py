@@ -169,7 +169,9 @@ def _events_available_in_scheduled_slot(slot_availability_array, X):
     """
     for row, event in enumerate(slot_availability_array):
         for col, availability in enumerate(event):
-            yield X[row, col] <=  availability
+            yield Constraint(
+                    f'Event {event} cannot be scheduled in slot {col}',
+                    X[row, col] <=  availability)
 
 
 def _events_available_during_other_events(event_availability_array,
@@ -181,7 +183,9 @@ def _events_available_during_other_events(event_availability_array,
     for slot1, slot2 in concurrent_slots(slots):
         for row, event in enumerate(event_availability_array):
             for col, availability in enumerate(event):
-                yield X[row, slot1] + X[col, slot2] <= 1 + availability
+                yield Constraint(
+           f'Event {event} cannot be scheduled at the same time as event {col}',
+                X[row, slot1] + X[col, slot2] <= 1 + availability)
 
 
 def constraints(shape, session_array, tag_array, slot_availability_array, X):
@@ -195,11 +199,6 @@ def constraints(shape, session_array, tag_array, slot_availability_array, X):
                         {"session_array": session_array, "tag_array": tag_array},
                         {"slot_availability_array": slot_availability_array})
 
-    generator_kwargs = (
-        {"shape": shape},
-        {"shape": shape},
-        {"session_array": session_array, "tag_array": tag_array}
-    )
 
     for generator, kwargs in zip(generators, generator_kwargs):
         for constraint in generator(**kwargs, X=X):

@@ -162,9 +162,8 @@ def test_events_available_in_scheduled_slot_fails_np(slot_availability_array):
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._events_available_in_scheduled_slot(
-        slot_availability_array, X))
-    assert constraint is False
+    constraints = [c.condition for c in parameters._events_available_in_scheduled_slot(slot_availability_array, X)]
+    assert all(constraints) is False
 
 
 def test_events_available_in_scheduled_slot_passes_np(slot_availability_array):
@@ -172,9 +171,8 @@ def test_events_available_in_scheduled_slot_passes_np(slot_availability_array):
     X = np.array([[0, 0, 1, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._events_available_in_scheduled_slot(
-        slot_availability_array, X))
-    assert constraint is True
+    constraints = [c.condition for c in parameters._events_available_in_scheduled_slot(slot_availability_array, X)]
+    assert all(constraints) is True
 
 
 def test_events_available_during_other_events(event_availability_array, slots, X):
@@ -190,8 +188,10 @@ def test_events_available_during_other_events_fails_np(event_availability_array,
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 1, 0],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._events_available_during_other_events(event_availability_array, slots, X))
-    assert constraint is False
+    constraints = [c.condition for c in
+            parameters._events_available_during_other_events(event_availability_array,
+                slots, X)]
+    assert all(constraints) is False
 
 def test_events_available_during_other_events_pass_np(event_availability_array,
                                                        slots):
@@ -199,8 +199,10 @@ def test_events_available_during_other_events_pass_np(event_availability_array,
     X = np.array([[1, 0, 0, 0, 0, 0, 0],
                   [0, 0, 0, 0, 0, 0, 1],
                   [0, 1, 0, 0, 0, 0, 0]])
-    constraint = all(parameters._events_available_during_other_events(event_availability_array, slots, X))
-    assert constraint is True
+    constraints = [c.condition for c in
+            parameters._events_available_during_other_events(event_availability_array,
+                slots, X)]
+    assert all(constraints) is True
 
 
 def test_constraints(shape, session_array, tag_array,
