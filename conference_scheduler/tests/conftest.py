@@ -2,10 +2,10 @@ import pytest
 import numpy as np
 from conference_scheduler.resources import (
     Person, Room, Slot, Session, EventType, Event, Role, Demand,
-    Unavailability
+    ScheduledItem, Shape
 )
 from conference_scheduler import scheduler
-from conference_scheduler import parameters
+from conference_scheduler.lp_problem import utils as lpu
 
 
 @pytest.fixture(scope="module")
@@ -108,38 +108,38 @@ def demand(events):
 
 @pytest.fixture(scope='module')
 def shape(events, slots):
-    return parameters.Shape(len(events), len(slots))
+    return Shape(len(events), len(slots))
 
 
 @pytest.fixture(scope='module')
 def tag_array(events):
-    return parameters.tag_array(events)
+    return lpu.tag_array(events)
 
 
 @pytest.fixture(scope='module')
 def session_array(sessions):
-    return parameters.session_array(sessions)
+    return lpu.session_array(sessions)
 
 
 @pytest.fixture(scope='module')
 def slot_availability_array(events, slots):
-    return parameters.slot_availability_array(events, slots)
+    return lpu.slot_availability_array(events, slots)
 
 
 @pytest.fixture(scope='module')
 def event_availability_array(events, slots):
-    return parameters.event_availability_array(events)
+    return lpu.event_availability_array(events)
 
 
 @pytest.fixture(scope='module')
 def X(shape):
-    return parameters.variables(shape)
+    return lpu.variables(shape)
 
 
 @pytest.fixture(scope='module')
-def solution(shape, events, slots, sessions):
+def solution(events, slots, sessions):
     return [
-        item for item in scheduler.solution(shape, events, slots, sessions)
+        item for item in scheduler.solution(events, slots, sessions)
     ]
 
 
@@ -155,3 +155,12 @@ def valid_solution():
         [0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
+
+
+@pytest.fixture(scope='module')
+def valid_schedule(events, slots):
+    return [
+        ScheduledItem(event=events[0], slot=slots[2]),
+        ScheduledItem(event=events[1], slot=slots[4]),
+        ScheduledItem(event=events[2], slot=slots[5])
+    ]
