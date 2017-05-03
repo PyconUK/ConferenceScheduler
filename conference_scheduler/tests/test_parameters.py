@@ -220,9 +220,12 @@ def test_events_available_during_other_events_pass_np(
     assert all(constraints) is True
 
 
-def test_constraints(shape, session_array, tag_array,
-                     slot_availability_array, X):
+def test_constraints(
+    shape, slots, session_array, tag_array, slot_availability_array,
+    event_availability_array, X
+):
     constraints = [
         c for c in parameters.constraints(
-            shape, session_array, tag_array, slot_availability_array, X)]
+            shape, slots, session_array, tag_array, slot_availability_array,
+            event_availability_array, X)]
     assert len(constraints) == 47
