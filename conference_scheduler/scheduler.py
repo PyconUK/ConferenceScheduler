@@ -46,8 +46,11 @@ def _schedule_to_solution(items, shape):
     pass
 
 
-def is_valid_schedule(items, shape, sessions, events, constraints=None):
-    return True
+def is_valid_schedule(
+    schedule, shape, sessions, events, slots, constraints=None
+):
+    if len(schedule) == 0:
+        return False
 
 
 def solution(shape, events, slots, sessions, constraints=None, existing=None):

@@ -100,6 +100,12 @@ def test_empty_solution_fails(shape, sessions, slots, events):
         solution, shape, sessions, events, slots)
 
 
+def test_empty_schedule_fails(shape, sessions, slots, events):
+    schedule = []
+    assert not scheduler.is_valid_schedule(
+        schedule, shape, sessions, slots, events)
+
+
 def test_schedule_has_content(solution):
     assert len(solution) > 0
 
