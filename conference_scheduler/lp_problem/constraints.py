@@ -74,7 +74,7 @@ def _events_available_during_other_events(
                 )
 
 
-def all(
+def all_constraints(
     events, slots, session_array, tag_array, slot_availability_array,
     event_availability_array, X
 ):
