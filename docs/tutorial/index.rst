@@ -14,6 +14,9 @@ You have organised your time slots as follows:
 - The second day will have 1 room used for longer 1 hour workshops, the other
   room used for more talks and 2 long sessions set aside for the social events.
 
+    >>> 2 + 2
+    5
+
 Let us create these time slots using the :code:`conference_scheduler`::
 
     >>> from conference_scheduler.resources import Slot, Event
