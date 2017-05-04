@@ -51,7 +51,7 @@ def test_small_distance_from_other_schedule(slots, events):
     solution = scheduler.solution(
         events=events, slots=slots,
         objective_function=of.number_of_changes,
-        schedule=schedule,
+        original_schedule=schedule,
     )
     assert list(solution) == [(0, 3), (1, 4), (2, 1)]
 
@@ -65,7 +65,7 @@ def test_small_distance_from_other_schedule(slots, events):
     solution = scheduler.solution(
         events=events, slots=slots,
         objective_function=of.number_of_changes,
-        schedule=schedule,
+        original_schedule=schedule,
     )
     assert list(solution) == [(0, 6), (1, 5), (2, 1)]
 

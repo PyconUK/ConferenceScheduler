@@ -171,7 +171,7 @@ old schedule::
 
 
     >>> func = objective_functions.number_of_changes
-    >>> schedule = scheduler.schedule(events, slots, objective_function=func, schedule=schedule)
+    >>> schedule = scheduler.schedule(events, slots, objective_function=func, original_schedule=schedule)
 
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
