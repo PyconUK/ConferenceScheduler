@@ -86,7 +86,7 @@ def is_valid_solution(solution, events, slots, constraints=None):
 
 
 def solution_violations(solution, events, slots, constraints=None):
-     """Take a solution and return a list of violated constraints
+    """Take a solution and return a list of violated constraints
 
     Parameters
     ----------
