@@ -1,5 +1,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/PyconUK/ConferenceScheduler/badge.svg?branch=master)](https://coveralls.io/github/PyconUK/ConferenceScheduler?branch=master)
 
+[![Build Status](https://travis-ci.org/PyconUK/ConferenceScheduler.svg?branch=master)](https://travis-ci.org/PyconUK/ConferenceScheduler)
+
 # Conference Scheduler
 
 # Overview
