@@ -1,7 +1,7 @@
 from conference_scheduler import scheduler
 
 
-def constraint_violations(events, slots, array, constraints=None):
+def constraint_violations(array, events, slots, constraints=None):
     """Take a schedule in array form and return any violated constraints
 
     Parameters
@@ -27,7 +27,11 @@ def constraint_violations(events, slots, array, constraints=None):
     )
 
 
-def is_valid_array(events, slots, array, constraints=None):
+def is_valid_solution(solution, events, slots, constraints=None):
+    pass
+
+
+def is_valid_array(array, events, slots, constraints=None):
     """Take a schedule in array form and return whether it is a valid
     solution for the given constraints
 
@@ -50,7 +54,7 @@ def is_valid_array(events, slots, array, constraints=None):
     if len(array) == 0:
         return False
     violations = sum(1 for c in (constraint_violations(
-        events, slots, array, constraints)))
+        array, events, slots, constraints)))
     return violations == 0
 
 
@@ -76,7 +80,7 @@ def is_valid_schedule(schedule, events, slots, constraints=None):
     if len(schedule) == 0:
         return False
     array = scheduler.schedule_to_array(schedule, events, slots)
-    return is_valid_array(events, slots, array)
+    return is_valid_array(array, events, slots)
 
 
 def schedule_violations(schedule, events, slots, constraints=None):
@@ -99,4 +103,4 @@ def schedule_violations(schedule, events, slots, constraints=None):
             constraints
     """
     array = scheduler.schedule_to_array(schedule, events, slots)
-    return constraint_violations(events, slots, array, constraints)
+    return constraint_violations(array, events, slots, constraints)
