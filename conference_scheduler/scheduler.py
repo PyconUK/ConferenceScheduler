@@ -5,6 +5,30 @@ from conference_scheduler.resources import ScheduledItem, Shape
 
 
 def all_constraints(events, slots, sessions, X, constraints=None):
+    """Compute a list of generator functions which will each produce a list
+    of constraints
+
+    Parameters
+    ----------
+        events : list or tuple
+            of resources.Event instances
+        slots : list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        X : dict or np.array
+            mapping a tuple of event index and slot index to a condition
+            statement
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+
+    Returns
+    -------
+        list
+            of generator functions each of which produces a further list of
+            instances of resource.Constraint
+    """
 
     session_array = lp.utils.session_array(sessions)
     tag_array = lp.utils.tag_array(events)
@@ -37,13 +61,13 @@ def solution(
 
     Parameters
     ----------
-        events: list or tuple
+        events : list or tuple
             of resources.Event instances
-        slots: list or tuple
+        slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
+        sessions : list or tuple
             of resources.Session instances
-        constraints: list or tuple
+        constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
         objective_function: callable
@@ -91,16 +115,16 @@ def array(events, slots, sessions, constraints=None, objective_function=None):
 
      Parameters
     ----------
-        events: list or tuple
+        events : list or tuple
             of resources.Event instances
-        slots: list or tuple
+        slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
+        sessions : list or tuple
             of resources.Session instances
-        constraints: list or tuple
+        constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
-        objective_function: callable
+        objective_function : callable
             from lp_problem.objective_functions
 
     Returns
@@ -135,16 +159,16 @@ def schedule(
 
      Parameters
     ----------
-        events: list or tuple
+        events : list or tuple
             of resources.Event instances
-        slots: list or tuple
+        slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
+        sessions : list or tuple
             of resources.Session instances
-        constraints: list or tuple
+        constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
-        objective_function: callable
+        objective_function : callable
             from lp_problem.objective_functions
 
     Returns
