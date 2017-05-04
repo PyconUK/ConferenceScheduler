@@ -84,6 +84,36 @@ def schedule_violations(schedule, events, slots, sessions, constraints=None):
 def solution(
     events, slots, sessions, constraints=None, objective_function=None
 ):
+    """Setup up the ILP problem, submit it to pulp and return the solution
+
+    Parameters
+    ----------
+        events: list or tuple
+            of resources.Event instances
+        slots: list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+        objective_function: callable
+            from lp_problem.objective_functions
+
+    Returns
+    -------
+        Generator
+            of tuples giving the event and slot index (for the given events and
+            slots lists) for all scheduled items.
+
+            e.g. for a solution where:
+                event 0 is scheduled in slot 1
+                event 1 is scheduled in slot 4
+                event 2 is scheduled in slot 5
+
+            the resulting generator would produce:
+                [(0, 1), (1, 4), (2, 5)]
+    """
     shape = Shape(len(events), len(slots))
     problem = pulp.LpProblem()
     X = lp.utils.variables(shape)
@@ -108,6 +138,39 @@ def solution(
 
 
 def array(events, slots, sessions, constraints=None, objective_function=None):
+    """Compute the ILP solution and return it in array form
+
+     Parameters
+    ----------
+        events: list or tuple
+            of resources.Event instances
+        slots: list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+        objective_function: callable
+            from lp_problem.objective_functions
+
+    Returns
+    -------
+        np.array
+            an E by S array (X) where E is the number of events and S the
+            number of slots.
+            Xij is 1 if event i is scheduled in slot j and zero otherwise
+
+            e.g. 3 events, 7 slots and a solution where:
+                event 0 is scheduled in slot 1
+                event 1 is scheduled in slot 4
+                event 2 is scheduled in slot 5
+
+            the resulting array would be:
+                [[0, 1, 0, 0, 0, 0, 0],
+                 [0, 0, 0, 0, 1, 0, 0],
+                 [0, 0, 0, 0, 0, 1, 0]]
+    """
     array = np.zeros((len(events), len(slots)))
     for item in solution(
         events, slots, sessions, constraints, objective_function
@@ -119,6 +182,27 @@ def array(events, slots, sessions, constraints=None, objective_function=None):
 def schedule(
     events, slots, sessions, constraints=None, objective_function=None
 ):
+    """Compute the ILP solution and return it in schedule form
+
+     Parameters
+    ----------
+        events: list or tuple
+            of resources.Event instances
+        slots: list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+        objective_function: callable
+            from lp_problem.objective_functions
+
+    Returns
+    -------
+        Generator
+            of tuples of instances of resources.ScheduledItem
+    """
     return (
         ScheduledItem(
             event=events[item[0]],
