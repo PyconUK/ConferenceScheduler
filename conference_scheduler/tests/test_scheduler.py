@@ -1,7 +1,6 @@
 import numpy as np
 from collections import Counter
 from conference_scheduler import scheduler
-from conference_scheduler.resources import ScheduledItem
 from conference_scheduler.lp_problem import objective_functions as of
 
 
@@ -71,14 +70,6 @@ def test_schedule_has_all_events(schedule, events):
     assert scheduled_events == list(events)
 
 
-def test_valid_array_has_no_violations(
-    valid_array, events, slots, sessions
-):
-    violations = list(scheduler.constraint_violations(
-        events, slots, sessions, valid_array))
-    assert len(violations) == 0
-
-
 # Testing the conversion between various forms of schedule output
 
 
@@ -92,110 +83,3 @@ def test_array_to_schedule(valid_schedule, valid_array, events, slots):
         scheduler._array_to_schedule(valid_array, events, slots)
     )
     assert schedule == valid_schedule
-
-
-# Testing the validation of existing schedules against supplied constraints
-
-
-def test_unscheduled_event_has_violations(events, slots, sessions):
-    # array with event 1 not scheduled
-    array = np.array([
-        [0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 0]
-    ])
-    violations = list(scheduler.constraint_violations(
-        events, slots, sessions, array))
-    assert violations == [
-        'Event either not scheduled or scheduled multiple times - event: 1'
-    ]
-
-
-def test_multiple_event_schedule_has_violations(events, slots, sessions):
-    # array with event 0 scheduled twice
-    array = np.array([
-        [0, 0, 1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 1, 0]
-    ])
-    violations = list(scheduler.constraint_violations(
-        events, slots, sessions, array))
-    assert violations == [
-        'Event either not scheduled or scheduled multiple times - event: 0'
-    ]
-
-
-def test_multiple_slot_schedule_has_violations(events, slots, sessions):
-    # array with slot 5 scheduled twice
-    array = np.array([
-        [0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 0],
-        [0, 0, 0, 0, 0, 1, 0]
-    ])
-    violations = list(scheduler.constraint_violations(
-        events, slots, sessions, array))
-    assert violations == ['Slot with multiple events scheduled - slot: 5']
-
-
-def test_session_with_multiple_tags_has_violations(events, slots, sessions):
-    # array where events 0 and 2 are in same session but share no tag
-    array = np.array([
-        [0, 0, 0, 1, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0]
-    ])
-    violations = list(scheduler.constraint_violations(
-        events, slots, sessions, array))
-    assert violations == [
-        'Dissimilar events schedule in same session - event: 0, slot: 3',
-        'Dissimilar events schedule in same session - event: 2, slot: 4',
-    ]
-
-
-def test_event_scheduled_within_unavailability_has_violations(
-    events, slots, sessions
-):
-    # array where event 1 is incorrectly scheduled against event 0
-    # as slots 2 and 6 both begin at 11:30
-    array = np.array([
-        [0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 1, 0, 0]
-    ])
-    violations = list(scheduler.constraint_violations(
-        events, slots, sessions, array))
-    assert violations == [
-        'Event clashes with another event - event: 0 and event: 1'
-    ]
-
-
-def test_valid_array_passes(valid_array, events, slots, sessions):
-    assert scheduler.is_valid_array(
-        events, slots, sessions, valid_array)
-
-
-def test_empty_array_fails(events, slots, sessions):
-    array = []
-    assert not scheduler.is_valid_array(events, slots, sessions, array)
-
-
-def test_empty_schedule_fails(events, slots, sessions):
-    schedule = []
-    assert not scheduler.is_valid_schedule(schedule, events, slots, sessions)
-
-
-def test_valid_schedule_passes(valid_schedule, events, slots, sessions):
-    assert scheduler.is_valid_schedule(valid_schedule, events, slots, sessions)
-
-
-def test_schedule_unscheduled_event_has_violations(events, slots, sessions):
-    # schedule with event 1 not scheduled
-    schedule = (
-        ScheduledItem(event=events[0], slot=slots[2]),
-        ScheduledItem(event=events[2], slot=slots[5])
-    )
-    violations = list(scheduler.schedule_violations(
-        schedule, events, slots, sessions))
-    assert violations == [
-        'Event either not scheduled or scheduled multiple times - event: 1'
-    ]
