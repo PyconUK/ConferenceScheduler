@@ -6,5 +6,12 @@ python:
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+install:
+  - pip install -r requirements.txt
+  - pip install coverage
+  - pip install coveralls
 script:
-  - python setup.py test
+  - coverage run --source=conference_scheduler -m pytest
+  - coverage report -m
+after_success:
+  - coveralls
