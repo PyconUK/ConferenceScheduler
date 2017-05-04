@@ -15,7 +15,7 @@ def capacity_demand_difference(slots, events, X, **kwargs):
 
 def number_of_changes(slots, events, original_schedule, X, **kwargs):
     """
-    A function that minimises the number of changes between a given schedule
+    A function that counts the number of changes between a given schedule
     and an array (either numpy array of lp array).
     """
     changes = 0
