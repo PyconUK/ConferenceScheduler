@@ -29,6 +29,7 @@ class Slot(NamedTuple):
     starts_at: datetime
     duration: int
     capacity: int
+    session: str
 
 
 class Event(NamedTuple):
@@ -49,10 +50,6 @@ class Demand(NamedTuple):
 class ScheduledItem(NamedTuple):
     event: Event
     slot: Slot
-
-
-class Session(NamedTuple):
-    slots: Sequence[Slot]
 
 
 class Unavailability(NamedTuple):
