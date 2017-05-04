@@ -18,25 +18,22 @@ Let us create these time slots using the :code:`conference_scheduler`::
 
     >>> from conference_scheduler.resources import Room, Slot, Event
 
-    >>> rooms = [Room(name="Big", capacity="200", suitability=[]),
-    ...          Room(name="Small", capacity="50", suitability=[]),
-    ...          Room(name="outside", capacity="1000", suitability=[])]
-    >>> talk_slots  = [Slot(room=rooms[0], starts_at='15-Sep-2016 09:30', duration=30, session="A", capacity=200),
-    ...                Slot(room=rooms[0], starts_at='15-Sep-2016 10:00', duration=30, session="A", capacity=200),
-    ...                Slot(room=rooms[1], starts_at='15-Sep-2016 09:30', duration=30, session="B", capacity=50),
-    ...                Slot(room=rooms[1], starts_at='15-Sep-2016 10:00', duration=30, session="B", capacity=50),
-    ...                Slot(room=rooms[0], starts_at='15-Sep-2016 12:30', duration=30, session="C", capacity=200),
-    ...                Slot(room=rooms[0], starts_at='15-Sep-2016 13:00', duration=30, session="C", capacity=200),
-    ...                Slot(room=rooms[1], starts_at='15-Sep-2016 12:30', duration=30, session="D", capacity=50),
-    ...                Slot(room=rooms[1], starts_at='15-Sep-2016 13:00', duration=30, session="D", capacity=50),
-    ...                Slot(room=rooms[0], starts_at='16-Sep-2016 09:30', duration=30, session="E", capacity=50),
-    ...                Slot(room=rooms[0], starts_at='16-Sep-2016 10:00', duration=30, session="E", capacity=50),
-    ...                Slot(room=rooms[0], starts_at='16-Sep-2016 12:30', duration=30, session="F", capacity=50),
-    ...                Slot(room=rooms[0], starts_at='16-Sep-2016 13:00', duration=30, session="F", capacity=50)]
-    >>> workshop_slots = [Slot(room=rooms[1], starts_at='16-Sep-2016 09:30', duration=60, session="G", capacity=50),
-    ...                   Slot(room=rooms[1], starts_at='16-Sep-2016 13:00', duration=60, session="H", capacity=50)]
-    >>> outside_slots = [Slot(room=rooms[2], starts_at='16-Sep-2016 12:30', duration=90, session="I", capacity=1000),
-    ...                  Slot(room=rooms[2], starts_at='16-Sep-2016 13:00', duration=90, session="J", capacity=1000)]
+    >>> talk_slots  = [Slot(room='Big', starts_at='15-Sep-2016 09:30', duration=30, session="A", capacity=200),
+    ...                Slot(room='Big', starts_at='15-Sep-2016 10:00', duration=30, session="A", capacity=200),
+    ...                Slot(room='Small', starts_at='15-Sep-2016 09:30', duration=30, session="B", capacity=50),
+    ...                Slot(room='Small', starts_at='15-Sep-2016 10:00', duration=30, session="B", capacity=50),
+    ...                Slot(room='Big', starts_at='15-Sep-2016 12:30', duration=30, session="C", capacity=200),
+    ...                Slot(room='Big', starts_at='15-Sep-2016 13:00', duration=30, session="C", capacity=200),
+    ...                Slot(room='Small', starts_at='15-Sep-2016 12:30', duration=30, session="D", capacity=50),
+    ...                Slot(room='Small', starts_at='15-Sep-2016 13:00', duration=30, session="D", capacity=50),
+    ...                Slot(room='Big', starts_at='16-Sep-2016 09:30', duration=30, session="E", capacity=50),
+    ...                Slot(room='Big', starts_at='16-Sep-2016 10:00', duration=30, session="E", capacity=50),
+    ...                Slot(room='Big', starts_at='16-Sep-2016 12:30', duration=30, session="F", capacity=50),
+    ...                Slot(room='Big', starts_at='16-Sep-2016 13:00', duration=30, session="F", capacity=50)]
+    >>> workshop_slots = [Slot(room='Small', starts_at='16-Sep-2016 09:30', duration=60, session="G", capacity=50),
+    ...                   Slot(room='Small', starts_at='16-Sep-2016 13:00', duration=60, session="H", capacity=50)]
+    >>> outside_slots = [Slot(room='outside', starts_at='16-Sep-2016 12:30', duration=90, session="I", capacity=1000),
+    ...                  Slot(room='outside', starts_at='16-Sep-2016 13:00', duration=90, session="J", capacity=1000)]
     >>> slots = talk_slots + workshop_slots + outside_slots
 
 
@@ -82,7 +79,7 @@ This schedule is a generator::
 
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
-    ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.room.name}")
+    ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.room}")
     Talk 3 at 15-Sep-2016 09:30 in Small
     Talk 11 at 15-Sep-2016 09:30 in Big
     Talk 4 at 15-Sep-2016 10:00 in Small
@@ -124,7 +121,7 @@ scheduler to aim to minimise the difference between room capacity and demand::
 
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
-    ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.room.name}")
+    ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.room}")
     Talk 1 at 15-Sep-2016 09:30 in Big
     Talk 12 at 15-Sep-2016 09:30 in Small
     Talk 3 at 15-Sep-2016 10:00 in Big
