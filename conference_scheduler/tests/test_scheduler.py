@@ -77,6 +77,11 @@ def test_solution_to_array(valid_solution, valid_array, events, slots):
     assert np.array_equal(array, valid_array)
 
 
+def test_solution_to_schedule(valid_solution, valid_schedule, events, slots):
+    schedule = scheduler.solution_to_schedule(valid_solution, events, slots)
+    assert list(schedule) == valid_schedule
+
+
 def test_schedule_to_array(valid_schedule, valid_array, events, slots):
     array = scheduler.schedule_to_array(valid_schedule, events, slots)
     assert np.array_equal(array, valid_array)

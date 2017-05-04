@@ -1,8 +1,7 @@
 import pytest
 import numpy as np
 from conference_scheduler.resources import (
-    Person, Room, Slot, EventType, Event, Role, Demand,
-    ScheduledItem, Shape
+    Person, Room, Slot, EventType, Event, Role, ScheduledItem, Shape
 )
 from conference_scheduler import scheduler
 from conference_scheduler.lp_problem import utils as lpu
@@ -95,15 +94,6 @@ def events(event_types, roles, people, slots):
         unavailability=[],
         demand=20)
     return (event1, event2, event3)
-
-
-@pytest.fixture(scope="module")
-def demand(events):
-    return (
-        Demand(event=events['talk_1'], audience=300),
-        Demand(event=events['talk_2'], audience=300),
-        Demand(event=events['workshop_1'], audience=30),
-    )
 
 
 @pytest.fixture(scope='module')
