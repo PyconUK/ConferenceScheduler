@@ -9,7 +9,7 @@ parallel but you're also going to want to find time for some social events.
 
 You have organised your time slots as follows:
 
-- The first day will have 2 sessions (morning and afternoon) with 2 30 minute
+- The first day will have 2 sessions (morning and afternoon) with two 30 minute
   time slots in each room.
 - The second day will have 1 room used for longer 1 hour workshops, the other
   room used for more talks and 2 long sessions set aside for the social events.
@@ -72,7 +72,7 @@ Further to this we have a couple of other constraints:
 
         >>> events[13].unavailability.append(events[-1])
 
-Now that we have :code:`slots` and :code:`events` we can easily schedule our
+Now that we have :code:`slots` and :code:`events` we can schedule our
 event::
 
     >>> from conference_scheduler import scheduler
@@ -114,9 +114,9 @@ single category).
 
 The data we input in to the model included information about demand for a talk,
 this could be approximated from previous popularity for a talk. However, the
-scheduler has put this talk in the small room (which has capacity 50). We can
-include an objective function in to our scheduler to aim to minimise the
-difference between room capacity and demand::
+scheduler has put :code:`Talk 3` (which has high demand) in the small room
+(which has capacity 50). We can include an objective function in to our
+scheduler to aim to minimise the difference between room capacity and demand::
 
     >>> from conference_scheduler.lp_problem import objective_functions
     >>> func = objective_functions.capacity_demand_difference
