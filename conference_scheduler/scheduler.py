@@ -4,7 +4,7 @@ import conference_scheduler.lp_problem as lp
 from conference_scheduler.resources import ScheduledItem, Shape
 
 
-def _all_constraints(events, slots, sessions, X, constraints=None):
+def all_constraints(events, slots, sessions, X, constraints=None):
 
     session_array = lp.utils.session_array(sessions)
     tag_array = lp.utils.tag_array(events)
@@ -67,7 +67,7 @@ def solution(
     problem = pulp.LpProblem()
     X = lp.utils.variables(shape)
 
-    for constraint in _all_constraints(
+    for constraint in all_constraints(
         events, slots, sessions, X, constraints
     ):
         problem += constraint.condition
@@ -166,14 +166,14 @@ def schedule(
 # Functions to convert the schedule from one form to another
 
 
-def _schedule_to_array(schedule, events, slots):
+def schedule_to_array(schedule, events, slots):
     array = np.zeros((len(events), len(slots)))
     for item in schedule:
         array[events.index(item.event), slots.index(item.slot)] = 1
     return array
 
 
-def _array_to_schedule(array, events, slots):
+def array_to_schedule(array, events, slots):
     scheduled = np.transpose(np.nonzero(array))
     return (
         ScheduledItem(event=events[item[0]], slot=slots[item[1]])

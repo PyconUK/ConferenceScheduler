@@ -74,12 +74,12 @@ def test_schedule_has_all_events(schedule, events):
 
 
 def test_schedule_to_array(valid_schedule, valid_array, events, slots):
-    array = scheduler._schedule_to_array(valid_schedule, events, slots)
+    array = scheduler.schedule_to_array(valid_schedule, events, slots)
     assert np.array_equal(array, array)
 
 
 def test_array_to_schedule(valid_schedule, valid_array, events, slots):
     schedule = list(
-        scheduler._array_to_schedule(valid_array, events, slots)
+        scheduler.array_to_schedule(valid_array, events, slots)
     )
     assert schedule == valid_schedule

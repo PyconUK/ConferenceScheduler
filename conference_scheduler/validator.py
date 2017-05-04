@@ -26,7 +26,7 @@ def constraint_violations(
     """
     return (
         c.label
-        for c in scheduler._all_constraints(
+        for c in scheduler.all_constraints(
             events, slots, sessions, array, constraints)
         if not c.condition
     )
@@ -88,7 +88,7 @@ def is_valid_schedule(
     """
     if len(schedule) == 0:
         return False
-    array = scheduler._schedule_to_array(schedule, events, slots)
+    array = scheduler.schedule_to_array(schedule, events, slots)
     return is_valid_array(events, slots, sessions, array)
 
 
@@ -113,6 +113,6 @@ def schedule_violations(schedule, events, slots, sessions, constraints=None):
             of a list of strings indicating the nature of the violated
             constraints
     """
-    array = scheduler._schedule_to_array(schedule, events, slots)
+    array = scheduler.schedule_to_array(schedule, events, slots)
     return constraint_violations(
         events, slots, sessions, array, constraints)
