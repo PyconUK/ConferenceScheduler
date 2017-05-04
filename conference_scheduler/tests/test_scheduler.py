@@ -1,5 +1,7 @@
+import pytest
 import numpy as np
 from collections import Counter
+from conference_scheduler.resources import Room, Slot
 from conference_scheduler import scheduler
 from conference_scheduler.lp_problem import objective_functions as of
 
@@ -36,6 +38,22 @@ def test_optimal_schedule(slots, events):
         objective_function=of.capacity_demand_difference
     )
     assert list(solution) == [(0, 3), (1, 4), (2, 0)]
+
+
+def test_unsolvable_raises_error(events):
+    room = Room(
+        name='Main Hall',
+        capacity=500,
+        suitability=['talk']
+    )
+    slots = [
+        Slot(
+            room=room, starts_at='15-Sep-2016 09:30', duration=30,
+            capacity=50, session="01 Morning A"
+        )
+    ]
+    with pytest.raises(ValueError):
+        scheduler.solution(events, slots)
 
 
 # Array form
