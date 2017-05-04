@@ -32,12 +32,42 @@ def test_events_scheduled_once_only(solution):
         assert count == 1
 
 
-def test_optimal_schedule(slots, events):
+def test_demand_difference_schedule(slots, events):
     solution = scheduler.solution(
         events=events, slots=slots,
         objective_function=of.capacity_demand_difference
     )
     assert list(solution) == [(0, 3), (1, 4), (2, 0)]
+
+
+def test_small_distance_from_other_schedule(slots, events):
+    X_orig = np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0]
+    ])
+    schedule = scheduler.array_to_schedule(array=X_orig, slots=slots,
+                                           events=events)
+    solution = scheduler.solution(
+        events=events, slots=slots,
+        objective_function=of.number_of_changes,
+        schedule=schedule,
+    )
+    assert list(solution) == [(0, 3), (1, 4), (2, 1)]
+
+    X_orig = np.array([
+        [0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0]
+    ])
+    schedule = scheduler.array_to_schedule(array=X_orig, slots=slots,
+                                           events=events)
+    solution = scheduler.solution(
+        events=events, slots=slots,
+        objective_function=of.number_of_changes,
+        schedule=schedule,
+    )
+    assert list(solution) == [(0, 6), (1, 5), (2, 1)]
 
 
 def test_unsolvable_raises_error(events):

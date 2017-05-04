@@ -13,7 +13,7 @@ def capacity_demand_difference(slots, events, X, **kwargs):
     return overflow
 
 
-def number_of_changes(slots, events, schedule, X):
+def number_of_changes(slots, events, schedule, X, **kwargs):
     """
     A function that minimises the number of changes between a given schedule
     and an array (either numpy array of lp array).

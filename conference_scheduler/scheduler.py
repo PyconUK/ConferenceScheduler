@@ -12,7 +12,7 @@ from conference_scheduler.resources import ScheduledItem, Shape
 #   schedule: a generator for a list of ScheduledItem instances
 
 
-def solution(events, slots, objective_function=None):
+def solution(events, slots, objective_function=None, **kwargs):
     """Setup up the ILP problem, submit it to pulp and return the solution
 
     Parameters
@@ -46,7 +46,8 @@ def solution(events, slots, objective_function=None):
         problem += constraint.condition
 
     if objective_function is not None:
-        problem += objective_function(events=events, slots=slots, X=X)
+        problem += objective_function(events=events, slots=slots, X=X,
+                                      **kwargs)
 
     status = problem.solve()
     if status == 1:
@@ -93,7 +94,7 @@ def array(events, slots, objective_function=None):
     )
 
 
-def schedule(events, slots, objective_function=None):
+def schedule(events, slots, objective_function=None, **kwargs):
     """Compute the ILP solution and return it in schedule form
 
      Parameters
@@ -111,7 +112,7 @@ def schedule(events, slots, objective_function=None):
             of tuples of instances of resources.ScheduledItem
     """
     return solution_to_schedule(
-        solution(events, slots, objective_function),
+        solution(events, slots, objective_function, **kwargs),
         events, slots
     )
 
