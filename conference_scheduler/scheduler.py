@@ -129,7 +129,8 @@ def array(events, slots, constraints=None, objective_function=None):
     #     array[item[0], item[1]] = 1
     return solution_to_array(
         solution(events, slots, constraints, objective_function),
-        events, slots)
+        events, slots
+    )
 
 
 def schedule(events, slots, constraints=None, objective_function=None):
@@ -152,14 +153,9 @@ def schedule(events, slots, constraints=None, objective_function=None):
         Generator
             of tuples of instances of resources.ScheduledItem
     """
-    return (
-        ScheduledItem(
-            event=events[item[0]],
-            slot=slots[item[1]]
-        )
-        for item in solution(
-            events, slots, constraints, objective_function
-        )
+    return solution_to_schedule(
+        solution(events, slots, constraints, objective_function),
+        events, slots
     )
 
 
@@ -170,6 +166,16 @@ def solution_to_array(solution, events, slots):
     for item in solution:
         array[item[0], item[1]] = 1
     return array
+
+
+def solution_to_schedule(solution, events, slots):
+    return (
+        ScheduledItem(
+            event=events[item[0]],
+            slot=slots[item[1]]
+        )
+        for item in solution
+    )
 
 
 def schedule_to_array(schedule, events, slots):
