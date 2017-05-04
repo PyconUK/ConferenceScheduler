@@ -124,10 +124,12 @@ def array(events, slots, constraints=None, objective_function=None):
                  [0, 0, 0, 0, 1, 0, 0],
                  [0, 0, 0, 0, 0, 1, 0]]
     """
-    array = np.zeros((len(events), len(slots)))
-    for item in solution(events, slots, constraints, objective_function):
-        array[item[0], item[1]] = 1
-    return array
+    # array = np.zeros((len(events), len(slots)))
+    # for item in solution(events, slots, constraints, objective_function):
+    #     array[item[0], item[1]] = 1
+    return solution_to_array(
+        solution(events, slots, constraints, objective_function),
+        events, slots)
 
 
 def schedule(events, slots, constraints=None, objective_function=None):
@@ -162,6 +164,12 @@ def schedule(events, slots, constraints=None, objective_function=None):
 
 
 # Functions to convert the schedule from one form to another
+
+def solution_to_array(solution, events, slots):
+    array = np.zeros((len(events), len(slots)))
+    for item in solution:
+        array[item[0], item[1]] = 1
+    return array
 
 
 def schedule_to_array(schedule, events, slots):
