@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from collections import Counter
-from conference_scheduler.resources import Room, Slot
+from conference_scheduler.resources import Slot
 from conference_scheduler import scheduler
 from conference_scheduler.lp_problem import objective_functions as of
 
@@ -41,14 +41,9 @@ def test_optimal_schedule(slots, events):
 
 
 def test_unsolvable_raises_error(events):
-    room = Room(
-        name='Main Hall',
-        capacity=500,
-        suitability=['talk']
-    )
     slots = [
         Slot(
-            room=room, starts_at='15-Sep-2016 09:30', duration=30,
+            venue='Main Hall', starts_at='15-Sep-2016 09:30', duration=30,
             capacity=50, session="01 Morning A"
         )
     ]

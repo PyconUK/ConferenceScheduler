@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from conference_scheduler.resources import (
-    Person, Room, Slot, EventType, Event, Role, ScheduledItem, Shape
+    Person, Slot, EventType, Event, Role, ScheduledItem, Shape
 )
 from conference_scheduler import scheduler
 from conference_scheduler.lp_problem import utils as lpu
@@ -25,35 +25,21 @@ def event_types():
 
 
 @pytest.fixture(scope="module")
-def rooms(event_types):
+def slots():
     return (
-        Room(
-            name='Main Hall',
-            capacity=500,
-            suitability=[event_types['talk']]),
-        Room(
-            name='Room 2.32',
-            capacity=50,
-            suitability=[event_types['workshop']])
-    )
-
-
-@pytest.fixture(scope="module")
-def slots(rooms):
-    return (
-        Slot(room=rooms[0], starts_at='15-Sep-2016 09:30', duration=30,
+        Slot(venue='Room 1', starts_at='15-Sep-2016 09:30', duration=30,
              capacity=50, session="01 Morning A"),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 10:00', duration=30,
+        Slot(venue='Room 1', starts_at='15-Sep-2016 10:00', duration=30,
              capacity=50, session="01 Morning A"),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 11:30', duration=30,
+        Slot(venue='Room 1', starts_at='15-Sep-2016 11:30', duration=30,
              capacity=50, session="01 Morning A"),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 12:00', duration=30,
+        Slot(venue='Room 1', starts_at='15-Sep-2016 12:00', duration=30,
              capacity=10, session="02 Afternoon A"),
-        Slot(room=rooms[0], starts_at='15-Sep-2016 12:30', duration=30,
+        Slot(venue='Room 1', starts_at='15-Sep-2016 12:30', duration=30,
              capacity=50, session="02 Afternoon A"),
-        Slot(room=rooms[1], starts_at='15-Sep-2016 09:30', duration=90,
+        Slot(venue='Room 2', starts_at='15-Sep-2016 09:30', duration=90,
              capacity=200, session="03 Morning B"),
-        Slot(room=rooms[1], starts_at='15-Sep-2016 11:30', duration=90,
+        Slot(venue='Room 2', starts_at='15-Sep-2016 11:30', duration=90,
              capacity=200, session="04 Afternoon B")
     )
 
