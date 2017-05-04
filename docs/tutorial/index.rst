@@ -164,7 +164,32 @@ We can enter this new constraint::
 
     >>> events[6].unavailability.extend(slots[9:])
 
-We can now solve the problem one more time from scratch which might result in a
+We can now solve the problem one more time from scratch just as before::
+
+    >>> alt_schedule = scheduler.schedule(events, slots, objective_function=func)
+
+    >>> alt_schedule = sorted(alt_schedule, key=lambda item: item.slot.starts_at)
+    >>> for item in alt_schedule:
+    ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
+    Talk 3 at 15-Sep-2016 09:30 in Small
+    Talk 4 at 15-Sep-2016 09:30 in Big
+    Talk 1 at 15-Sep-2016 10:00 in Small
+    Talk 2 at 15-Sep-2016 10:00 in Big
+    Talk 6 at 15-Sep-2016 12:30 in Small
+    Talk 9 at 15-Sep-2016 12:30 in Big
+    Talk 5 at 15-Sep-2016 13:00 in Small
+    Talk 7 at 15-Sep-2016 13:00 in Big
+    Talk 8 at 16-Sep-2016 09:30 in Big
+    Workshop 2 at 16-Sep-2016 09:30 in Small
+    Talk 10 at 16-Sep-2016 10:00 in Big
+    Talk 11 at 16-Sep-2016 12:30 in Big
+    City tour at 16-Sep-2016 12:30 in Outside
+    Talk 12 at 16-Sep-2016 13:00 in Big
+    Workshop 1 at 16-Sep-2016 13:00 in Small
+    Boardgames at 16-Sep-2016 13:00 in Outside
+
+
+This has resulted in a
 completely different schedule with a number of changes. We can however solve the
 problem with a new objective function which is to minimise the changes from the
 old schedule::
