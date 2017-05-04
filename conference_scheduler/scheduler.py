@@ -21,58 +21,6 @@ def _all_constraints(events, slots, sessions, X, constraints=None):
         for constraint in generator:
             yield constraint
 
-
-def constraint_violations(
-    events, slots, sessions, array, constraints=None
-):
-    return (
-        c.label
-        for c in _all_constraints(
-            events, slots, sessions, array, constraints)
-        if not c.condition
-    )
-
-
-def is_valid_array(
-    events, slots, sessions, array, constraints=None
-):
-    if len(array) == 0:
-        return False
-    violations = sum(1 for c in (constraint_violations(
-        events, slots, sessions, array, constraints)))
-    return violations == 0
-
-
-def _schedule_to_array(schedule, events, slots):
-    array = np.zeros((len(events), len(slots)))
-    for item in schedule:
-        array[events.index(item.event), slots.index(item.slot)] = 1
-    return array
-
-
-def _array_to_schedule(array, events, slots):
-    scheduled = np.transpose(np.nonzero(array))
-    return (
-        ScheduledItem(event=events[item[0]], slot=slots[item[1]])
-        for item in scheduled
-    )
-
-
-def is_valid_schedule(
-    schedule, events, slots, sessions, constraints=None
-):
-    if len(schedule) == 0:
-        return False
-    array = _schedule_to_array(schedule, events, slots)
-    return is_valid_array(events, slots, sessions, array)
-
-
-def schedule_violations(schedule, events, slots, sessions, constraints=None):
-    array = _schedule_to_array(schedule, events, slots)
-    return constraint_violations(
-        events, slots, sessions, array, constraints)
-
-
 # Three functions that can be called by external programs to produce the
 # schedule in one of three forms:
 #   solution: a generator for a list of tuples of event index and slot index
@@ -212,3 +160,54 @@ def schedule(
             events, slots, sessions, constraints, objective_function
         )
     )
+
+
+def constraint_violations(
+    events, slots, sessions, array, constraints=None
+):
+    return (
+        c.label
+        for c in _all_constraints(
+            events, slots, sessions, array, constraints)
+        if not c.condition
+    )
+
+
+def is_valid_array(
+    events, slots, sessions, array, constraints=None
+):
+    if len(array) == 0:
+        return False
+    violations = sum(1 for c in (constraint_violations(
+        events, slots, sessions, array, constraints)))
+    return violations == 0
+
+
+def _schedule_to_array(schedule, events, slots):
+    array = np.zeros((len(events), len(slots)))
+    for item in schedule:
+        array[events.index(item.event), slots.index(item.slot)] = 1
+    return array
+
+
+def _array_to_schedule(array, events, slots):
+    scheduled = np.transpose(np.nonzero(array))
+    return (
+        ScheduledItem(event=events[item[0]], slot=slots[item[1]])
+        for item in scheduled
+    )
+
+
+def is_valid_schedule(
+    schedule, events, slots, sessions, constraints=None
+):
+    if len(schedule) == 0:
+        return False
+    array = _schedule_to_array(schedule, events, slots)
+    return is_valid_array(events, slots, sessions, array)
+
+
+def schedule_violations(schedule, events, slots, sessions, constraints=None):
+    array = _schedule_to_array(schedule, events, slots)
+    return constraint_violations(
+        events, slots, sessions, array, constraints)
