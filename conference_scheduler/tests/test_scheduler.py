@@ -10,7 +10,6 @@ from conference_scheduler.lp_problem import objective_functions as of
 # There is most testing here since the scheduler.solution function is the one
 # that sets up the pulp problem and returns the solution from pulp
 
-
 def test_solution_has_content(solution):
     assert len(solution) > 0
 
@@ -31,10 +30,11 @@ def test_events_scheduled_once_only(solution):
         assert count == 1
 
 
-def test_optimal_schedule(slots, events, sessions):
+def test_optimal_schedule(slots, events):
     solution = scheduler.solution(
-        events=events, slots=slots, sessions=sessions,
-        objective_function=of.capacity_demand_difference)
+        events=events, slots=slots,
+        objective_function=of.capacity_demand_difference
+    )
     assert list(solution) == [(0, 3), (1, 4), (2, 0)]
 
 

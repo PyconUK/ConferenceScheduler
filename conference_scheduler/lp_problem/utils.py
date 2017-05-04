@@ -28,7 +28,7 @@ def tag_array(events):
     return array
 
 
-def session_array(sessions):
+def session_array(slots):
     """
     Return a numpy array mapping sessions to slots
 
@@ -36,11 +36,10 @@ def session_array(sessions):
     - Columns correspond to slots
     """
     # Flatten the list: this assumes that the sessions do not share slots
-    all_slots = [slot for session in sessions for slot in session.slots]
-    array = np.zeros((len(sessions), len(all_slots)))
-    for row, session in enumerate(sessions):
-        for slot in session.slots:
-            array[row, all_slots.index(slot)] = 1
+    sessions = sorted(set([slot.session for slot in slots]))
+    array = np.zeros((len(sessions), len(slots)))
+    for col, slot in enumerate(slots):
+        array[sessions.index(slot.session), col] = 1
     return array
 
 

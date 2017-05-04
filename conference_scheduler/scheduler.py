@@ -4,7 +4,7 @@ import conference_scheduler.lp_problem as lp
 from conference_scheduler.resources import ScheduledItem, Shape
 
 
-def all_constraints(events, slots, sessions, X, constraints=None):
+def all_constraints(events, slots, X, constraints=None):
     """Compute a list of generator functions which will each produce a list
     of constraints
 
@@ -14,8 +14,6 @@ def all_constraints(events, slots, sessions, X, constraints=None):
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
-            of resources.Session instances
         X : dict or np.array
             mapping a tuple of event index and slot index to a condition
             statement
@@ -29,16 +27,7 @@ def all_constraints(events, slots, sessions, X, constraints=None):
             of generator functions each of which produces a further list of
             instances of resource.Constraint
     """
-
-    session_array = lp.utils.session_array(sessions)
-    tag_array = lp.utils.tag_array(events)
-    slot_availability_array = lp.utils.slot_availability_array(events, slots)
-    event_availability_array = lp.utils.event_availability_array(events)
-
-    generators = [lp.constraints.all_constraints(
-        events, slots, session_array, tag_array, slot_availability_array,
-        event_availability_array, X
-    )]
+    generators = [lp.constraints.all_constraints(events, slots, X)]
     if constraints is not None:
         generators.append(constraints)
     for generator in generators:
@@ -54,9 +43,7 @@ def all_constraints(events, slots, sessions, X, constraints=None):
 #   schedule: a generator for a list of ScheduledItem instances
 
 
-def solution(
-    events, slots, sessions, constraints=None, objective_function=None
-):
+def solution(events, slots, constraints=None, objective_function=None):
     """Setup up the ILP problem, submit it to pulp and return the solution
 
     Parameters
@@ -65,8 +52,6 @@ def solution(
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
-        sessions : list or tuple
-            of resources.Session instances
         constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
@@ -91,14 +76,11 @@ def solution(
     problem = pulp.LpProblem()
     X = lp.utils.variables(shape)
 
-    for constraint in all_constraints(
-        events, slots, sessions, X, constraints
-    ):
+    for constraint in all_constraints(events, slots, X, constraints):
         problem += constraint.condition
 
     if objective_function is not None:
-        problem += objective_function(events=events, slots=slots,
-                                      sessions=sessions, X=X)
+        problem += objective_function(events=events, slots=slots, X=X)
 
     status = problem.solve()
     if status == 1:
@@ -110,7 +92,7 @@ def solution(
         raise ValueError('No valid solution found')
 
 
-def array(events, slots, sessions, constraints=None, objective_function=None):
+def array(events, slots, constraints=None, objective_function=None):
     """Compute the ILP solution and return it in array form
 
      Parameters
@@ -119,8 +101,6 @@ def array(events, slots, sessions, constraints=None, objective_function=None):
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
-        sessions : list or tuple
-            of resources.Session instances
         constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
@@ -145,16 +125,12 @@ def array(events, slots, sessions, constraints=None, objective_function=None):
                  [0, 0, 0, 0, 0, 1, 0]]
     """
     array = np.zeros((len(events), len(slots)))
-    for item in solution(
-        events, slots, sessions, constraints, objective_function
-    ):
+    for item in solution(events, slots, constraints, objective_function):
         array[item[0], item[1]] = 1
     return array
 
 
-def schedule(
-    events, slots, sessions, constraints=None, objective_function=None
-):
+def schedule(events, slots, constraints=None, objective_function=None):
     """Compute the ILP solution and return it in schedule form
 
      Parameters
@@ -163,8 +139,6 @@ def schedule(
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
-        sessions : list or tuple
-            of resources.Session instances
         constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
@@ -182,7 +156,7 @@ def schedule(
             slot=slots[item[1]]
         )
         for item in solution(
-            events, slots, sessions, constraints, objective_function
+            events, slots, constraints, objective_function
         )
     )
 

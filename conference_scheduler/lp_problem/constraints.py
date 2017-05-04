@@ -3,7 +3,10 @@ from conference_scheduler.resources import Shape, Constraint
 from conference_scheduler.lp_problem import utils as lpu
 
 
-def _schedule_all_events(shape, X):
+def _schedule_all_events(events, slots, X):
+
+    shape = Shape(len(events), len(slots))
+
     label = 'Event either not scheduled or scheduled multiple times'
     for event in range(shape.events):
         yield Constraint(
@@ -12,7 +15,10 @@ def _schedule_all_events(shape, X):
         )
 
 
-def _max_one_event_per_slot(shape, X):
+def _max_one_event_per_slot(events, slots, X):
+
+    shape = Shape(len(events), len(slots))
+
     label = 'Slot with multiple events scheduled'
     for slot in range(shape.slots):
         yield Constraint(
@@ -21,11 +27,14 @@ def _max_one_event_per_slot(shape, X):
         )
 
 
-def _events_in_session_share_a_tag(session_array, tag_array, X):
+def _events_in_session_share_a_tag(events, slots, X):
     """
     Constraint that ensures that if an event is in a given session then it must
     share at least one tag with all other event in that session.
     """
+
+    session_array, tag_array = lpu.session_array(slots), lpu.tag_array(events)
+
     label = 'Dissimilar events schedule in same session'
     event_indices = range(len(tag_array))
     session_indices = range(len(session_array))
@@ -43,11 +52,14 @@ def _events_in_session_share_a_tag(session_array, tag_array, X):
                     )
 
 
-def _events_available_in_scheduled_slot(slot_availability_array, X):
+def _events_available_in_scheduled_slot(events, slots, X):
     """
     Constraint that ensures that an event is scheduled in slots for which it is
     available
     """
+    slot_availability_array = lpu.slot_availability_array(slots=slots,
+                                                          events=events)
+
     label = 'Event scheduled when not available'
     for row, event in enumerate(slot_availability_array):
         for col, availability in enumerate(event):
@@ -57,13 +69,13 @@ def _events_available_in_scheduled_slot(slot_availability_array, X):
             )
 
 
-def _events_available_during_other_events(
-    event_availability_array, slots, X
-):
+def _events_available_during_other_events(events, slots, X):
     """
     Constraint that ensures that an event is not scheduled at the same time as
     another event for which it is unavailable.
     """
+    event_availability_array = lpu.event_availability_array(events)
+
     label = 'Event clashes with another event'
     for slot1, slot2 in lpu.concurrent_slots(slots):
         for row, event in enumerate(event_availability_array):
@@ -74,11 +86,7 @@ def _events_available_during_other_events(
                 )
 
 
-def all_constraints(
-    events, slots, session_array, tag_array, slot_availability_array,
-    event_availability_array, X
-):
-    shape = Shape(len(events), len(slots))
+def all_constraints(events, slots, X):
     generators = (
         _schedule_all_events,
         _max_one_event_per_slot,
@@ -86,14 +94,7 @@ def all_constraints(
         _events_available_in_scheduled_slot,
         _events_available_during_other_events
     )
-    generator_kwargs = (
-        {"shape": shape},
-        {"shape": shape},
-        {"session_array": session_array, "tag_array": tag_array},
-        {"slot_availability_array": slot_availability_array},
-        {"event_availability_array": event_availability_array, 'slots': slots}
-    )
 
-    for generator, kwargs in zip(generators, generator_kwargs):
-        for constraint in generator(**kwargs, X=X):
+    for generator in generators:
+        for constraint in generator(events=events, slots=slots, X=X):
             yield constraint

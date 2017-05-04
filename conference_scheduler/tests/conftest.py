@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 from conference_scheduler.resources import (
-    Person, Room, Slot, Session, EventType, Event, Role, Demand,
+    Person, Room, Slot, EventType, Event, Role, Demand,
     ScheduledItem, Shape
 )
 from conference_scheduler import scheduler
@@ -43,29 +43,19 @@ def rooms(event_types):
 def slots(rooms):
     return (
         Slot(room=rooms[0], starts_at='15-Sep-2016 09:30', duration=30,
-             capacity=50),
+             capacity=50, session="01 Morning A"),
         Slot(room=rooms[0], starts_at='15-Sep-2016 10:00', duration=30,
-             capacity=50),
+             capacity=50, session="01 Morning A"),
         Slot(room=rooms[0], starts_at='15-Sep-2016 11:30', duration=30,
-             capacity=50),
+             capacity=50, session="01 Morning A"),
         Slot(room=rooms[0], starts_at='15-Sep-2016 12:00', duration=30,
-             capacity=10),
+             capacity=10, session="02 Afternoon A"),
         Slot(room=rooms[0], starts_at='15-Sep-2016 12:30', duration=30,
-             capacity=50),
+             capacity=50, session="02 Afternoon A"),
         Slot(room=rooms[1], starts_at='15-Sep-2016 09:30', duration=90,
-             capacity=200),
+             capacity=200, session="03 Morning B"),
         Slot(room=rooms[1], starts_at='15-Sep-2016 11:30', duration=90,
-             capacity=200)
-    )
-
-
-@pytest.fixture(scope="module")
-def sessions(slots):
-    return (
-        Session(slots=(slots[0], slots[1], slots[2])),
-        Session(slots=(slots[3], slots[4])),
-        Session(slots=(slots[5],)),
-        Session(slots=(slots[6],)),
+             capacity=200, session="04 Afternoon B")
     )
 
 
@@ -127,8 +117,8 @@ def tag_array(events):
 
 
 @pytest.fixture(scope='module')
-def session_array(sessions):
-    return lpu.session_array(sessions)
+def session_array(slots):
+    return lpu.session_array(slots)
 
 
 @pytest.fixture(scope='module')
@@ -147,20 +137,20 @@ def X(shape):
 
 
 @pytest.fixture(scope='module')
-def solution(events, slots, sessions):
+def solution(events, slots):
     return [
-        item for item in scheduler.solution(events, slots, sessions)
+        item for item in scheduler.solution(events, slots)
     ]
 
 
 @pytest.fixture(scope='module')
-def array(events, slots, sessions):
-    return scheduler.array(events, slots, sessions)
+def array(events, slots):
+    return scheduler.array(events, slots)
 
 
 @pytest.fixture(scope='module')
-def schedule(events, slots, sessions):
-    return [item for item in scheduler.schedule(events, slots, sessions)]
+def schedule(events, slots):
+    return [item for item in scheduler.schedule(events, slots)]
 
 
 @pytest.fixture(scope='module')
