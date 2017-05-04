@@ -1,8 +1,7 @@
 import pytest
 import numpy as np
 from conference_scheduler.resources import (
-    Person, Room, Slot, EventType, Event, Role, Demand,
-    ScheduledItem, Shape
+    Person, Room, Slot, EventType, Event, Role, ScheduledItem, Shape
 )
 from conference_scheduler import scheduler
 from conference_scheduler.lp_problem import utils as lpu
@@ -97,15 +96,6 @@ def events(event_types, roles, people, slots):
     return (event1, event2, event3)
 
 
-@pytest.fixture(scope="module")
-def demand(events):
-    return (
-        Demand(event=events['talk_1'], audience=300),
-        Demand(event=events['talk_2'], audience=300),
-        Demand(event=events['workshop_1'], audience=30),
-    )
-
-
 @pytest.fixture(scope='module')
 def shape(events, slots):
     return Shape(len(events), len(slots))
@@ -119,16 +109,6 @@ def tag_array(events):
 @pytest.fixture(scope='module')
 def session_array(slots):
     return lpu.session_array(slots)
-
-
-@pytest.fixture(scope='module')
-def slot_availability_array(events, slots):
-    return lpu.slot_availability_array(events, slots)
-
-
-@pytest.fixture(scope='module')
-def event_availability_array(events, slots):
-    return lpu.event_availability_array(events)
 
 
 @pytest.fixture(scope='module')

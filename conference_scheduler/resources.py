@@ -42,11 +42,6 @@ class Event(NamedTuple):
     demand: int
 
 
-class Demand(NamedTuple):
-    event: Event
-    audience: int
-
-
 class ScheduledItem(NamedTuple):
     event: Event
     slot: Slot
