@@ -154,8 +154,13 @@ def solution(events, slots, sessions):
 
 
 @pytest.fixture(scope='module')
-def schedule(events, slots):
-    return [item for item in scheduler.schedule(events, slots)]
+def array(events, slots, sessions):
+    return scheduler.array(events, slots, sessions)
+
+
+@pytest.fixture(scope='module')
+def schedule(events, slots, sessions):
+    return [item for item in scheduler.schedule(events, slots, sessions)]
 
 
 @pytest.fixture(scope='module')

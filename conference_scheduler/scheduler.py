@@ -73,6 +73,14 @@ def schedule_violations(schedule, events, slots, sessions, constraints=None):
         events, slots, sessions, array, constraints)
 
 
+# Three functions that can be called by external programs to produce the
+# schedule in one of three forms:
+#   solution: a generator for a list of tuples of event index and slot index
+#             for each scheduled item
+#   array: a numpy array with rows for events and columns for slots
+#   schedule: a generator for a list of ScheduledItem instances
+
+
 def solution(
     events, slots, sessions, constraints=None, objective_function=None
 ):
@@ -100,7 +108,12 @@ def solution(
 
 
 def array(events, slots, sessions, constraints=None, objective_function=None):
-    pass
+    array = np.zeros((len(events), len(slots)))
+    for item in solution(
+        events, slots, sessions, constraints, objective_function
+    ):
+        array[item[0], item[1]] = 1
+    return array
 
 
 def schedule(
