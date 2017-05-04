@@ -106,6 +106,11 @@ the unavailability attribute for the events). Also we have that :code:`Talk 1`
 is scheduled on Monday at 1300 and doesn't class with :code:`Workshop 1`.
 Similarly, the :code:`Boardgame` does not clash with :code:`Workshop 2`.
 
+You will also note that in any given session, talks share at least one tag. This
+is another constraint of the model, if you find that your schedule has no
+solutions you can adjust it by recategorising your talks (or giving them all a
+single category).
+
 The data we input in to the model included information about demand for a talk,
 this could be approximated from previous popularity for a talk. However, the
 scheduler has put this talk in the small room (which has capacity 50). We can
