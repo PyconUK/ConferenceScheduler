@@ -144,12 +144,26 @@ def solution(events, slots):
 
 
 @pytest.fixture(scope='module')
+def array(events, slots):
+    return scheduler.array(events, slots)
+
+
+@pytest.fixture(scope='module')
 def schedule(events, slots):
     return [item for item in scheduler.schedule(events, slots)]
 
 
 @pytest.fixture(scope='module')
 def valid_solution():
+    return (
+        (0, 2),
+        (1, 4),
+        (2, 5)
+    )
+
+
+@pytest.fixture(scope='module')
+def valid_array():
     return np.array([
         [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0],
