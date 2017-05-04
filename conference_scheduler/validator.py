@@ -8,13 +8,13 @@ def constraint_violations(
 
     Parameters
     ----------
-        events: list or tuple
+        events : list or tuple
             of resources.Event instances
-        slots: list or tuple
+        slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
+        sessions : list or tuple
             of resources.Session instances
-        constraints: list or tuple
+        constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
 
@@ -40,13 +40,13 @@ def is_valid_array(
 
     Parameters
     ----------
-        events: list or tuple
+        events : list or tuple
             of resources.Event instances
-        slots: list or tuple
+        slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
+        sessions : list or tuple
             of resources.Session instances
-        constraints: list or tuple
+        constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
 
@@ -71,13 +71,13 @@ def is_valid_schedule(
 
     Parameters
     ----------
-        events: list or tuple
+        events : list or tuple
             of resources.Event instances
-        slots: list or tuple
+        slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
+        sessions : list or tuple
             of resources.Session instances
-        constraints: list or tuple
+        constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
 
@@ -97,13 +97,13 @@ def schedule_violations(schedule, events, slots, sessions, constraints=None):
 
     Parameters
     ----------
-        events: list or tuple
+        events : list or tuple
             of resources.Event instances
-        slots: list or tuple
+        slots : list or tuple
             of resources.Slot instances
-        sessions: list or tuple
+        sessions : list or tuple
             of resources.Session instances
-        constraints: list or tuple
+        constraints : list or tuple
             of generator functions which each produce instances of
             resources.Constraint
 
