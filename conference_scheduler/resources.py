@@ -18,14 +18,8 @@ class Person(NamedTuple):
     max_chair_sessions: int = 0
 
 
-class Room(NamedTuple):
-    name: str
-    capacity: int
-    suitability: Iterable[EventType]
-
-
 class Slot(NamedTuple):
-    room: Room
+    venue: str
     starts_at: datetime
     duration: int
     capacity: int
