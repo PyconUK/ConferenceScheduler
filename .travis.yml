@@ -13,6 +13,5 @@ install:
 script:
   - coverage run --source=conference_scheduler -m pytest
   - coverage report -m
-  - python doctests.py
 after_success:
   - coveralls
