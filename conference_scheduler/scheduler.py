@@ -4,37 +4,6 @@ import conference_scheduler.lp_problem as lp
 from conference_scheduler.resources import ScheduledItem, Shape
 
 
-def all_constraints(events, slots, X, constraints=None):
-    """Compute a list of generator functions which will each produce a list
-    of constraints
-
-    Parameters
-    ----------
-        events : list or tuple
-            of resources.Event instances
-        slots : list or tuple
-            of resources.Slot instances
-        X : dict or np.array
-            mapping a tuple of event index and slot index to a condition
-            statement
-        constraints: list or tuple
-            of generator functions which each produce instances of
-            resources.Constraint
-
-    Returns
-    -------
-        list
-            of generator functions each of which produces a further list of
-            instances of resource.Constraint
-    """
-    generators = [lp.constraints.all_constraints(events, slots, X)]
-    if constraints is not None:
-        generators.append(constraints)
-    for generator in generators:
-        for constraint in generator:
-            yield constraint
-
-
 # Three functions that can be called by external programs to produce the
 # schedule in one of three forms:
 #   solution: a generator for a list of tuples of event index and slot index
@@ -43,7 +12,7 @@ def all_constraints(events, slots, X, constraints=None):
 #   schedule: a generator for a list of ScheduledItem instances
 
 
-def solution(events, slots, constraints=None, objective_function=None):
+def solution(events, slots, objective_function=None):
     """Setup up the ILP problem, submit it to pulp and return the solution
 
     Parameters
@@ -52,9 +21,6 @@ def solution(events, slots, constraints=None, objective_function=None):
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
-        constraints : list or tuple
-            of generator functions which each produce instances of
-            resources.Constraint
         objective_function: callable
             from lp_problem.objective_functions
 
@@ -76,7 +42,7 @@ def solution(events, slots, constraints=None, objective_function=None):
     problem = pulp.LpProblem()
     X = lp.utils.variables(shape)
 
-    for constraint in all_constraints(events, slots, X, constraints):
+    for constraint in lp.constraints.all_constraints(events, slots, X):
         problem += constraint.condition
 
     if objective_function is not None:
@@ -92,7 +58,7 @@ def solution(events, slots, constraints=None, objective_function=None):
         raise ValueError('No valid solution found')
 
 
-def array(events, slots, constraints=None, objective_function=None):
+def array(events, slots, objective_function=None):
     """Compute the ILP solution and return it in array form
 
      Parameters
@@ -101,9 +67,6 @@ def array(events, slots, constraints=None, objective_function=None):
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
-        constraints : list or tuple
-            of generator functions which each produce instances of
-            resources.Constraint
         objective_function : callable
             from lp_problem.objective_functions
 
@@ -124,16 +87,13 @@ def array(events, slots, constraints=None, objective_function=None):
                  [0, 0, 0, 0, 1, 0, 0],
                  [0, 0, 0, 0, 0, 1, 0]]
     """
-    # array = np.zeros((len(events), len(slots)))
-    # for item in solution(events, slots, constraints, objective_function):
-    #     array[item[0], item[1]] = 1
     return solution_to_array(
-        solution(events, slots, constraints, objective_function),
+        solution(events, slots, objective_function),
         events, slots
     )
 
 
-def schedule(events, slots, constraints=None, objective_function=None):
+def schedule(events, slots, objective_function=None):
     """Compute the ILP solution and return it in schedule form
 
      Parameters
@@ -142,9 +102,6 @@ def schedule(events, slots, constraints=None, objective_function=None):
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
-        constraints : list or tuple
-            of generator functions which each produce instances of
-            resources.Constraint
         objective_function : callable
             from lp_problem.objective_functions
 
@@ -154,7 +111,7 @@ def schedule(events, slots, constraints=None, objective_function=None):
             of tuples of instances of resources.ScheduledItem
     """
     return solution_to_schedule(
-        solution(events, slots, constraints, objective_function),
+        solution(events, slots, objective_function),
         events, slots
     )
 
