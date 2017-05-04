@@ -21,6 +21,7 @@ def _all_constraints(events, slots, sessions, X, constraints=None):
         for constraint in generator:
             yield constraint
 
+
 # Three functions that can be called by external programs to produce the
 # schedule in one of three forms:
 #   solution: a generator for a list of tuples of event index and slot index
@@ -161,6 +162,7 @@ def schedule(
         )
     )
 
+
 # Functions to convert the schedule from one form to another
 
 
@@ -179,9 +181,33 @@ def _array_to_schedule(array, events, slots):
     )
 
 
+# Functions to validate whether an existing schedule (in various forms)
+# is valid (i.e. non of the constraints supplied is violated)
+
+
 def constraint_violations(
     events, slots, sessions, array, constraints=None
 ):
+    """Take a schedule in array form and return any violated constraints
+
+    Parameters
+    ----------
+        events: list or tuple
+            of resources.Event instances
+        slots: list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+
+    Returns
+    -------
+        Generator
+            of a list of strings indicating the nature of the violated
+            constraints
+    """
     return (
         c.label
         for c in _all_constraints(
@@ -193,6 +219,27 @@ def constraint_violations(
 def is_valid_array(
     events, slots, sessions, array, constraints=None
 ):
+    """Take a schedule in array form and return whether it is a valid
+    solution for the given constraints
+
+    Parameters
+    ----------
+        events: list or tuple
+            of resources.Event instances
+        slots: list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+
+    Returns
+    -------
+        bool
+            True if array represents a valid solution
+    """
+
     if len(array) == 0:
         return False
     violations = sum(1 for c in (constraint_violations(
@@ -203,6 +250,26 @@ def is_valid_array(
 def is_valid_schedule(
     schedule, events, slots, sessions, constraints=None
 ):
+    """Take a schedule and return whether it is a valid solution for the
+    given constraints
+
+    Parameters
+    ----------
+        events: list or tuple
+            of resources.Event instances
+        slots: list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+
+    Returns
+    -------
+        bool
+            True if schedule is a valid solution
+    """
     if len(schedule) == 0:
         return False
     array = _schedule_to_array(schedule, events, slots)
@@ -210,6 +277,26 @@ def is_valid_schedule(
 
 
 def schedule_violations(schedule, events, slots, sessions, constraints=None):
+    """Take a schedule and return a list of violated constraints
+
+    Parameters
+    ----------
+        events: list or tuple
+            of resources.Event instances
+        slots: list or tuple
+            of resources.Slot instances
+        sessions: list or tuple
+            of resources.Session instances
+        constraints: list or tuple
+            of generator functions which each produce instances of
+            resources.Constraint
+
+    Returns
+    -------
+        Generator
+            of a list of strings indicating the nature of the violated
+            constraints
+    """
     array = _schedule_to_array(schedule, events, slots)
     return constraint_violations(
         events, slots, sessions, array, constraints)

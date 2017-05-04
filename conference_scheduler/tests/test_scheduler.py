@@ -56,6 +56,7 @@ def test_array_nonzero(array):
     nonzero = np.transpose(np.nonzero(array))
     assert len(nonzero) == 3
 
+
 # Schedule form
 # Similar to array form, there is less testsing here since it simply converts
 # the output of scheduler.solution to schedule form
@@ -77,6 +78,7 @@ def test_valid_array_has_no_violations(
         events, slots, sessions, valid_array))
     assert len(violations) == 0
 
+
 # Testing the conversion between various forms of schedule output
 
 
@@ -90,6 +92,9 @@ def test_array_to_schedule(valid_schedule, valid_array, events, slots):
         scheduler._array_to_schedule(valid_array, events, slots)
     )
     assert schedule == valid_schedule
+
+
+# Testing the validation of existing schedules against supplied constraints
 
 
 def test_unscheduled_event_has_violations(events, slots, sessions):
