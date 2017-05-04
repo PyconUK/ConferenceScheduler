@@ -5,63 +5,63 @@ from conference_scheduler.resources import ScheduledItem
 from conference_scheduler.lp_problem import objective_functions as of
 
 
-def test_valid_solution_has_no_violations(
-    valid_solution, events, slots, sessions
+def test_valid_array_has_no_violations(
+    valid_array, events, slots, sessions
 ):
     violations = list(scheduler.constraint_violations(
-        valid_solution, events, slots, sessions))
+        events, slots, sessions, valid_array))
     assert len(violations) == 0
 
 
 def test_unscheduled_event_has_violations(events, slots, sessions):
-    # solution with event 1 not scheduled
-    solution = np.array([
+    # array with event 1 not scheduled
+    array = np.array([
         [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
     violations = list(scheduler.constraint_violations(
-        solution, events, slots, sessions))
+        events, slots, sessions, array))
     assert violations == [
         'Event either not scheduled or scheduled multiple times - event: 1'
     ]
 
 
 def test_multiple_event_schedule_has_violations(events, slots, sessions):
-    # solution with event 0 scheduled twice
-    solution = np.array([
+    # array with event 0 scheduled twice
+    array = np.array([
         [0, 0, 1, 1, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
     violations = list(scheduler.constraint_violations(
-        solution, events, slots, sessions))
+        events, slots, sessions, array))
     assert violations == [
         'Event either not scheduled or scheduled multiple times - event: 0'
     ]
 
 
 def test_multiple_slot_schedule_has_violations(events, slots, sessions):
-    # solution with slot 5 scheduled twice
-    solution = np.array([
+    # array with slot 5 scheduled twice
+    array = np.array([
         [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 1, 0],
         [0, 0, 0, 0, 0, 1, 0]
     ])
     violations = list(scheduler.constraint_violations(
-        solution, events, slots, sessions))
+        events, slots, sessions, array))
     assert violations == ['Slot with multiple events scheduled - slot: 5']
 
 
 def test_session_with_multiple_tags_has_violations(events, slots, sessions):
-    # solution where events 0 and 2 are in same session but share no tag
-    solution = np.array([
+    # array where events 0 and 2 are in same session but share no tag
+    array = np.array([
         [0, 0, 0, 1, 0, 0, 0],
         [1, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0]
     ])
     violations = list(scheduler.constraint_violations(
-        solution, events, slots, sessions))
+        events, slots, sessions, array))
     assert violations == [
         'Dissimilar events schedule in same session - event: 0, slot: 3',
         'Dissimilar events schedule in same session - event: 2, slot: 4',
@@ -71,39 +71,38 @@ def test_session_with_multiple_tags_has_violations(events, slots, sessions):
 def test_event_scheduled_within_unavailability_has_violations(
     events, slots, sessions
 ):
-    # solution where event 1 is incorrectly scheduled against event 0
+    # array where event 1 is incorrectly scheduled against event 0
     # as slots 2 and 6 both begin at 11:30
-    solution = np.array([
+    array = np.array([
         [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 1],
         [0, 0, 0, 0, 1, 0, 0]
     ])
     violations = list(scheduler.constraint_violations(
-        solution, events, slots, sessions))
+        events, slots, sessions, array))
     assert violations == [
         'Event clashes with another event - event: 0 and event: 1'
     ]
 
 
-def test_valid_solution_passes(valid_solution, events, slots, sessions):
-    assert scheduler.is_valid_solution(
-        valid_solution, events, slots, sessions)
+def test_valid_array_passes(valid_array, events, slots, sessions):
+    assert scheduler.is_valid_array(
+        events, slots, sessions, valid_array)
 
 
-def test_empty_solution_fails(events, slots, sessions):
-    solution = []
-    assert not scheduler.is_valid_solution(
-        solution, events, slots, sessions)
+def test_empty_array_fails(events, slots, sessions):
+    array = []
+    assert not scheduler.is_valid_array(events, slots, sessions, array)
 
 
-def test_schedule_to_solution(valid_schedule, valid_solution, events, slots):
-    solution = scheduler._schedule_to_solution(valid_schedule, events, slots)
-    assert np.array_equal(solution, valid_solution)
+def test_schedule_to_array(valid_schedule, valid_array, events, slots):
+    array = scheduler._schedule_to_array(valid_schedule, events, slots)
+    assert np.array_equal(array, array)
 
 
-def test_solution_to_schedule(valid_schedule, valid_solution, events, slots):
+def test_array_to_schedule(valid_schedule, valid_array, events, slots):
     schedule = list(
-        scheduler._solution_to_schedule(valid_solution, events, slots)
+        scheduler._array_to_schedule(valid_array, events, slots)
     )
     assert schedule == valid_schedule
 
@@ -152,6 +151,6 @@ def test_events_scheduled_once_only(solution):
 
 def test_optimal_schedule(slots, events, sessions):
     solution = scheduler.solution(
-            events=events, slots=slots, sessions=sessions,
-            objective_function=of.capacity_demand_difference)
+        events=events, slots=slots, sessions=sessions,
+        objective_function=of.capacity_demand_difference)
     assert list(solution) == [(0, 3), (1, 4), (2, 0)]
