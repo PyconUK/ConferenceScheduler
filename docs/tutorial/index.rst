@@ -43,18 +43,18 @@ Let us create these time slots using the :code:`conference_scheduler`::
 We also have a number of talks and workshops to schedule, because of the
 duration/location of the slots we know some of them are unavailable for a given slot::
 
-    >>> events = [Event(name='Talk 1', event_type='talk', duration=30, roles="empty", tags=['community'], unavailability=outside_slots, demand=50),
-    ...           Event(name='Talk 2', event_type='talk', duration=30, roles="empty", tags=['testing', 'data', 'community'], unavailability=outside_slots, demand=130),
-    ...           Event(name='Talk 3', event_type='talk', duration=30, roles="empty", tags=['testing', 'data', 'community'], unavailability=outside_slots, demand=250),
-    ...           Event(name='Talk 4', event_type='talk', duration=30, roles="empty", tags=['data'], unavailability=outside_slots, demand=30),
-    ...           Event(name='Talk 5', event_type='talk', duration=30, roles="empty", tags=['testing', 'data'], unavailability=outside_slots, demand=60),
-    ...           Event(name='Talk 6', event_type='talk', duration=30, roles="empty", tags=['testing', 'community'], unavailability=outside_slots, demand=30),
-    ...           Event(name='Talk 7', event_type='talk', duration=30, roles="empty", tags=['testing', 'data'], unavailability=outside_slots, demand=60),
-    ...           Event(name='Talk 8', event_type='talk', duration=30, roles="empty", tags=['testing', 'data'], unavailability=outside_slots, demand=60),
-    ...           Event(name='Talk 9', event_type='talk', duration=30, roles="empty", tags=['testing', 'data', 'community'], unavailability=outside_slots, demand=60),
-    ...           Event(name='Talk 10', event_type='talk', duration=30, roles="empty", tags=['testing', 'community'], unavailability=outside_slots, demand=30),
-    ...           Event(name='Talk 11', event_type='talk', duration=30, roles="empty", tags=['testing', 'community'], unavailability=outside_slots, demand=30),
-    ...           Event(name='Talk 12', event_type='talk', duration=30, roles="empty", tags=['testing', 'community'], unavailability=outside_slots, demand=30),
+    >>> events = [Event(name='Talk 1', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots, demand=50),
+    ...           Event(name='Talk 2', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots, demand=130),
+    ...           Event(name='Talk 3', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots, demand=500),
+    ...           Event(name='Talk 4', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots, demand=30),
+    ...           Event(name='Talk 5', event_type='talk', duration=30, roles="empty", tags=['intermediate'], unavailability=outside_slots, demand=60),
+    ...           Event(name='Talk 6', event_type='talk', duration=30, roles="empty", tags=['intermediate'], unavailability=outside_slots, demand=30),
+    ...           Event(name='Talk 7', event_type='talk', duration=30, roles="empty", tags=['intermediate', 'advanced'], unavailability=outside_slots, demand=60),
+    ...           Event(name='Talk 8', event_type='talk', duration=30, roles="empty", tags=['intermediate', 'advanced'], unavailability=outside_slots, demand=60),
+    ...           Event(name='Talk 9', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots, demand=60),
+    ...           Event(name='Talk 10', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots, demand=30),
+    ...           Event(name='Talk 11', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots, demand=30),
+    ...           Event(name='Talk 12', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots, demand=30),
     ...           Event(name='Workshop 1', event_type='workshop', duration=60, roles="empty", tags=['testing'], unavailability=talk_slots + outside_slots, demand=300),
     ...           Event(name='Workshop 2', event_type='workshop', duration=60, roles="empty", tags=['testing'], unavailability=talk_slots + outside_slots, demand=40),
     ...           Event(name='City tour', event_type='social event', duration=90, roles="empty", tags=[], unavailability=talk_slots + workshop_slots, demand=100),
@@ -83,27 +83,28 @@ This schedule is a generator::
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.room.name}")
-    Talk 5 at 15-Sep-2016 09:30 in Small
+    Talk 3 at 15-Sep-2016 09:30 in Small
     Talk 11 at 15-Sep-2016 09:30 in Big
     Talk 4 at 15-Sep-2016 10:00 in Small
     Talk 10 at 15-Sep-2016 10:00 in Big
-    Talk 1 at 15-Sep-2016 12:30 in Small
-    Talk 6 at 15-Sep-2016 12:30 in Big
-    Talk 3 at 15-Sep-2016 13:00 in Small
-    Talk 8 at 15-Sep-2016 13:00 in Big
-    Talk 2 at 16-Sep-2016 09:30 in Big
+    Talk 5 at 15-Sep-2016 12:30 in Big
+    Talk 9 at 15-Sep-2016 12:30 in Small
+    Talk 6 at 15-Sep-2016 13:00 in Big
+    Talk 8 at 15-Sep-2016 13:00 in Small
+    Talk 1 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 9 at 16-Sep-2016 10:00 in Big
-    Talk 12 at 16-Sep-2016 12:30 in Big
+    Talk 2 at 16-Sep-2016 10:00 in Big
+    Talk 7 at 16-Sep-2016 12:30 in Big
     City tour at 16-Sep-2016 12:30 in outside
-    Talk 7 at 16-Sep-2016 13:00 in Big
+    Talk 12 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     Boardgames at 16-Sep-2016 13:00 in outside
 
 
+
 We see that all the events are scheduled in appropriate rooms (as indicated by
 the unavailability attribute for the events). Also we have that :code:`Talk 1`
-is scheduled on Monday at 1300 and doesn't class with :code:`Workshop 1`.
+doesn't class with :code:`Workshop 1`.
 Similarly, the :code:`Boardgame` does not clash with :code:`Workshop 2`.
 
 You will also note that in any given session, talks share at least one tag. This
@@ -124,20 +125,20 @@ difference between room capacity and demand::
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.room.name}")
-    Talk 9 at 15-Sep-2016 09:30 in Big
-    Talk 10 at 15-Sep-2016 09:30 in Small
-    Talk 1 at 15-Sep-2016 10:00 in Big
+    Talk 1 at 15-Sep-2016 09:30 in Big
+    Talk 12 at 15-Sep-2016 09:30 in Small
+    Talk 3 at 15-Sep-2016 10:00 in Big
     Talk 11 at 15-Sep-2016 10:00 in Small
-    Talk 2 at 15-Sep-2016 12:30 in Small
-    Talk 8 at 15-Sep-2016 12:30 in Big
-    Talk 5 at 15-Sep-2016 13:00 in Big
-    Talk 6 at 15-Sep-2016 13:00 in Small
+    Talk 4 at 15-Sep-2016 12:30 in Small
+    Talk 10 at 15-Sep-2016 12:30 in Big
+    Talk 2 at 15-Sep-2016 13:00 in Small
+    Talk 9 at 15-Sep-2016 13:00 in Big
     Talk 7 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 4 at 16-Sep-2016 10:00 in Big
-    Talk 3 at 16-Sep-2016 12:30 in Big
+    Talk 6 at 16-Sep-2016 10:00 in Big
+    Talk 8 at 16-Sep-2016 12:30 in Big
     City tour at 16-Sep-2016 12:30 in outside
-    Talk 12 at 16-Sep-2016 13:00 in Big
+    Talk 5 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     Boardgames at 16-Sep-2016 13:00 in outside
 
