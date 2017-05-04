@@ -112,16 +112,6 @@ def session_array(slots):
 
 
 @pytest.fixture(scope='module')
-def slot_availability_array(events, slots):
-    return lpu.slot_availability_array(events, slots)
-
-
-@pytest.fixture(scope='module')
-def event_availability_array(events, slots):
-    return lpu.event_availability_array(events)
-
-
-@pytest.fixture(scope='module')
 def X(shape):
     return lpu.variables(shape)
 
