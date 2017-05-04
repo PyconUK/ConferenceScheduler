@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/PyconUK/ConferenceScheduler/badge.svg?branch=master)](https://coveralls.io/github/PyconUK/ConferenceScheduler?branch=master) [![Build Status](https://travis-ci.org/PyconUK/ConferenceScheduler.svg?branch=master)](https://travis-ci.org/PyconUK/ConferenceScheduler) [![Build status](https://ci.appveyor.com/api/projects/status/cvi70xoqqbwnwxdy?svg=true)](https://ci.appveyor.com/project/meatballs/conferencescheduler)
+[![Coverage Status](https://coveralls.io/repos/github/PyconUK/ConferenceScheduler/badge.svg?branch=master)](https://coveralls.io/github/PyconUK/ConferenceScheduler?branch=master) [![Build Status](https://travis-ci.org/PyconUK/ConferenceScheduler.svg?branch=master)](https://travis-ci.org/PyconUK/ConferenceScheduler) [![Build status](https://ci.appveyor.com/api/projects/status/cvi70xoqqbwnwxdy?svg=true)](https://ci.appveyor.com/project/meatballs/conferencescheduler)[![Code Issues](https://www.quantifiedcode.com/api/v1/project/db6b0af308a947d098c5f6205e2a90b4/badge.svg)](https://www.quantifiedcode.com/app/project/db6b0af308a947d098c5f6205e2a90b4)
 
 # Conference Scheduler
 
