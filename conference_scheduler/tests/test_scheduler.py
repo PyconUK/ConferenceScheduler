@@ -77,6 +77,20 @@ def test_valid_array_has_no_violations(
         events, slots, sessions, valid_array))
     assert len(violations) == 0
 
+# Testing the conversion between various forms of schedule output
+
+
+def test_schedule_to_array(valid_schedule, valid_array, events, slots):
+    array = scheduler._schedule_to_array(valid_schedule, events, slots)
+    assert np.array_equal(array, array)
+
+
+def test_array_to_schedule(valid_schedule, valid_array, events, slots):
+    schedule = list(
+        scheduler._array_to_schedule(valid_array, events, slots)
+    )
+    assert schedule == valid_schedule
+
 
 def test_unscheduled_event_has_violations(events, slots, sessions):
     # array with event 1 not scheduled
@@ -158,18 +172,6 @@ def test_valid_array_passes(valid_array, events, slots, sessions):
 def test_empty_array_fails(events, slots, sessions):
     array = []
     assert not scheduler.is_valid_array(events, slots, sessions, array)
-
-
-def test_schedule_to_array(valid_schedule, valid_array, events, slots):
-    array = scheduler._schedule_to_array(valid_schedule, events, slots)
-    assert np.array_equal(array, array)
-
-
-def test_array_to_schedule(valid_schedule, valid_array, events, slots):
-    schedule = list(
-        scheduler._array_to_schedule(valid_array, events, slots)
-    )
-    assert schedule == valid_schedule
 
 
 def test_empty_schedule_fails(events, slots, sessions):

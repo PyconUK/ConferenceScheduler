@@ -161,6 +161,23 @@ def schedule(
         )
     )
 
+# Functions to convert the schedule from one form to another
+
+
+def _schedule_to_array(schedule, events, slots):
+    array = np.zeros((len(events), len(slots)))
+    for item in schedule:
+        array[events.index(item.event), slots.index(item.slot)] = 1
+    return array
+
+
+def _array_to_schedule(array, events, slots):
+    scheduled = np.transpose(np.nonzero(array))
+    return (
+        ScheduledItem(event=events[item[0]], slot=slots[item[1]])
+        for item in scheduled
+    )
+
 
 def constraint_violations(
     events, slots, sessions, array, constraints=None
@@ -181,21 +198,6 @@ def is_valid_array(
     violations = sum(1 for c in (constraint_violations(
         events, slots, sessions, array, constraints)))
     return violations == 0
-
-
-def _schedule_to_array(schedule, events, slots):
-    array = np.zeros((len(events), len(slots)))
-    for item in schedule:
-        array[events.index(item.event), slots.index(item.slot)] = 1
-    return array
-
-
-def _array_to_schedule(array, events, slots):
-    scheduled = np.transpose(np.nonzero(array))
-    return (
-        ScheduledItem(event=events[item[0]], slot=slots[item[1]])
-        for item in scheduled
-    )
 
 
 def is_valid_schedule(
