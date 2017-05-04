@@ -12,7 +12,6 @@ A Python tool to assist the task of scheduling a conference which:
 * Is a standalone tool which takes simple data types as input and produces simple data types as output (i.e. does no IO or presentation)
 
 # Terms
-* Room - which has a maximum capacity and is deemed suitable to host a talk, a workshop or either
 * Period - a period of time with defined start and end times
 * Slot - a combination of room and period
 * Session -  an ordered series of slots (e.g. 'the session in room 1 between coffee and lunch on Friday')
