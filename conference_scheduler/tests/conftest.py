@@ -1,27 +1,10 @@
 import pytest
 import numpy as np
 from conference_scheduler.resources import (
-    Person, Slot, EventType, Event, Role, ScheduledItem, Shape
+    Slot, Event, ScheduledItem, Shape
 )
 from conference_scheduler import scheduler
 from conference_scheduler.lp_problem import utils as lpu
-
-
-@pytest.fixture(scope="module")
-def people():
-    return {
-        'alice': Person(name='Alice', max_chair_sessions=3),
-        'bob': Person(name='Bob', max_chair_sessions=3),
-        'charlie': Person(name='Charlie')
-    }
-
-
-@pytest.fixture(scope="module")
-def event_types():
-    return {
-        'workshop': EventType(name='workshop'),
-        'talk': EventType(name='talk')
-    }
 
 
 @pytest.fixture(scope="module")
@@ -45,37 +28,22 @@ def slots():
 
 
 @pytest.fixture(scope="module")
-def roles():
-    return {
-        'speaker': Role(name='speaker'),
-        'leader': Role(name='leader'),
-        'mentor': Role(name='mentor')
-    }
-
-
-@pytest.fixture(scope="module")
-def events(event_types, roles, people, slots):
+def events(slots):
     event1 = Event(
         name='Talk 1',
-        event_type=event_types['talk'],
         duration=30,
-        roles={roles['speaker']: people['alice']},
         tags=['community'],
         unavailability=[slots[0], slots[1]],
         demand=30)
     event2 = Event(
         name='Talk 2',
-        event_type=event_types['talk'],
         duration=30,
-        roles={roles['speaker']: people['bob']},
         tags=['community', 'documentation'],
         unavailability=[slots[2], slots[3], event1],
         demand=500)
     event3 = Event(
         name='Workshop 1',
-        event_type=event_types['workshop'],
         duration=60,
-        roles={roles['leader']: people['charlie']},
         tags=['documentation'],
         unavailability=[],
         demand=20)
