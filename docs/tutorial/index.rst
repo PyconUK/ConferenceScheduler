@@ -17,7 +17,9 @@ You have organised your time slots as follows:
 Installing the conference scheduler
 -----------------------------------
 
-You can install the latest version of :code:`conference_scheduler` from PyPi::
+**The conference scheduler is compatible with Python 3.6+ only.**
+
+You can install the latest version of :code:`conference_scheduler` from PyPI::
 
     $ pip install conference_scheduler
 
