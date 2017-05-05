@@ -15,7 +15,7 @@ setup(
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'pytest-pep8'],
     classifiers=[
-         'Programming Language :: Python :: 3.6',
-     ],
-     python_requires='>=3.6',
+        'Programming Language :: Python :: 3.6',
+    ],
+    python_requires='>=3.6',
 )
