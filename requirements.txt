@@ -1,5 +1,4 @@
 apipkg==1.4
-ConferenceScheduler==1.0.0
 execnet==1.4.1
 pep8==1.7.0
 PuLP==1.6.5
