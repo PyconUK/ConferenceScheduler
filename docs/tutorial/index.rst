@@ -223,7 +223,7 @@ Scheduling chairs
 -----------------
 
 Once we have a schedule for our talks, workshops and social events we have the
-last task which is to schedule chairs for the talk sessions::
+last task which is to schedule chairs for the talk sessions.
 
 We have 6 different sessions of talks to chair::
 
