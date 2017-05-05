@@ -13,5 +13,9 @@ setup(
     description='A Python tool to assist the task of scheduling a conference',
     install_requires=['pulp', 'numpy'],
     setup_requires=['pytest-runner'],
-    tests_require=['pytest', 'pytest-pep8']
+    tests_require=['pytest', 'pytest-pep8'],
+    classifiers=[
+         'Programming Language :: Python :: 3.6',
+     ],
+     python_requires='>=3.6',
 )
