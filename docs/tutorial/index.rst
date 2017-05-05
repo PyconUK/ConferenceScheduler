@@ -65,7 +65,7 @@ Further to this we have a couple of other constraints:
 
 - The speaker for :code:`Talk 1` is also the person delivering :code:`Workshop 1`::
 
-        >>> events[0].unavailability.extend([events[6]])
+        >>> events[0].unavailability.append(events[6])
 
 - Also, the person running :code:`Workshop 2` is the person hosting the
   :code:`Boardgames`::
