@@ -11,6 +11,8 @@ A Python tool to assist the task of scheduling a conference which:
 * Has a simple mechanism for defining new constraints and optimisations
 * Is a standalone tool which takes simple data types as input and produces simple data types as output (i.e. does no IO or presentation)
 
+The full documentation can be found at `conference-scheduler.readthedocs.org <http://conference-scheduler.readthedocs.org/>`__.
+
 # Terms
 * Period - a period of time with defined start and end times
 * Slot - a combination of room and period
