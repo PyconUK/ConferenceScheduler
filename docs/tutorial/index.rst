@@ -43,22 +43,22 @@ Let us create these time slots using the :code:`conference_scheduler`::
 We also have a number of talks and workshops to schedule, because of the
 duration/location of the slots we know some of them are unavailable for a given slot::
 
-    >>> events = [Event(name='Talk 1', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots[:], demand=50),
-    ...           Event(name='Talk 2', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots[:], demand=130),
-    ...           Event(name='Talk 3', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots[:], demand=500),
-    ...           Event(name='Talk 4', event_type='talk', duration=30, roles="empty", tags=['beginner'], unavailability=outside_slots[:], demand=30),
-    ...           Event(name='Talk 5', event_type='talk', duration=30, roles="empty", tags=['intermediate'], unavailability=outside_slots[:], demand=60),
-    ...           Event(name='Talk 6', event_type='talk', duration=30, roles="empty", tags=['intermediate'], unavailability=outside_slots[:], demand=30),
-    ...           Event(name='Talk 7', event_type='talk', duration=30, roles="empty", tags=['intermediate', 'advanced'], unavailability=outside_slots[:], demand=60),
-    ...           Event(name='Talk 8', event_type='talk', duration=30, roles="empty", tags=['intermediate', 'advanced'], unavailability=outside_slots[:], demand=60),
-    ...           Event(name='Talk 9', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots[:], demand=60),
-    ...           Event(name='Talk 10', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots[:], demand=30),
-    ...           Event(name='Talk 11', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots[:], demand=30),
-    ...           Event(name='Talk 12', event_type='talk', duration=30, roles="empty", tags=['advanced'], unavailability=outside_slots[:], demand=30),
-    ...           Event(name='Workshop 1', event_type='workshop', duration=60, roles="empty", tags=['testing'], unavailability=talk_slots[:] + outside_slots[:], demand=300),
-    ...           Event(name='Workshop 2', event_type='workshop', duration=60, roles="empty", tags=['testing'], unavailability=talk_slots[:] + outside_slots[:], demand=40),
-    ...           Event(name='City tour', event_type='social event', duration=90, roles="empty", tags=[], unavailability=talk_slots[:] + workshop_slots[:], demand=100),
-    ...           Event(name='Boardgames', event_type='social event', duration=90, roles="empty", tags=[], unavailability=talk_slots[:] + workshop_slots[:], demand=20)]
+    >>> events = [Event(name='Talk 1', duration=30, tags=['beginner'], unavailability=outside_slots[:], demand=50),
+    ...           Event(name='Talk 2', duration=30, tags=['beginner'], unavailability=outside_slots[:], demand=130),
+    ...           Event(name='Talk 3', duration=30, tags=['beginner'], unavailability=outside_slots[:], demand=500),
+    ...           Event(name='Talk 4', duration=30, tags=['beginner'], unavailability=outside_slots[:], demand=30),
+    ...           Event(name='Talk 5', duration=30, tags=['intermediate'], unavailability=outside_slots[:], demand=60),
+    ...           Event(name='Talk 6', duration=30, tags=['intermediate'], unavailability=outside_slots[:], demand=30),
+    ...           Event(name='Talk 7', duration=30, tags=['intermediate', 'advanced'], unavailability=outside_slots[:], demand=60),
+    ...           Event(name='Talk 8', duration=30, tags=['intermediate', 'advanced'], unavailability=outside_slots[:], demand=60),
+    ...           Event(name='Talk 9', duration=30, tags=['advanced'], unavailability=outside_slots[:], demand=60),
+    ...           Event(name='Talk 10', duration=30, tags=['advanced'], unavailability=outside_slots[:], demand=30),
+    ...           Event(name='Talk 11', duration=30, tags=['advanced'], unavailability=outside_slots[:], demand=30),
+    ...           Event(name='Talk 12', duration=30, tags=['advanced'], unavailability=outside_slots[:], demand=30),
+    ...           Event(name='Workshop 1', duration=60, tags=['testing'], unavailability=talk_slots[:] + outside_slots[:], demand=300),
+    ...           Event(name='Workshop 2', duration=60, tags=['testing'], unavailability=talk_slots[:] + outside_slots[:], demand=40),
+    ...           Event(name='City tour', duration=90, tags=[], unavailability=talk_slots[:] + workshop_slots[:], demand=100),
+    ...           Event(name='Boardgames', duration=90, tags=[], unavailability=talk_slots[:] + workshop_slots[:], demand=20)]
 
 Further to this we have a couple of other constraints:
 
@@ -260,12 +260,12 @@ We will need 6 chairpersons for these slots and we will use events as chairs. In
 practice, all chairing will be taken care of by 3 people, with each person
 chairing 2 sessions::
 
-    >>> events = [Event(name='Chair A-1', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair A-2', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair B-1', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair B-2', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair C-1', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair D-2', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0)]
+    >>> events = [Event(name='Chair A-1', duration=60, tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair A-2', duration=60, tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair B-1', duration=60, tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair B-2', duration=60, tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair C-1', duration=60, tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair D-2', duration=60, tags=[], unavailability=[], demand=0)]
 
 
 As you can see, we have set all unavailabilities to be empty however

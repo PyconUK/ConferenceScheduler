@@ -2,22 +2,6 @@ from typing import NamedTuple, Sequence, Dict, Iterable, List
 from datetime import datetime
 
 
-class EventType(NamedTuple):
-    name: str
-
-
-class Role(NamedTuple):
-    name: str
-
-
-CHAIR = Role(name='chair')
-
-
-class Person(NamedTuple):
-    name: str
-    max_chair_sessions: int = 0
-
-
 class Slot(NamedTuple):
     venue: str
     starts_at: datetime
@@ -28,9 +12,7 @@ class Slot(NamedTuple):
 
 class Event(NamedTuple):
     name: str
-    event_type: EventType
     duration: int
-    roles: Dict[Role, Person]
     tags: List[str]
     unavailability: List
     demand: int
@@ -38,11 +20,6 @@ class Event(NamedTuple):
 
 class ScheduledItem(NamedTuple):
     event: Event
-    slot: Slot
-
-
-class Unavailability(NamedTuple):
-    person: Person
     slot: Slot
 
 
