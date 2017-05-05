@@ -104,9 +104,7 @@ def X(shape):
 
 @pytest.fixture(scope='module')
 def solution(events, slots):
-    return [
-        item for item in scheduler.solution(events, slots)
-    ]
+    return list(scheduler.solution(events, slots))
 
 
 @pytest.fixture(scope='module')
@@ -116,7 +114,7 @@ def array(events, slots):
 
 @pytest.fixture(scope='module')
 def schedule(events, slots):
-    return [item for item in scheduler.schedule(events, slots)]
+    return list(scheduler.schedule(events, slots))
 
 
 @pytest.fixture(scope='module')
