@@ -217,3 +217,84 @@ old schedule::
     Talk 6 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     Boardgames at 16-Sep-2016 13:00 in Outside
+
+
+Scheduling chairs
+-----------------
+
+Once we have a schedule for our talks, workshops and social events we have the
+last task which is to schedule chairs for the talk sessions.
+
+We have 6 different sessions of talks to chair::
+
+    Talk 1 at 15-Sep-2016 09:30 in Big
+    Talk 3 at 15-Sep-2016 10:00 in Big
+
+    Talk 2 at 15-Sep-2016 09:30 in Small
+    Talk 4 at 15-Sep-2016 10:00 in Small
+
+    Talk 8 at 15-Sep-2016 12:30 in Big
+    Talk 7 at 15-Sep-2016 13:00 in Big
+
+    Talk 12 at 15-Sep-2016 12:30 in Small
+    Talk 10 at 15-Sep-2016 13:00 in Small
+
+    Talk 11 at 16-Sep-2016 09:30 in Big
+    Talk 9 at 16-Sep-2016 10:00 in Big
+
+    Talk 5 at 16-Sep-2016 12:30 in Big
+    Talk 6 at 16-Sep-2016 13:00 in Big
+
+We will use the conference scheduler, with these sessions corresponding
+to slots::
+
+
+    >>> chair_slots  = [Slot(venue='Big', starts_at='15-Sep-2016 09:30', duration=60, session="A", capacity=200),
+    ...                 Slot(venue='Small', starts_at='15-Sep-2016 09:30', duration=60, session="B", capacity=50),
+    ...                 Slot(venue='Big', starts_at='15-Sep-2016 12:30', duration=60, session="C", capacity=200),
+    ...                 Slot(venue='Small', starts_at='15-Sep-2016 12:30', duration=60, session="D", capacity=50),
+    ...                 Slot(venue='Big', starts_at='16-Sep-2016 12:30', duration=60, session="E", capacity=200),
+    ...                 Slot(venue='Small', starts_at='16-Sep-2016 12:30', duration=60, session="F", capacity=50)]
+
+We will need 6 chairpersons for these slots and we will use events as chairs. In
+practice, all chairing will be taken care of by 3 people, with each person
+chairing 2 sessions::
+
+    >>> events = [Event(name='Chair A-1', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair A-2', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair B-1', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair B-2', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair C-1', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0),
+    ...           Event(name='Chair D-2', event_type='chair', duration=60, roles="empty", tags=[], unavailability=[], demand=0)]
+
+
+As you can see, we have set all unavailabilities to be empty however
+:code:`Chair A` is in fact the speaker for :code:`Talk 11`. Also :code:`Chair B`
+has informed us that they are not present on the first day. We can include these
+constraints::
+
+    >>> events[0].unavailability.append(chair_slots[4])
+    >>> events[1].unavailability.append(chair_slots[4])
+    >>> events[2].unavailability.extend(chair_slots[4:])
+    >>> events[3].unavailability.extend(chair_slots[4:])
+
+Finally, each chair cannot chair more than one session at a time::
+
+
+    >>> events[0].unavailability.append(events[1])
+    >>> events[2].unavailability.append(events[3])
+    >>> events[4].unavailability.append(events[5])
+
+Now let us get the chair schedule::
+
+    >>> chair_schedule = scheduler.schedule(events, chair_slots)
+
+    >>> chair_schedule = sorted(chair_schedule, key=lambda item: item.slot.starts_at)
+    >>> for item in chair_schedule:
+    ...     print(f"{item.event.name} chairing {item.slot.starts_at} in {item.slot.venue}")
+    Chair A-2 chairing 15-Sep-2016 09:30 in Big
+    Chair B-1 chairing 15-Sep-2016 09:30 in Small
+    Chair B-2 chairing 15-Sep-2016 12:30 in Small
+    Chair C-1 chairing 15-Sep-2016 12:30 in Big
+    Chair A-1 chairing 16-Sep-2016 12:30 in Small
+    Chair D-2 chairing 16-Sep-2016 12:30 in Big
