@@ -1,9 +1,6 @@
 Tutorial
 ========
 
-Inputting the data
-------------------
-
 Welcome! You are the head scheduler for the upcoming :code:`name` con. You have
 a venue, you have talks and you have a week to schedule everything!
 
@@ -16,6 +13,23 @@ You have organised your time slots as follows:
   time slots in each room.
 - The second day will have 1 room used for longer 1 hour workshops, the other
   room used for more talks and 2 long sessions set aside for the social events.
+
+Installing the conference scheduler
+-----------------------------------
+
+You can install the latest version of :code:`conference_scheduler` from PyPi::
+
+    $ pip install conference_scheduler
+
+If you want to, you can also install a development version from source::
+
+    $ git clone https://github.com/PyconUK/ConferenceScheduler
+    $ cd ConferenceScheduler
+    $ python setup.py develop
+
+Inputting the data
+------------------
+
 
 Let us create these time slots using the :code:`conference_scheduler`::
 
