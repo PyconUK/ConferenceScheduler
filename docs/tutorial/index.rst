@@ -278,6 +278,13 @@ constraints::
     >>> events[2].unavailability.extend(chair_slots[4:])
     >>> events[3].unavailability.extend(chair_slots[4:])
 
+Finally, each chair cannot chair more than one session at a time::
+
+
+    >>> events[0].unavailability.append(events[1])
+    >>> events[2].unavailability.append(events[3])
+    >>> events[4].unavailability.append(events[5])
+
 Now let us get the chair schedule::
 
     >>> chair_schedule = scheduler.schedule(events, chair_slots)
@@ -286,8 +293,8 @@ Now let us get the chair schedule::
     >>> for item in chair_schedule:
     ...     print(f"{item.event.name} chairing {item.slot.starts_at} in {item.slot.venue}")
     Chair A-2 chairing 15-Sep-2016 09:30 in Big
-    Chair D-2 chairing 15-Sep-2016 09:30 in Small
-    Chair B-1 chairing 15-Sep-2016 12:30 in Small
-    Chair B-2 chairing 15-Sep-2016 12:30 in Big
+    Chair B-1 chairing 15-Sep-2016 09:30 in Small
+    Chair B-2 chairing 15-Sep-2016 12:30 in Small
+    Chair C-1 chairing 15-Sep-2016 12:30 in Big
     Chair A-1 chairing 16-Sep-2016 12:30 in Small
-    Chair C-1 chairing 16-Sep-2016 12:30 in Big
+    Chair D-2 chairing 16-Sep-2016 12:30 in Big
