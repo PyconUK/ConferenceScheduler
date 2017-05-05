@@ -14,13 +14,11 @@ A Python tool to assist the task of scheduling a conference which:
 The full documentation can be found at [conference-scheduler.readthedocs.org](http://conference-scheduler.readthedocs.org/).
 
 # Terms
-* Period - a period of time with defined start and end times
 * Slot - a combination of room and period
 * Session -  an ordered series of slots (e.g. 'the session in room 1 between coffee and lunch on Friday')
-* People
-* Role - e.g. 'Speaker', 'Session Chair', 'Mentor'
 * Event - a talk or workshop
 * Demand - the predicted size of audience for an event
+* Capacity - the capacity of venues
 
 # Constraints
 * All events must be scheduled
@@ -30,7 +28,10 @@ The full documentation can be found at [conference-scheduler.readthedocs.org](ht
 * An event may be tagged and, if so, must be scheduled in a session where it shares at least one tag with all other events in that session
 
 # Optimisation
+Two options:
+
 * The sum of 'potential disappointments' should be minimised where 'potential disappointments' is defined as the excess of demand over room capacity for every scheduled event
+* Minimise the number of changes from a given schedule.
 
 # Examples
 Some examples of situations which have arisen at previous conferences and could be handled by the unavailability, clashing and tagging constraints:
