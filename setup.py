@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='ConferenceScheduler',
+    name='conference-scheduler',
     version='1.0.0',
     packages=[
         'conference_scheduler',
