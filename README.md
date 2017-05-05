@@ -34,11 +34,11 @@ A Python tool to assist the task of scheduling a conference which:
 Some examples of situations which have arisen at previous conferences and could be handled by the unavailability, clashing and tagging constraints:
 * A conference organiser says "Talks X and Y are on similar subject matter and likely to appeal to a similar audience. Let's try not to schedule them against each other."
 * A conference organiser says "Talks X, Y and Z are likely to appeal to a similar audience. Let's try to schedule them sequentially in the same room so that we minimise the movement of people from one room to another."
-* A conference organsier says "The audience for Talk X would benefit greatly from the speech-to-text provision. Let's schedule that one in the main hall."
+* A conference organiser says "The audience for Talk X would benefit greatly from the speech-to-text provision. Let's schedule that one in the main hall."
 * A potential session chair says "I'd like to attend workshop X, so please don't schedule me to chair a session that clashes with it."
 * A potential session chair says "I'm happy to chair a session but I've never done it before, so please don't schedule me in the main hall."
 * A speaker says "I'd like to attend talk X, so please don't schedule my talk in the same slot."
 * A first-time speaker is assigned a mentor and requests that the mentor chairs the session in which they are scheduled to give their talk.
 
-# Acknowledgments
+# Acknowledgements
 This repository was inspired by a talk given by David MacIver at PyCon UK 2016: http://2016.pyconuk.org/talks/easy-solutions-to-hard-problems/
