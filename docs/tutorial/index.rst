@@ -245,7 +245,7 @@ We have 6 different sessions of talks to chair::
     Talk 5 at 16-Sep-2016 12:30 in Big
     Talk 6 at 16-Sep-2016 13:00 in Big
 
-We will simply use the conference scheduler, with these sessions corresponding
+We will use the conference scheduler, with these sessions corresponding
 to slots::
 
 
