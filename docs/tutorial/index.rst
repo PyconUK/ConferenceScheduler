@@ -218,7 +218,6 @@ old schedule::
     Workshop 1 at 16-Sep-2016 13:00 in Small
     Boardgames at 16-Sep-2016 13:00 in Outside
 
-
 Scheduling chairs
 -----------------
 
@@ -298,3 +297,36 @@ Now let us get the chair schedule::
     Chair C-1 chairing 15-Sep-2016 12:30 in Big
     Chair A-1 chairing 16-Sep-2016 12:30 in Small
     Chair D-2 chairing 16-Sep-2016 12:30 in Big
+
+Validating a schedule
+---------------------
+
+It might of course be helpful to use the tool simply to check if a given
+schedule is correct: perhaps someone makes a manual change and it is desirable
+to verify that this is still a valid schedule. Let us first check that our
+schedule obtained from the algorithm is correct::
+
+    >>> from conference_scheduler.validator import is_valid_schedule, schedule_violations
+    >>> is_valid_schedule(chair_schedule, events=events, slots=chair_slots)
+    True
+
+Let us modify our schedule so that it schedules an event twice::
+
+    >>> from conference_scheduler.resources import ScheduledItem
+    >>> chair_schedule[0] = ScheduledItem(event=events[2], slot=chair_slots[0])
+    >>> for item in chair_schedule[:2]:
+    ...     print(f"{item.event.name} chairing {item.slot.starts_at} in {item.slot.venue}")
+    Chair B-1 chairing 15-Sep-2016 09:30 in Big
+    Chair B-1 chairing 15-Sep-2016 09:30 in Small
+
+We now see that we have an invalid schedule::
+
+    >>> is_valid_schedule(chair_schedule, events=events, slots=chair_slots)
+    False
+
+We can furthermore identify which constraints were broken::
+
+    >>> for v in schedule_violations(chair_schedule, events=events, slots=chair_slots):
+    ...     print(v)
+    Event either not scheduled or scheduled multiple times - event: 1
+    Event either not scheduled or scheduled multiple times - event: 2
