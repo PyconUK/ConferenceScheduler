@@ -39,6 +39,8 @@ Let us create these time slots using the :code:`conference_scheduler`::
     ...                  Slot(venue='Outside', starts_at='16-Sep-2016 13:00', duration=90, session="J", capacity=1000)]
     >>> slots = talk_slots + workshop_slots + outside_slots
 
+**Note** that the :code:`starts_at` format must be :code:`'%d-%b-%Y %H:%M'` and that
+:code:`duration` must be given in minutes.
 
 We also have a number of talks and workshops to schedule, because of the
 duration/location of the slots we know some of them are unavailable for a given slot::
