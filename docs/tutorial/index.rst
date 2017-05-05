@@ -106,22 +106,22 @@ This schedule is a generator::
 
 We see that all the events are scheduled in appropriate rooms (as indicated by
 the unavailability attribute for the events). Also we have that :code:`Talk 1`
-doesn't class with :code:`Workshop 1`.
+doesn't clash with :code:`Workshop 1`.
 Similarly, the :code:`Boardgame` does not clash with :code:`Workshop 2`.
 
 You will also note that in any given session, talks share at least one tag. This
-is another constraint of the model, if you find that your schedule has no
-solutions you can adjust it by recategorising your talks (or giving them all a
+is another constraint of the model; if you find that your schedule has no
+solutions you can adjust it by re-categorising your talks (or giving them all a
 single category).
 
 Avoiding room overcrowding
 --------------------------
 
-The data we input in to the model included information about demand for a talk,
+The data we input in to the model included information about demand for a talk;
 this could be approximated from previous popularity for a talk. However, the
 scheduler has put :code:`Talk 3` (which has high demand) in the small room
-(which has capacity 50). We can include an objective function in to our
-scheduler to aim to minimise the difference between room capacity and demand::
+(which has capacity 50). We can include an objective function in our
+scheduler to minimise the difference between room capacity and demand::
 
     >>> from conference_scheduler.lp_problem import objective_functions
     >>> func = objective_functions.capacity_demand_difference
@@ -156,7 +156,7 @@ Coping with new information
 ---------------------------
 
 This is fantastic! Our schedule has now been published and everyone is excited
-about the conference. However, as can often happen one of the speakers now
+about the conference. However, as can often happen, one of the speakers now
 informs us of a particular new constraints. For example, the speaker for
 :code:`Talk 7` is unable to speak on the second day.
 
@@ -222,7 +222,7 @@ old schedule::
 Scheduling chairs
 -----------------
 
-Once we have a schedule for our talks, workshops and social events we have the
+Once we have a schedule for our talks, workshops and social events, we have the
 last task which is to schedule chairs for the talk sessions.
 
 We have 6 different sessions of talks to chair::
