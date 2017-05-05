@@ -3,7 +3,7 @@ Mathematical model
 
 
 The scheduler work by solving a well understood mathematical problem called an
-integer linear program.
+integer linear program [Dantzig1963]_, [Schaerf1999]_.
 
 If we assume that we have :math:`M` events and :math:`N` slots, then
 the schedule is mathematically represented by a binary matrix :math:`X\in\{0,
@@ -163,3 +163,64 @@ However, it might be desirable to also optimise a given objective function.
 
 Objective functions
 +++++++++++++++++++
+
+Optimising to avoid room overflow
+---------------------------------
+
+Demand for events might be known: this will be captured using a vector
+:math:`d\in\mathbb{R}_{\geq 0}^{M}`. Similarly capacity for rooms might be
+known, captured using another vector :math:`c\in\mathbb{R}_{\geq 0}^{N}`. Whilst
+it might not be possible to stick to those constraints strongly (when dealing
+with parallel sessions delegate might not go where they originally intended) we
+can aim to minimise the expected overflow given by the following expression:
+
+.. math::
+   :label: overflow_objective_function
+
+   \sum_{i=1}^{M}\sum_{j=1}^{N}X_{ij}(c_j - d_i)
+
+Using this our optimisation problem to give a desirable schedule is obtained by
+solving the following problem:
+
+Minimise :eq:`overflow_objective_function` subject to :eq:`all_events_scheduled_constraint`,
+:eq:`all_slots_at_most_1_event_constraint`,
+:eq:`slot_constraint`, :eq:`event_constraint` and :eq:`tag_constraint`.
+
+Minimise change from a previous schedule
+----------------------------------------
+
+Once a schedule has been obtained and publicised to all delegates a new
+constraint might arise (modifying :eq:`all_events_scheduled_constraint`,
+:eq:`all_slots_at_most_1_event_constraint`,
+:eq:`slot_constraint`, :eq:`event_constraint` and :eq:`tag_constraint`). At this
+point the original optimisation problem can be solved again leading to a
+potentially completely different schedule. An alternative to this is to use
+distance from an original schedule :math:`X_o` as the objective function. Norms
+on matrix spaces are usually non linear however given the boolean nature of our
+variables the following function can be used to measure the number of changes:
+
+.. math::
+   :label: number_of_changes_objective_function
+
+   \sum_{i=1}^{M}\sum_{j=1}^{N}\delta({X_o}_{ij}, X_{ij})
+
+where :math:`\delta:\{0,1\}^{2}\to\{0,1\}` is given by:
+
+.. math::
+   :label: boolean_matrix_norm
+
+   \delta(x_o, x) =
+   \begin{cases}
+       x,&\text{ if } x_o=0\\
+       1-x,&\text{ if } x_o=1
+   \end{cases}
+
+
+Using this it is possible to obtain a schedule that is least disruptive from
+another schedule when presented with new constrains by solving the following
+problem:
+
+Minimise :eq:`number_of_changes_objective_function` subject to
+:eq:`all_events_scheduled_constraint`,
+:eq:`all_slots_at_most_1_event_constraint`, :eq:`slot_constraint`,
+:eq:`event_constraint` and :eq:`tag_constraint`.
