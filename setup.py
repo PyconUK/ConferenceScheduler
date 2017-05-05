@@ -9,7 +9,7 @@ setup(
     url='https://github.com/PyconUK/ConferenceScheduler',
     license='MIT',
     author='Owen Campbell, Vince Knight',
-    author_email='Owen Campbell <owen.campbell@tanti.org.uk>',
+    author_email='owen.campbell@tanti.org.uk',
     description='A Python tool to assist the task of scheduling a conference',
     install_requires=['pulp', 'numpy'],
     setup_requires=['pytest-runner'],
