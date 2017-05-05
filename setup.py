@@ -1,8 +1,13 @@
 from setuptools import setup
 
+# Read in the version number
+__version__ = None  # This makes linters happy
+with open('conference_scheduler/version.py', 'r') as f:
+    exec(f.read())
+
 setup(
     name='conference-scheduler',
-    version='1.0.0',
+    version=__version__,
     packages=[
         'conference_scheduler',
     ],
