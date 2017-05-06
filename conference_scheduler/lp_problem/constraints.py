@@ -1,6 +1,18 @@
+import pulp
 import itertools as it
 from conference_scheduler.resources import Shape, Constraint
 from conference_scheduler.lp_problem import utils as lpu
+
+
+# According to David MacIver, using this function is more efficient than
+# using sum()
+# This code is taken from his gist at:
+# https://gist.github.com/DRMacIver/4b6561c8e4776597bf7568ccac52742f
+def lpsum(variables):
+    result = pulp.LpAffineExpression()
+    for v in variables:
+        result.addInPlace(v)
+    return result
 
 
 def _schedule_all_events(events, slots, X):
@@ -11,7 +23,7 @@ def _schedule_all_events(events, slots, X):
     for event in range(shape.events):
         yield Constraint(
             f'{label} - event: {event}',
-            sum(X[event, slot] for slot in range(shape.slots)) == 1
+            lpsum(X[event, slot] for slot in range(shape.slots)) == 1
         )
 
 
@@ -23,7 +35,7 @@ def _max_one_event_per_slot(events, slots, X):
     for slot in range(shape.slots):
         yield Constraint(
             f'{label} - slot: {slot}',
-            sum(X[(event, slot)] for event in range(shape.events)) <= 1
+            lpsum(X[(event, slot)] for event in range(shape.events)) <= 1
         )
 
 
