@@ -1,4 +1,4 @@
-# Not Yet Released
+# v1.1.0, 2017-05-06
 
 - Addition: Added the ability to pass different solver engines to the scheduler
   https://github.com/PyconUK/ConferenceScheduler/pull/57
