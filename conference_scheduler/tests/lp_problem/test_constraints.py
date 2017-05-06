@@ -118,7 +118,7 @@ def test_events_available_in_scheduled_slot_passes_np(events, slots):
     X = np.array([
         [0, 0, 1, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 1],
-        [0, 1, 0, 0, 0, 0, 0]
+        [0, 0, 0, 0, 0, 1, 0]
     ])
     constraints = [
         c.condition

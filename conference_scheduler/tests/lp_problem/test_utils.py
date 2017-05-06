@@ -22,7 +22,7 @@ def test_slot_availability_array(events, slots):
     assert np.array_equal(slot_availability_array, np.array([
         [0, 0, 1, 1, 1, 1, 1],
         [1, 1, 0, 0, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1]
+        [0, 0, 0, 0, 0, 1, 1]
     ]))
 
 
