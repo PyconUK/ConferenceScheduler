@@ -56,7 +56,7 @@ def slot_availability_array(events, slots):
     array = np.ones((len(events), len(slots)))
     for row, event in enumerate(events):
         for col, slot in enumerate(slots):
-            if slot in event.unavailability:
+            if slot in event.unavailability or event.duration > slot.duration:
                 array[row, col] = 0
     return array
 

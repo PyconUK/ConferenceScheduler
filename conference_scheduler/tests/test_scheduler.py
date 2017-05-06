@@ -37,7 +37,7 @@ def test_demand_difference_schedule(slots, events):
         events=events, slots=slots,
         objective_function=of.capacity_demand_difference
     )
-    assert list(solution) == [(0, 3), (1, 4), (2, 0)]
+    assert list(solution) == [(0, 3), (1, 4), (2, 6)]
 
 
 def test_small_distance_from_other_schedule(slots, events):
@@ -53,7 +53,7 @@ def test_small_distance_from_other_schedule(slots, events):
         objective_function=of.number_of_changes,
         original_schedule=schedule,
     )
-    assert list(solution) == [(0, 3), (1, 4), (2, 1)]
+    assert list(solution) == [(0, 5), (1, 4), (2, 6)]
 
     X_orig = np.array([
         [0, 0, 0, 0, 0, 0, 1],
@@ -67,7 +67,7 @@ def test_small_distance_from_other_schedule(slots, events):
         objective_function=of.number_of_changes,
         original_schedule=schedule,
     )
-    assert list(solution) == [(0, 6), (1, 5), (2, 1)]
+    assert list(solution) == [(0, 6), (1, 0), (2, 5)]
 
 
 def test_unsolvable_raises_error(events):
