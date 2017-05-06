@@ -55,13 +55,12 @@ duration/location of the slots we know some of them are unavailable for a given 
     ...           Event(name='Talk 10', duration=30, tags=['advanced'], unavailability=outside_slots[:], demand=30),
     ...           Event(name='Talk 11', duration=30, tags=['advanced'], unavailability=outside_slots[:], demand=30),
     ...           Event(name='Talk 12', duration=30, tags=['advanced'], unavailability=outside_slots[:], demand=30),
-    ...           Event(name='Workshop 1', duration=60, tags=['testing'], unavailability=talk_slots[:] + outside_slots[:], demand=300),
-    ...           Event(name='Workshop 2', duration=60, tags=['testing'], unavailability=talk_slots[:] + outside_slots[:], demand=40),
+    ...           Event(name='Workshop 1', duration=60, tags=['testing'], unavailability=outside_slots[:], demand=300),
+    ...           Event(name='Workshop 2', duration=60, tags=['testing'], unavailability=outside_slots[:], demand=40),
     ...           Event(name='City tour', duration=90, tags=[], unavailability=talk_slots[:] + workshop_slots[:], demand=100),
     ...           Event(name='Boardgames', duration=90, tags=[], unavailability=talk_slots[:] + workshop_slots[:], demand=20)]
 
 Further to this we have a couple of other constraints:
-
 
 - The speaker for :code:`Talk 1` is also the person delivering :code:`Workshop 1`::
 
@@ -71,6 +70,10 @@ Further to this we have a couple of other constraints:
   :code:`Boardgames`::
 
         >>> events[13].unavailability.append(events[-1])
+
+Note that we haven't indicated the workshops cannot happen in the talk slots but
+this will automatically be taken care of because of the duration of the
+workshops (60mins) and the duration of the talk slots (30mins).
 
 Creating a schedule
 -------------------
