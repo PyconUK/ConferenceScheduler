@@ -12,7 +12,7 @@ from conference_scheduler.resources import ScheduledItem, Shape
 #   schedule: a generator for a list of ScheduledItem instances
 
 
-def solution(events, slots, objective_function=None, **kwargs):
+def solution(events, slots, objective_function=None, solver=None, **kwargs):
     """Setup up the ILP problem, submit it to pulp and return the solution
 
     Parameters
@@ -21,8 +21,12 @@ def solution(events, slots, objective_function=None, **kwargs):
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
+        solve : pulp.solver
+            a pulp solver
         objective_function: callable
             from lp_problem.objective_functions
+        kwargs : keyword arguments
+            arguments for the objective function
 
     Returns
     -------
@@ -51,7 +55,7 @@ def solution(events, slots, objective_function=None, **kwargs):
         problem += objective_function(events=events, slots=slots, X=X,
                                       **kwargs)
 
-    status = problem.solve()
+    status = problem.solve(solver=solver)
     if status == 1:
         return (
             item for item, variable in X.items()
@@ -96,7 +100,7 @@ def array(events, slots, objective_function=None):
     )
 
 
-def schedule(events, slots, objective_function=None, **kwargs):
+def schedule(events, slots, objective_function=None, solver=None, **kwargs):
     """Compute the ILP solution and return it in schedule form
 
      Parameters
@@ -105,8 +109,12 @@ def schedule(events, slots, objective_function=None, **kwargs):
             of resources.Event instances
         slots : list or tuple
             of resources.Slot instances
+        solver : pulp.solver
+            a pulp solver
         objective_function : callable
             from lp_problem.objective_functions
+        kwargs : keyword arguments
+            arguments for the objective function
 
     Returns
     -------
@@ -114,7 +122,7 @@ def schedule(events, slots, objective_function=None, **kwargs):
             of tuples of instances of resources.ScheduledItem
     """
     return solution_to_schedule(
-        solution(events, slots, objective_function, **kwargs),
+        solution(events, slots, objective_function, solver=solver, **kwargs),
         events, slots
     )
 
