@@ -42,7 +42,9 @@ def solution(events, slots, objective_function=None, **kwargs):
     problem = pulp.LpProblem()
     X = lp.utils.variables(shape)
 
-    for constraint in lp.constraints.all_constraints(events, slots, X):
+    for constraint in lp.constraints.all_constraints(
+        events, slots, X, 'lpsum'
+    ):
         problem += constraint.condition
 
     if objective_function is not None:

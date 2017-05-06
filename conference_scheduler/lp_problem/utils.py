@@ -2,7 +2,7 @@ import pulp
 import itertools as it
 import numpy as np
 import datetime
-from conference_scheduler.resources import Shape, Constraint
+from conference_scheduler.resources import Shape
 
 
 def variables(shape: Shape):

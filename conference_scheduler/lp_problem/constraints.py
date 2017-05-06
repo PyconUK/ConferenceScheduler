@@ -1,29 +1,49 @@
+import pulp
 import itertools as it
 from conference_scheduler.resources import Shape, Constraint
 from conference_scheduler.lp_problem import utils as lpu
 
 
-def _schedule_all_events(events, slots, X):
+# According to David MacIver, using this function is more efficient than
+# using sum()
+# This code is taken from his gist at:
+# https://gist.github.com/DRMacIver/4b6561c8e4776597bf7568ccac52742f
+def lpsum(variables):
+    result = pulp.LpAffineExpression()
+    for v in variables:
+        result.addInPlace(v)
+    return result
+
+
+summation_functions = {
+    'lpsum': lpsum,
+    None: sum
+}
+
+
+def _schedule_all_events(events, slots, X, summation_type=None):
 
     shape = Shape(len(events), len(slots))
+    summation = summation_functions[summation_type]
 
     label = 'Event either not scheduled or scheduled multiple times'
     for event in range(shape.events):
         yield Constraint(
             f'{label} - event: {event}',
-            sum(X[event, slot] for slot in range(shape.slots)) == 1
+            summation(X[event, slot] for slot in range(shape.slots)) == 1
         )
 
 
-def _max_one_event_per_slot(events, slots, X):
+def _max_one_event_per_slot(events, slots, X, summation_type=None):
 
     shape = Shape(len(events), len(slots))
+    summation = summation_functions[summation_type]
 
     label = 'Slot with multiple events scheduled'
     for slot in range(shape.slots):
         yield Constraint(
             f'{label} - slot: {slot}',
-            sum(X[(event, slot)] for event in range(shape.events)) <= 1
+            summation(X[(event, slot)] for event in range(shape.events)) <= 1
         )
 
 
@@ -91,15 +111,21 @@ def _events_available_during_other_events(events, slots, X):
                         )
 
 
-def all_constraints(events, slots, X):
-    generators = (
-        _schedule_all_events,
-        _max_one_event_per_slot,
-        _events_in_session_share_a_tag,
-        _events_available_in_scheduled_slot,
-        _events_available_during_other_events
-    )
+def all_constraints(events, slots, X, summation_type=None):
+    kwargs = {
+        'events': events,
+        'slots': slots,
+        'X': X
+    }
+    summation = {'summation_type': summation_type}
+    generators = {
+        _schedule_all_events: {**kwargs, **summation},
+        _max_one_event_per_slot: {**kwargs, **summation},
+        _events_in_session_share_a_tag: kwargs,
+        _events_available_in_scheduled_slot: kwargs,
+        _events_available_during_other_events: kwargs,
+    }
 
-    for generator in generators:
-        for constraint in generator(events=events, slots=slots, X=X):
+    for generator, kwargs in generators.items():
+        for constraint in generator(**kwargs):
             yield constraint
