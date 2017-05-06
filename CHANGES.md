@@ -1,6 +1,6 @@
 # Not Yet Released
 
-- Enhancement: Added the ability to pass different solver engines to the scheduler
+- Addition: Added the ability to pass different solver engines to the scheduler
   https://github.com/PyconUK/ConferenceScheduler/pull/57
 
 - Enhancement: Added a more efficient summation function
