@@ -97,7 +97,7 @@ def test_events_available_in_scheduled_slot(events, slots, X):
     constraints = [
         c for c in lpc._events_available_in_scheduled_slot(
             events, slots, X)]
-    assert len(constraints) == 4
+    assert len(constraints) == 9
 
 
 def test_events_available_in_scheduled_slot_fails_np(events, slots):
@@ -163,4 +163,4 @@ def test_constraints(events, slots, X):
     constraints = [
         c for c in lpc.all_constraints(
             events, slots, X)]
-    assert len(constraints) == 40
+    assert len(constraints) == 45
