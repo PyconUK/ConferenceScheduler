@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Read in the version number
 __version__ = None  # This makes linters happy
@@ -8,9 +8,7 @@ with open('conference_scheduler/version.py', 'r') as f:
 setup(
     name='conference-scheduler',
     version=__version__,
-    packages=[
-        'conference_scheduler',
-    ],
+    packages=find_packages(),
     url='https://github.com/PyconUK/ConferenceScheduler',
     license='MIT',
     author='Owen Campbell, Vince Knight',
