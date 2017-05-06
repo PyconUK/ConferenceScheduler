@@ -29,7 +29,8 @@ def _max_one_event_per_slot(events, slots, X):
 
 def _events_in_session_share_a_tag(events, slots, X):
     """
-    Constraint that ensures that if an event is in a given session then it must
+    Constraint that ensures that if an event has a tag and
+    is in a given session then it must
     share at least one tag with all other event in that session.
     """
 
@@ -41,15 +42,16 @@ def _events_in_session_share_a_tag(events, slots, X):
     for session in session_indices:
         slots = lpu._slots_in_session(session, session_array)
         for slot, event in it.product(slots, event_indices):
-            other_events = lpu._events_with_diff_tag(event, tag_array)
-            for other_slot, other_event in it.product(slots, other_events):
-                if other_slot != slot and other_event != event:
-                    # If they have different tags they cannot be scheduled
-                    # together
-                    yield Constraint(
-                        f'{label} - event: {event}, slot: {slot}',
-                        X[(event, slot)] + X[(other_event, other_slot)] <= 1
-                    )
+            if events[event].tags is not []:
+                other_events = lpu._events_with_diff_tag(event, tag_array)
+                for other_slot, other_event in it.product(slots, other_events):
+                    if other_slot != slot and other_event != event:
+                        # If they have different tags they cannot be scheduled
+                        # together
+                        yield Constraint(
+                           f'{label} - event: {event}, slot: {slot}',
+                           X[(event, slot)] + X[(other_event, other_slot)] <= 1
+                        )
 
 
 def _events_available_in_scheduled_slot(events, slots, X):
@@ -63,10 +65,11 @@ def _events_available_in_scheduled_slot(events, slots, X):
     label = 'Event scheduled when not available'
     for row, event in enumerate(slot_availability_array):
         for col, availability in enumerate(event):
-            yield Constraint(
-                f'{label} - event: {row}, slot: {col}',
-                X[row, col] <= availability
-            )
+            if availability == 0:
+                yield Constraint(
+                    f'{label} - event: {row}, slot: {col}',
+                    X[row, col] <= availability
+                )
 
 
 def _events_available_during_other_events(events, slots, X):
@@ -79,11 +82,13 @@ def _events_available_during_other_events(events, slots, X):
     label = 'Event clashes with another event'
     for slot1, slot2 in lpu.concurrent_slots(slots):
         for row, event in enumerate(event_availability_array):
-            for col, availability in enumerate(event):
-                yield Constraint(
-                    f'{label} - event: {row} and event: {col}',
-                    X[row, slot1] + X[col, slot2] <= 1 + availability
-                )
+            if events[row].unavailability:
+                for col, availability in enumerate(event):
+                    if availability == 0:
+                        yield Constraint(
+                            f'{label} - event: {row} and event: {col}',
+                            X[row, slot1] + X[col, slot2] <= 1 + availability
+                        )
 
 
 def all_constraints(events, slots, X):

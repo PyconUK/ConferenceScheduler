@@ -86,23 +86,22 @@ This schedule is a generator::
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 3 at 15-Sep-2016 09:30 in Small
+    Talk 2 at 15-Sep-2016 09:30 in Small
     Talk 11 at 15-Sep-2016 09:30 in Big
     Talk 4 at 15-Sep-2016 10:00 in Small
     Talk 10 at 15-Sep-2016 10:00 in Big
-    Talk 1 at 15-Sep-2016 12:30 in Small
     Talk 5 at 15-Sep-2016 12:30 in Big
-    Talk 2 at 15-Sep-2016 13:00 in Small
+    Talk 9 at 15-Sep-2016 12:30 in Small
     Talk 6 at 15-Sep-2016 13:00 in Big
-    Talk 8 at 16-Sep-2016 09:30 in Big
+    Talk 8 at 15-Sep-2016 13:00 in Small
+    Talk 3 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 9 at 16-Sep-2016 10:00 in Big
+    Talk 1 at 16-Sep-2016 10:00 in Big
     Talk 7 at 16-Sep-2016 12:30 in Big
-    City tour at 16-Sep-2016 12:30 in Outside
+    Boardgames at 16-Sep-2016 12:30 in Outside
     Talk 12 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
-    Boardgames at 16-Sep-2016 13:00 in Outside
-
+    City tour at 16-Sep-2016 13:00 in Outside
 
 We see that all the events are scheduled in appropriate rooms (as indicated by
 the unavailability attribute for the events). Also we have that :code:`Talk 1`
@@ -119,7 +118,7 @@ Avoiding room overcrowding
 
 The data we input in to the model included information about demand for a talk;
 this could be approximated from previous popularity for a talk. However, the
-scheduler has put :code:`Talk 3` (which has high demand) in the small room
+scheduler has put :code:`Talk 2` (which has high demand) in the small room
 (which has capacity 50). We can include an objective function in our
 scheduler to minimise the difference between room capacity and demand::
 
@@ -130,26 +129,24 @@ scheduler to minimise the difference between room capacity and demand::
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 1 at 15-Sep-2016 09:30 in Big
-    Talk 2 at 15-Sep-2016 09:30 in Small
-    Talk 3 at 15-Sep-2016 10:00 in Big
-    Talk 4 at 15-Sep-2016 10:00 in Small
+    Talk 4 at 15-Sep-2016 09:30 in Big
+    Talk 7 at 15-Sep-2016 09:30 in Small
+    Talk 1 at 15-Sep-2016 10:00 in Big
+    Talk 5 at 15-Sep-2016 10:00 in Small
     Talk 8 at 15-Sep-2016 12:30 in Big
     Talk 12 at 15-Sep-2016 12:30 in Small
-    Talk 5 at 15-Sep-2016 13:00 in Big
+    Talk 6 at 15-Sep-2016 13:00 in Big
     Talk 10 at 15-Sep-2016 13:00 in Small
-    Talk 11 at 16-Sep-2016 09:30 in Big
+    Talk 3 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 9 at 16-Sep-2016 10:00 in Big
-    Talk 7 at 16-Sep-2016 12:30 in Big
-    City tour at 16-Sep-2016 12:30 in Outside
-    Talk 6 at 16-Sep-2016 13:00 in Big
+    Talk 2 at 16-Sep-2016 10:00 in Big
+    Talk 11 at 16-Sep-2016 12:30 in Big
+    Boardgames at 16-Sep-2016 12:30 in Outside
+    Talk 9 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
-    Boardgames at 16-Sep-2016 13:00 in Outside
+    City tour at 16-Sep-2016 13:00 in Outside
 
-
-
-We see that :code:`Talk 3` has moved to the bigger room but that all other
+We see that :code:`Talk 2` has moved to the bigger room but that all other
 constraints still hold.
 
 Coping with new information
@@ -158,11 +155,11 @@ Coping with new information
 This is fantastic! Our schedule has now been published and everyone is excited
 about the conference. However, as can often happen, one of the speakers now
 informs us of a particular new constraints. For example, the speaker for
-:code:`Talk 7` is unable to speak on the second day.
+:code:`Talk 11` is unable to speak on the second day.
 
 We can enter this new constraint::
 
-    >>> events[6].unavailability.extend(slots[9:])
+    >>> events[10].unavailability.extend(slots[9:])
 
 We can now solve the problem one more time from scratch just as before::
 
@@ -171,22 +168,22 @@ We can now solve the problem one more time from scratch just as before::
     >>> alt_schedule = sorted(alt_schedule, key=lambda item: item.slot.starts_at)
     >>> for item in alt_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 3 at 15-Sep-2016 09:30 in Small
-    Talk 4 at 15-Sep-2016 09:30 in Big
-    Talk 1 at 15-Sep-2016 10:00 in Small
-    Talk 2 at 15-Sep-2016 10:00 in Big
-    Talk 6 at 15-Sep-2016 12:30 in Small
-    Talk 9 at 15-Sep-2016 12:30 in Big
-    Talk 5 at 15-Sep-2016 13:00 in Small
-    Talk 7 at 15-Sep-2016 13:00 in Big
+    Talk 1 at 15-Sep-2016 09:30 in Big
+    Talk 5 at 15-Sep-2016 09:30 in Small
+    Talk 4 at 15-Sep-2016 10:00 in Big
+    Talk 6 at 15-Sep-2016 10:00 in Small
+    Talk 3 at 15-Sep-2016 12:30 in Small
+    Talk 11 at 15-Sep-2016 12:30 in Big
+    Talk 2 at 15-Sep-2016 13:00 in Small
+    Talk 12 at 15-Sep-2016 13:00 in Big
     Talk 8 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
     Talk 10 at 16-Sep-2016 10:00 in Big
-    Talk 11 at 16-Sep-2016 12:30 in Big
-    City tour at 16-Sep-2016 12:30 in Outside
-    Talk 12 at 16-Sep-2016 13:00 in Big
+    Talk 9 at 16-Sep-2016 12:30 in Big
+    Boardgames at 16-Sep-2016 12:30 in Outside
+    Talk 7 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
-    Boardgames at 16-Sep-2016 13:00 in Outside
+    City tour at 16-Sep-2016 13:00 in Outside
 
 
 This has resulted in a
@@ -201,22 +198,22 @@ old schedule::
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 1 at 15-Sep-2016 09:30 in Big
-    Talk 2 at 15-Sep-2016 09:30 in Small
-    Talk 3 at 15-Sep-2016 10:00 in Big
-    Talk 4 at 15-Sep-2016 10:00 in Small
+    Talk 4 at 15-Sep-2016 09:30 in Big
+    Talk 7 at 15-Sep-2016 09:30 in Small
+    Talk 1 at 15-Sep-2016 10:00 in Big
+    Talk 5 at 15-Sep-2016 10:00 in Small
     Talk 8 at 15-Sep-2016 12:30 in Big
-    Talk 12 at 15-Sep-2016 12:30 in Small
-    Talk 7 at 15-Sep-2016 13:00 in Big
+    Talk 11 at 15-Sep-2016 12:30 in Small
+    Talk 6 at 15-Sep-2016 13:00 in Big
     Talk 10 at 15-Sep-2016 13:00 in Small
-    Talk 11 at 16-Sep-2016 09:30 in Big
+    Talk 3 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 9 at 16-Sep-2016 10:00 in Big
-    Talk 5 at 16-Sep-2016 12:30 in Big
-    City tour at 16-Sep-2016 12:30 in Outside
-    Talk 6 at 16-Sep-2016 13:00 in Big
+    Talk 2 at 16-Sep-2016 10:00 in Big
+    Talk 12 at 16-Sep-2016 12:30 in Big
+    Boardgames at 16-Sep-2016 12:30 in Outside
+    Talk 9 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
-    Boardgames at 16-Sep-2016 13:00 in Outside
+    City tour at 16-Sep-2016 13:00 in Outside
 
 
 Scheduling chairs
@@ -227,23 +224,23 @@ last task which is to schedule chairs for the talk sessions.
 
 We have 6 different sessions of talks to chair::
 
-    Talk 1 at 15-Sep-2016 09:30 in Big
-    Talk 3 at 15-Sep-2016 10:00 in Big
+    Talk 4 at 15-Sep-2016 09:30 in Big
+    Talk 1 at 15-Sep-2016 10:00 in Big
 
-    Talk 2 at 15-Sep-2016 09:30 in Small
-    Talk 4 at 15-Sep-2016 10:00 in Small
+    Talk 7 at 15-Sep-2016 09:30 in Small
+    Talk 5 at 15-Sep-2016 10:00 in Small
 
     Talk 8 at 15-Sep-2016 12:30 in Big
-    Talk 7 at 15-Sep-2016 13:00 in Big
+    Talk 6 at 15-Sep-2016 13:00 in Big
 
-    Talk 12 at 15-Sep-2016 12:30 in Small
+    Talk 11 at 15-Sep-2016 12:30 in Small
     Talk 10 at 15-Sep-2016 13:00 in Small
 
-    Talk 11 at 16-Sep-2016 09:30 in Big
-    Talk 9 at 16-Sep-2016 10:00 in Big
+    Talk 3 at 16-Sep-2016 09:30 in Big
+    Talk 2 at 16-Sep-2016 10:00 in Big
 
-    Talk 5 at 16-Sep-2016 12:30 in Big
-    Talk 6 at 16-Sep-2016 13:00 in Big
+    Talk 12 at 16-Sep-2016 12:30 in Big
+    Talk 9 at 16-Sep-2016 13:00 in Big
 
 We will use the conference scheduler, with these sessions corresponding
 to slots::
