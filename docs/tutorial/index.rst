@@ -237,6 +237,19 @@ old schedule::
     Workshop 1 at 16-Sep-2016 13:00 in Small
     City tour at 16-Sep-2016 13:00 in Outside
 
+
+Spotting the Changes
+--------------------
+It can be a little difficult to spot what has changed when we compute a new schedule and so
+there are two functions which can help. Let's take our :code:`alt_schedule` and compare it
+with the original. Firstly, we can see which events have moved to different slots::
+
+
+    >>> diff = scheduler.event_schedule_difference(original_schedule, alt_schedule)
+    >>> for item in diff:
+    ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to  {item.new_slot.venue} at {item.new_slot.starts_at}")
+
+
 Scheduling chairs
 -----------------
 
