@@ -1,3 +1,8 @@
+# Unreleased
+
+- Bug Fix: Unnecessary constraints were not being removed
+  https://github.com/PyconUK/ConferenceScheduler/pull/61
+
 # v1.1.0, 2017-05-06
 
 - Addition: Added the ability to pass different solver engines to the scheduler
