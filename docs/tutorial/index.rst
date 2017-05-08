@@ -218,7 +218,7 @@ old schedule::
     >>> similar_schedule = scheduler.schedule(events, slots, objective_function=func, original_schedule=schedule)
 
     >>> similar_schedule = sorted(similar_schedule, key=lambda item: item.slot.starts_at)
-    >>> for item in optimal_schedule:
+    >>> for item in similar_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 4 at 15-Sep-2016 09:30 in Big
     Talk 7 at 15-Sep-2016 09:30 in Small
