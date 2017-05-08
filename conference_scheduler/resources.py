@@ -23,6 +23,18 @@ class ScheduledItem(NamedTuple):
     slot: Slot
 
 
+class ChangedEventSchedule(NamedTuple):
+    event: Event
+    old_slot: Slot
+    new_slot: Slot
+
+
+class ChangedSlotSchedule(NamedTuple):
+    slot: Slot
+    old_event: Event
+    new_event: Event
+
+
 class Shape(NamedTuple):
     """Represents the shape of a 2 dimensional array of events and slots"""
     events: int
