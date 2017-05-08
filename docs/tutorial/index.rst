@@ -215,10 +215,10 @@ old schedule::
 
 
     >>> func = objective_functions.number_of_changes
-    >>> schedule = scheduler.schedule(events, slots, objective_function=func, original_schedule=schedule)
+    >>> optimal_schedule = scheduler.schedule(events, slots, objective_function=func, original_schedule=schedule)
 
-    >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
-    >>> for item in schedule:
+    >>> optimal_schedule = sorted(optimal_schedule, key=lambda item: item.slot.starts_at)
+    >>> for item in optimal_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 4 at 15-Sep-2016 09:30 in Big
     Talk 7 at 15-Sep-2016 09:30 in Small
@@ -242,7 +242,7 @@ Spotting the Changes
 --------------------
 It can be a little difficult to spot what has changed when we compute a new schedule and so
 there are two functions which can help. Let's take our :code:`alt_schedule` and compare it
-with the original. Firstly, we can see which events have moved to different slots::
+with the original. Firstly, we can see which events moved to different slots::
 
 
     >>> event_diff = scheduler.event_schedule_difference(schedule, alt_schedule)
@@ -250,8 +250,8 @@ with the original. Firstly, we can see which events have moved to different slot
     ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to {item.new_slot.venue} at {item.new_slot.starts_at}")
     Talk 1 has moved from Big at 15-Sep-2016 10:00 to Big at 15-Sep-2016 09:30
     Talk 10 has moved from Small at 15-Sep-2016 13:00 to Big at 16-Sep-2016 10:00
-    Talk 11 has moved from Small at 15-Sep-2016 12:30 to Big at 16-Sep-2016 09:30
-    Talk 12 has moved from Big at 16-Sep-2016 12:30 to Big at 15-Sep-2016 13:00
+    Talk 11 has moved from Big at 16-Sep-2016 12:30 to Big at 16-Sep-2016 09:30
+    Talk 12 has moved from Small at 15-Sep-2016 12:30 to Big at 15-Sep-2016 13:00
     Talk 2 has moved from Big at 16-Sep-2016 10:00 to Small at 15-Sep-2016 13:00
     Talk 3 has moved from Big at 16-Sep-2016 09:30 to Small at 15-Sep-2016 12:30
     Talk 4 has moved from Big at 15-Sep-2016 09:30 to Big at 15-Sep-2016 10:00
@@ -273,12 +273,21 @@ We can also look at slots to see which now have a different event scheduled::
     Big at 15-Sep-2016 13:00 will now host Talk 12 rather than Talk 5
     Big at 16-Sep-2016 09:30 will now host Talk 11 rather than Talk 3
     Big at 16-Sep-2016 10:00 will now host Talk 10 rather than Talk 2
-    Big at 16-Sep-2016 12:30 will now host Talk 6 rather than Talk 12
+    Big at 16-Sep-2016 12:30 will now host Talk 6 rather than Talk 11
     Big at 16-Sep-2016 13:00 will now host Talk 7 rather than Talk 9
     Small at 15-Sep-2016 09:30 will now host Talk 8 rather than Talk 7
     Small at 15-Sep-2016 10:00 will now host Talk 5 rather than Talk 6
-    Small at 15-Sep-2016 12:30 will now host Talk 3 rather than Talk 11
+    Small at 15-Sep-2016 12:30 will now host Talk 3 rather than Talk 12
     Small at 15-Sep-2016 13:00 will now host Talk 2 rather than Talk 10
+
+
+We can use this facility to show how our objective function resulted in far fewer changes::
+
+    >>> event_diff = scheduler.event_schedule_difference(schedule, optimal_schedule)
+    >>> for item in event_diff:
+    ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to {item.new_slot.venue} at {item.new_slot.starts_at}")
+    Talk 11 has moved from Big at 16-Sep-2016 12:30 to Small at 15-Sep-2016 12:30
+    Talk 12 has moved from Small at 15-Sep-2016 12:30 to Big at 16-Sep-2016 12:30
 
 
 Scheduling chairs
