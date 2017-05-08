@@ -262,7 +262,7 @@ with the original. Firstly, we can see which events have moved to different slot
     Talk 9 has moved from Big at 16-Sep-2016 13:00 to Big at 15-Sep-2016 12:30
 
 
-We can also look at slots to see which now has a different event schedule::
+We can also look at slots to see which now has a different event scheduled::
 
     >>> slot_diff = scheduler.slot_schedule_difference(schedule, alt_schedule)
     >>> for item in slot_diff:
