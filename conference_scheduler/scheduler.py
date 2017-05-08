@@ -1,7 +1,9 @@
 import pulp
 import numpy as np
 import conference_scheduler.lp_problem as lp
-from conference_scheduler.resources import ScheduledItem, Shape
+from conference_scheduler.resources import (
+    ScheduledItem, Shape, ChangedEventScheduledItem, ChangedSlotScheduledItem
+)
 
 
 # Three functions that can be called by external programs to produce the
@@ -159,3 +161,35 @@ def array_to_schedule(array, events, slots):
         ScheduledItem(event=events[item[0]], slot=slots[item[1]])
         for item in scheduled
     )
+
+
+# Functions to compute the difference between two schedules
+
+
+def event_schedule_difference(old_schedule, new_schedule):
+    old = {item.event.name: item for item in old_schedule}
+    new = {item.event.name: item for item in new_schedule}
+
+    common_events = set(old.keys()).intersection(new.keys())
+    added_events = new.keys() - old.keys()
+    removed_events = old.keys() - new.keys()
+
+    changed = [
+        ChangedEventScheduledItem(
+            old[event].event, old[event].slot, new[event].slot)
+        for event in common_events
+        if old[event].slot != new[event].slot
+    ]
+    added = [
+        ChangedEventScheduledItem(new[event].event, None, new[event].slot)
+        for event in added_events
+    ]
+    removed = [
+        ChangedEventScheduledItem(old[event].event, old[event].slot, None)
+        for event in removed_events
+    ]
+    return sorted(changed + added + removed, key=lambda item: item.event.name)
+
+
+def slot_schedule_difference(old_schedule, new_schedule):
+    pass

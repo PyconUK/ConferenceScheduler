@@ -1,7 +1,10 @@
 import pytest
 import numpy as np
 from collections import Counter
-from conference_scheduler.resources import Slot
+from conference_scheduler.resources import (
+    Event, Slot, ScheduledItem, ChangedEventScheduledItem,
+    ChangedSlotScheduledItem
+)
 from conference_scheduler import scheduler
 from conference_scheduler.lp_problem import objective_functions as of
 
@@ -139,3 +142,103 @@ def test_array_to_schedule(valid_schedule, valid_array, events, slots):
         scheduler.array_to_schedule(valid_array, events, slots)
     )
     assert schedule == valid_schedule
+
+
+# Testing the difference between two schedules
+
+def test_unchanged_event_schedule_difference(events, slots):
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+        ScheduledItem(events[2], slots[2])
+    )
+    difference = scheduler.event_schedule_difference(
+        old_schedule, old_schedule)
+    assert difference == []
+
+
+def test_changed_event_schedule_difference(events, slots):
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+        ScheduledItem(events[2], slots[2])
+    )
+    new_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[3]),
+        ScheduledItem(events[2], slots[4])
+    )
+    difference = scheduler.event_schedule_difference(
+        old_schedule, new_schedule)
+    expected = [
+        ChangedEventScheduledItem(events[1], slots[4], slots[3]),
+        ChangedEventScheduledItem(events[2], slots[2], slots[4])
+    ]
+    assert difference == expected
+
+
+def test_added_event_schedule_difference(slots):
+    events = [
+        Event(name='Talk 1', duration=30, demand=30),
+        Event(name='Talk 2', duration=30, demand=500),
+        Event(name='Workshop 1', duration=60, demand=20),
+        Event(name='Workshop 2', duration=60, demand=20)
+    ]
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+        ScheduledItem(events[2], slots[2])
+    )
+    new_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[3]),
+        ScheduledItem(events[2], slots[4]),
+        ScheduledItem(events[3], slots[5])
+    )
+    difference = scheduler.event_schedule_difference(
+        old_schedule, new_schedule)
+    expected = [
+        ChangedEventScheduledItem(events[1], slots[4], slots[3]),
+        ChangedEventScheduledItem(events[2], slots[2], slots[4]),
+        ChangedEventScheduledItem(events[3], None, slots[5])
+    ]
+    assert difference == expected
+
+
+def test_removed_event_schedule_difference(slots):
+    events = [
+        Event(name='Talk 1', duration=30, demand=30),
+        Event(name='Talk 2', duration=30, demand=500),
+        Event(name='Workshop 1', duration=60, demand=20),
+        Event(name='Workshop 2', duration=60, demand=20)
+    ]
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+        ScheduledItem(events[2], slots[2]),
+        ScheduledItem(events[3], slots[5])
+    )
+    new_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[3]),
+        ScheduledItem(events[2], slots[4])
+    )
+    difference = scheduler.event_schedule_difference(
+        old_schedule, new_schedule)
+    expected = [
+        ChangedEventScheduledItem(events[1], slots[4], slots[3]),
+        ChangedEventScheduledItem(events[2], slots[2], slots[4]),
+        ChangedEventScheduledItem(events[3], slots[5], None)
+    ]
+    assert difference == expected
+
+
+def test_unchanged_slot_schedule_difference(events, slots):
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+        ScheduledItem(events[2], slots[2])
+    )
+    difference = scheduler.slot_schedule_difference(
+        old_schedule, old_schedule)
+    assert difference == []

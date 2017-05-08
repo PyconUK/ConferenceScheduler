@@ -13,9 +13,9 @@ class Slot(NamedTuple):
 class Event(NamedTuple):
     name: str
     duration: int
-    tags: List[str]
-    unavailability: List
     demand: int
+    tags: List[str] = []
+    unavailability: List = []
 
 
 class ScheduledItem(NamedTuple):
@@ -23,16 +23,16 @@ class ScheduledItem(NamedTuple):
     slot: Slot
 
 
-class ChangedEventSchedule(NamedTuple):
+class ChangedEventScheduledItem(NamedTuple):
     event: Event
-    old_slot: Slot
-    new_slot: Slot
+    old_slot: Slot = None
+    new_slot: Slot = None
 
 
-class ChangedSlotSchedule(NamedTuple):
+class ChangedSlotScheduledItem(NamedTuple):
     slot: Slot
-    old_event: Event
-    new_event: Event
+    old_event: Event = None
+    new_event: Event = None
 
 
 class Shape(NamedTuple):
