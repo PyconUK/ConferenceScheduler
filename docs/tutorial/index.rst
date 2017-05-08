@@ -245,9 +245,40 @@ there are two functions which can help. Let's take our :code:`alt_schedule` and 
 with the original. Firstly, we can see which events have moved to different slots::
 
 
-    >>> diff = scheduler.event_schedule_difference(original_schedule, alt_schedule)
-    >>> for item in diff:
-    ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to  {item.new_slot.venue} at {item.new_slot.starts_at}")
+    >>> event_diff = scheduler.event_schedule_difference(schedule, alt_schedule)
+    >>> for item in event_diff:
+    ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to {item.new_slot.venue} at {item.new_slot.starts_at}")
+    Talk 1 has moved from Big at 15-Sep-2016 10:00 to Big at 15-Sep-2016 09:30
+    Talk 10 has moved from Small at 15-Sep-2016 13:00 to Big at 16-Sep-2016 10:00
+    Talk 11 has moved from Small at 15-Sep-2016 12:30 to Big at 16-Sep-2016 09:30
+    Talk 12 has moved from Big at 16-Sep-2016 12:30 to Big at 15-Sep-2016 13:00
+    Talk 2 has moved from Big at 16-Sep-2016 10:00 to Small at 15-Sep-2016 13:00
+    Talk 3 has moved from Big at 16-Sep-2016 09:30 to Small at 15-Sep-2016 12:30
+    Talk 4 has moved from Big at 15-Sep-2016 09:30 to Big at 15-Sep-2016 10:00
+    Talk 5 has moved from Big at 15-Sep-2016 13:00 to Small at 15-Sep-2016 10:00
+    Talk 6 has moved from Small at 15-Sep-2016 10:00 to Big at 16-Sep-2016 12:30
+    Talk 7 has moved from Small at 15-Sep-2016 09:30 to Big at 16-Sep-2016 13:00
+    Talk 8 has moved from Big at 15-Sep-2016 12:30 to Small at 15-Sep-2016 09:30
+    Talk 9 has moved from Big at 16-Sep-2016 13:00 to Big at 15-Sep-2016 12:30
+
+
+We can also look at slots to see which now has a different event schedule::
+
+    >>> slot_diff = scheduler.slot_schedule_difference(schedule, alt_schedule)
+    >>> for item in slot_diff:
+    ...     print(f"{item.slot.venue} at {item.slot.starts_at} will now host {item.new_event.name} rather than {item.old_event.name}" )
+    Big at 15-Sep-2016 09:30 will now host Talk 1 rather than Talk 4
+    Big at 15-Sep-2016 10:00 will now host Talk 4 rather than Talk 1
+    Big at 15-Sep-2016 12:30 will now host Talk 9 rather than Talk 8
+    Big at 15-Sep-2016 13:00 will now host Talk 12 rather than Talk 5
+    Big at 16-Sep-2016 09:30 will now host Talk 11 rather than Talk 3
+    Big at 16-Sep-2016 10:00 will now host Talk 10 rather than Talk 2
+    Big at 16-Sep-2016 12:30 will now host Talk 6 rather than Talk 12
+    Big at 16-Sep-2016 13:00 will now host Talk 7 rather than Talk 9
+    Small at 15-Sep-2016 09:30 will now host Talk 8 rather than Talk 7
+    Small at 15-Sep-2016 10:00 will now host Talk 5 rather than Talk 6
+    Small at 15-Sep-2016 12:30 will now host Talk 3 rather than Talk 11
+    Small at 15-Sep-2016 13:00 will now host Talk 2 rather than Talk 10
 
 
 Scheduling chairs
