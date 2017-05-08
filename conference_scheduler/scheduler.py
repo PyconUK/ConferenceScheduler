@@ -192,4 +192,28 @@ def event_schedule_difference(old_schedule, new_schedule):
 
 
 def slot_schedule_difference(old_schedule, new_schedule):
-    pass
+    old = {item.slot: item for item in old_schedule}
+    new = {item.slot: item for item in new_schedule}
+
+    common_slots = set(old.keys()).intersection(new.keys())
+    added_slots = new.keys() - old.keys()
+    removed_slots = old.keys() - new.keys()
+
+    changed = [
+        ChangedSlotScheduledItem(
+            old[slot].slot, old[slot].event, new[slot].event)
+        for slot in common_slots
+        if old[slot].event != new[slot].event
+    ]
+    added = [
+        ChangedSlotScheduledItem(new[slot].slot, None, new[slot].event)
+        for slot in added_slots
+    ]
+    removed = [
+        ChangedSlotScheduledItem(old[slot].slot, old[slot].event, None)
+        for slot in removed_slots
+    ]
+    return sorted(
+        changed + added + removed,
+        key=lambda item: (item.slot.venue, item.slot.starts_at)
+    )

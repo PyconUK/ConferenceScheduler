@@ -242,3 +242,63 @@ def test_unchanged_slot_schedule_difference(events, slots):
     difference = scheduler.slot_schedule_difference(
         old_schedule, old_schedule)
     assert difference == []
+
+
+def test_changed_slot_schedule_difference(events, slots):
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+        ScheduledItem(events[2], slots[2])
+    )
+    new_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[2], slots[4]),
+        ScheduledItem(events[1], slots[2])
+    )
+    difference = scheduler.slot_schedule_difference(
+        old_schedule, new_schedule)
+    expected = [
+        ChangedSlotScheduledItem(slots[2], events[2], events[1]),
+        ChangedSlotScheduledItem(slots[4], events[1], events[2])
+    ]
+    assert difference == expected
+
+
+def test_added_slot_schedule_difference(events, slots):
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+    )
+    new_schedule = (
+        ScheduledItem(events[1], slots[1]),
+        ScheduledItem(events[0], slots[4]),
+        ScheduledItem(events[2], slots[2])
+    )
+    difference = scheduler.slot_schedule_difference(
+        old_schedule, new_schedule)
+    expected = [
+        ChangedSlotScheduledItem(slots[1], events[0], events[1]),
+        ChangedSlotScheduledItem(slots[2], None, events[2]),
+        ChangedSlotScheduledItem(slots[4], events[1], events[0])
+    ]
+    assert difference == expected
+
+
+def test_removed_slot_schedule_difference(events, slots):
+    old_schedule = (
+        ScheduledItem(events[0], slots[1]),
+        ScheduledItem(events[1], slots[4]),
+        ScheduledItem(events[2], slots[2])
+    )
+    new_schedule = (
+        ScheduledItem(events[1], slots[1]),
+        ScheduledItem(events[0], slots[4]),
+    )
+    difference = scheduler.slot_schedule_difference(
+        old_schedule, new_schedule)
+    expected = [
+        ChangedSlotScheduledItem(slots[1], events[0], events[1]),
+        ChangedSlotScheduledItem(slots[2], events[2], None),
+        ChangedSlotScheduledItem(slots[4], events[1], events[0])
+    ]
+    assert difference == expected
