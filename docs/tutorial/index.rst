@@ -107,22 +107,23 @@ This schedule is a generator::
     >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 2 at 15-Sep-2016 09:30 in Small
+    Talk 3 at 15-Sep-2016 09:30 in Small
     Talk 11 at 15-Sep-2016 09:30 in Big
     Talk 4 at 15-Sep-2016 10:00 in Small
-    Talk 10 at 15-Sep-2016 10:00 in Big
+    Talk 8 at 15-Sep-2016 10:00 in Big
+    Talk 1 at 15-Sep-2016 12:30 in Small
     Talk 5 at 15-Sep-2016 12:30 in Big
-    Talk 9 at 15-Sep-2016 12:30 in Small
+    Talk 2 at 15-Sep-2016 13:00 in Small
     Talk 6 at 15-Sep-2016 13:00 in Big
-    Talk 8 at 15-Sep-2016 13:00 in Small
-    Talk 3 at 16-Sep-2016 09:30 in Big
+    Talk 9 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 1 at 16-Sep-2016 10:00 in Big
+    Talk 10 at 16-Sep-2016 10:00 in Big
     Talk 7 at 16-Sep-2016 12:30 in Big
     Boardgames at 16-Sep-2016 12:30 in Outside
     Talk 12 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     City tour at 16-Sep-2016 13:00 in Outside
+
 
 We see that all the events are scheduled in appropriate rooms (as indicated by
 the unavailability attribute for the events). Also we have that :code:`Talk 1`
@@ -139,9 +140,9 @@ Avoiding room overcrowding
 
 The data we input in to the model included information about demand for a talk;
 this could be approximated from previous popularity for a talk. However, the
-scheduler has put :code:`Talk 2` (which has high demand) in the small room
-(which has capacity 50). We can include an objective function in our
-scheduler to minimise the difference between room capacity and demand::
+scheduler has put :code:`Talk 2` and :code:`Talk 3` (which have high demand) in
+the small room (which has capacity 50). We can include an objective function in
+our scheduler to minimise the difference between room capacity and demand::
 
     >>> from conference_scheduler.lp_problem import objective_functions
     >>> func = objective_functions.capacity_demand_difference
@@ -153,10 +154,10 @@ scheduler to minimise the difference between room capacity and demand::
     Talk 4 at 15-Sep-2016 09:30 in Big
     Talk 7 at 15-Sep-2016 09:30 in Small
     Talk 1 at 15-Sep-2016 10:00 in Big
-    Talk 5 at 15-Sep-2016 10:00 in Small
+    Talk 6 at 15-Sep-2016 10:00 in Small
     Talk 8 at 15-Sep-2016 12:30 in Big
     Talk 12 at 15-Sep-2016 12:30 in Small
-    Talk 6 at 15-Sep-2016 13:00 in Big
+    Talk 5 at 15-Sep-2016 13:00 in Big
     Talk 10 at 15-Sep-2016 13:00 in Small
     Talk 3 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
@@ -167,7 +168,8 @@ scheduler to minimise the difference between room capacity and demand::
     Workshop 1 at 16-Sep-2016 13:00 in Small
     City tour at 16-Sep-2016 13:00 in Outside
 
-We see that :code:`Talk 2` has moved to the bigger room but that all other
+
+We see that those talks have moved to the bigger room but that all other
 constraints still hold.
 
 Coping with new information
@@ -190,22 +192,21 @@ We can now solve the problem one more time from scratch just as before::
     >>> for item in alt_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 1 at 15-Sep-2016 09:30 in Big
-    Talk 5 at 15-Sep-2016 09:30 in Small
+    Talk 8 at 15-Sep-2016 09:30 in Small
     Talk 4 at 15-Sep-2016 10:00 in Big
-    Talk 6 at 15-Sep-2016 10:00 in Small
+    Talk 5 at 15-Sep-2016 10:00 in Small
     Talk 3 at 15-Sep-2016 12:30 in Small
-    Talk 11 at 15-Sep-2016 12:30 in Big
+    Talk 9 at 15-Sep-2016 12:30 in Big
     Talk 2 at 15-Sep-2016 13:00 in Small
     Talk 12 at 15-Sep-2016 13:00 in Big
-    Talk 8 at 16-Sep-2016 09:30 in Big
+    Talk 11 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
     Talk 10 at 16-Sep-2016 10:00 in Big
-    Talk 9 at 16-Sep-2016 12:30 in Big
+    Talk 6 at 16-Sep-2016 12:30 in Big
     Boardgames at 16-Sep-2016 12:30 in Outside
     Talk 7 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     City tour at 16-Sep-2016 13:00 in Outside
-
 
 This has resulted in a
 completely different schedule with a number of changes. We can however solve the
@@ -222,10 +223,10 @@ old schedule::
     Talk 4 at 15-Sep-2016 09:30 in Big
     Talk 7 at 15-Sep-2016 09:30 in Small
     Talk 1 at 15-Sep-2016 10:00 in Big
-    Talk 5 at 15-Sep-2016 10:00 in Small
+    Talk 6 at 15-Sep-2016 10:00 in Small
     Talk 8 at 15-Sep-2016 12:30 in Big
     Talk 11 at 15-Sep-2016 12:30 in Small
-    Talk 6 at 15-Sep-2016 13:00 in Big
+    Talk 5 at 15-Sep-2016 13:00 in Big
     Talk 10 at 15-Sep-2016 13:00 in Small
     Talk 3 at 16-Sep-2016 09:30 in Big
     Workshop 2 at 16-Sep-2016 09:30 in Small
@@ -248,10 +249,10 @@ We have 6 different sessions of talks to chair::
     Talk 1 at 15-Sep-2016 10:00 in Big
 
     Talk 7 at 15-Sep-2016 09:30 in Small
-    Talk 5 at 15-Sep-2016 10:00 in Small
+    Talk 6 at 15-Sep-2016 10:00 in Small
 
     Talk 8 at 15-Sep-2016 12:30 in Big
-    Talk 6 at 15-Sep-2016 13:00 in Big
+    Talk 5 at 15-Sep-2016 13:00 in Big
 
     Talk 11 at 15-Sep-2016 12:30 in Small
     Talk 10 at 15-Sep-2016 13:00 in Small
