@@ -215,10 +215,10 @@ old schedule::
 
 
     >>> func = objective_functions.number_of_changes
-    >>> schedule = scheduler.schedule(events, slots, objective_function=func, original_schedule=schedule)
+    >>> similar_schedule = scheduler.schedule(events, slots, objective_function=func, original_schedule=schedule)
 
-    >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
-    >>> for item in schedule:
+    >>> similar_schedule = sorted(similar_schedule, key=lambda item: item.slot.starts_at)
+    >>> for item in similar_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 4 at 15-Sep-2016 09:30 in Big
     Talk 7 at 15-Sep-2016 09:30 in Small
@@ -236,6 +236,60 @@ old schedule::
     Talk 9 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     City tour at 16-Sep-2016 13:00 in Outside
+
+
+Spotting the Changes
+--------------------
+It can be a little difficult to spot what has changed when we compute a new schedule and so
+there are two functions which can help. Let's take our :code:`alt_schedule` and compare it
+with the original. Firstly, we can see which events moved to different slots::
+
+
+    >>> event_diff = scheduler.event_schedule_difference(schedule, alt_schedule)
+    >>> for item in event_diff:
+    ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to {item.new_slot.venue} at {item.new_slot.starts_at}")
+    Talk 1 has moved from Big at 15-Sep-2016 10:00 to Big at 15-Sep-2016 09:30
+    Talk 10 has moved from Small at 15-Sep-2016 13:00 to Big at 16-Sep-2016 10:00
+    Talk 11 has moved from Big at 16-Sep-2016 12:30 to Big at 16-Sep-2016 09:30
+    Talk 12 has moved from Small at 15-Sep-2016 12:30 to Big at 15-Sep-2016 13:00
+    Talk 2 has moved from Big at 16-Sep-2016 10:00 to Small at 15-Sep-2016 13:00
+    Talk 3 has moved from Big at 16-Sep-2016 09:30 to Small at 15-Sep-2016 12:30
+    Talk 4 has moved from Big at 15-Sep-2016 09:30 to Big at 15-Sep-2016 10:00
+    Talk 5 has moved from Big at 15-Sep-2016 13:00 to Small at 15-Sep-2016 10:00
+    Talk 6 has moved from Small at 15-Sep-2016 10:00 to Big at 16-Sep-2016 12:30
+    Talk 7 has moved from Small at 15-Sep-2016 09:30 to Big at 16-Sep-2016 13:00
+    Talk 8 has moved from Big at 15-Sep-2016 12:30 to Small at 15-Sep-2016 09:30
+    Talk 9 has moved from Big at 16-Sep-2016 13:00 to Big at 15-Sep-2016 12:30
+
+
+We can also look at slots to see which now have a different event scheduled::
+
+    >>> slot_diff = scheduler.slot_schedule_difference(schedule, alt_schedule)
+    >>> for item in slot_diff:
+    ...     print(f"{item.slot.venue} at {item.slot.starts_at} will now host {item.new_event.name} rather than {item.old_event.name}" )
+    Big at 15-Sep-2016 09:30 will now host Talk 1 rather than Talk 4
+    Big at 15-Sep-2016 10:00 will now host Talk 4 rather than Talk 1
+    Big at 15-Sep-2016 12:30 will now host Talk 9 rather than Talk 8
+    Big at 15-Sep-2016 13:00 will now host Talk 12 rather than Talk 5
+    Big at 16-Sep-2016 09:30 will now host Talk 11 rather than Talk 3
+    Big at 16-Sep-2016 10:00 will now host Talk 10 rather than Talk 2
+    Big at 16-Sep-2016 12:30 will now host Talk 6 rather than Talk 11
+    Big at 16-Sep-2016 13:00 will now host Talk 7 rather than Talk 9
+    Small at 15-Sep-2016 09:30 will now host Talk 8 rather than Talk 7
+    Small at 15-Sep-2016 10:00 will now host Talk 5 rather than Talk 6
+    Small at 15-Sep-2016 12:30 will now host Talk 3 rather than Talk 12
+    Small at 15-Sep-2016 13:00 will now host Talk 2 rather than Talk 10
+
+
+We can use this facility to show how using :code:`number_of_changes` as our objective function
+resulted in far fewer changes::
+
+    >>> event_diff = scheduler.event_schedule_difference(schedule, similar_schedule)
+    >>> for item in event_diff:
+    ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to {item.new_slot.venue} at {item.new_slot.starts_at}")
+    Talk 11 has moved from Big at 16-Sep-2016 12:30 to Small at 15-Sep-2016 12:30
+    Talk 12 has moved from Small at 15-Sep-2016 12:30 to Big at 16-Sep-2016 12:30
+
 
 Scheduling chairs
 -----------------
