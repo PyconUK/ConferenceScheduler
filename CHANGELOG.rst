@@ -4,6 +4,9 @@ Changelog
 
 Unreleased
 ----------
+*  Enhancement: Move source code and tests into separate directories and use pytest to run documentation tests
+   `#72 <https://github.com/PyconUK/ConferenceScheduler/pull/72>`_
+
 *  Enhancement: Schedules are now returned as lists rather than generator objects
    `#67 <https://github.com/PyconUK/ConferenceScheduler/pull/67>`_
 
