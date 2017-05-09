@@ -17,11 +17,7 @@ To setup `ConferenceScheduler` for local development:
 
     git checkout -b name-of-your-branch
 
-4. Commit your changes and push your branch to Github::
-
-    git add -A
-    git commit -m "A description of your changes"
-    git push origin name-of-your-branch
+4. Commit your changes and push your branch to Github
 
 5. Create a Pull Request at `<https://github.com/PyconUK/ConferenceScheduler/pulls>`_
 
