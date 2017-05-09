@@ -4,27 +4,10 @@ from conference_scheduler.resources import Shape, Constraint
 from conference_scheduler.lp_problem import utils as lpu
 
 
-# According to David MacIver, using this function is more efficient than
-# using sum() or plain addition
-# This code is taken from his gist at:
-# https://gist.github.com/DRMacIver/4b6561c8e4776597bf7568ccac52742f
-def lpsum(variables):
-    result = pulp.LpAffineExpression()
-    for v in variables:
-        result.addInPlace(v)
-    return result
-
-
-summation_functions = {
-    'lpsum': lpsum,
-    None: sum
-}
-
-
 def _schedule_all_events(events, slots, X, summation_type=None):
 
     shape = Shape(len(events), len(slots))
-    summation = summation_functions[summation_type]
+    summation = lpu.summation_functions[summation_type]
 
     label = 'Event either not scheduled or scheduled multiple times'
     for event in range(shape.events):
@@ -37,7 +20,7 @@ def _schedule_all_events(events, slots, X, summation_type=None):
 def _max_one_event_per_slot(events, slots, X, summation_type=None):
 
     shape = Shape(len(events), len(slots))
-    summation = summation_functions[summation_type]
+    summation = lpu.summation_functions[summation_type]
 
     label = 'Slot with multiple events scheduled'
     for slot in range(shape.slots):
@@ -55,7 +38,7 @@ def _events_in_session_share_a_tag(events, slots, X, summation_type=None):
     """
 
     session_array, tag_array = lpu.session_array(slots), lpu.tag_array(events)
-    summation = summation_functions[summation_type]
+    summation = lpu.summation_functions[summation_type]
 
     label = 'Dissimilar events schedule in same session'
     event_indices = range(len(tag_array))
@@ -105,7 +88,7 @@ def _events_available_during_other_events(
     Constraint that ensures that an event is not scheduled at the same time as
     another event for which it is unavailable.
     """
-    summation = summation_functions[summation_type]
+    summation = lpu.summation_functions[summation_type]
     event_availability_array = lpu.event_availability_array(events)
 
     label = 'Event clashes with another event'
