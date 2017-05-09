@@ -1,4 +1,5 @@
 apipkg==1.4
+bumpversion==0.5.3
 execnet==1.4.1
 numpy==1.12.1
 pep8==1.7.0
