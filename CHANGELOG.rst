@@ -2,8 +2,8 @@ Changelog
 #########
 
 
-Unreleased
-----------
+v1.2.0 (2017-05-09)
+-------------------
 *  Enhancement: Move source code and tests into separate directories and use pytest to run documentation tests
    `#72 <https://github.com/PyconUK/ConferenceScheduler/pull/72>`_
 
