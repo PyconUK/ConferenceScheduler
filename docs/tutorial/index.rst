@@ -102,9 +102,7 @@ event::
     >>> from conference_scheduler import scheduler
     >>> schedule = scheduler.schedule(events, slots)
 
-This schedule is a generator::
-
-    >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
+    >>> schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 3 at 15-Sep-2016 09:30 in Small
@@ -148,7 +146,7 @@ our scheduler to minimise the difference between room capacity and demand::
     >>> func = objective_functions.capacity_demand_difference
     >>> schedule = scheduler.schedule(events, slots, objective_function=func)
 
-    >>> schedule = sorted(schedule, key=lambda item: item.slot.starts_at)
+    >>> schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 4 at 15-Sep-2016 09:30 in Big
@@ -188,7 +186,7 @@ We can now solve the problem one more time from scratch just as before::
 
     >>> alt_schedule = scheduler.schedule(events, slots, objective_function=func)
 
-    >>> alt_schedule = sorted(alt_schedule, key=lambda item: item.slot.starts_at)
+    >>> alt_schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in alt_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 1 at 15-Sep-2016 09:30 in Big
@@ -217,7 +215,7 @@ old schedule::
     >>> func = objective_functions.number_of_changes
     >>> similar_schedule = scheduler.schedule(events, slots, objective_function=func, original_schedule=schedule)
 
-    >>> similar_schedule = sorted(similar_schedule, key=lambda item: item.slot.starts_at)
+    >>> similar_schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in similar_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
     Talk 4 at 15-Sep-2016 09:30 in Big
@@ -361,7 +359,7 @@ Now let us get the chair schedule::
 
     >>> chair_schedule = scheduler.schedule(events, chair_slots)
 
-    >>> chair_schedule = sorted(chair_schedule, key=lambda item: item.slot.starts_at)
+    >>> chair_schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in chair_schedule:
     ...     print(f"{item.event.name} chairing {item.slot.starts_at} in {item.slot.venue}")
     Chair A-2 chairing 15-Sep-2016 09:30 in Big

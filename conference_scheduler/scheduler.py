@@ -59,10 +59,7 @@ def solution(events, slots, objective_function=None, solver=None, **kwargs):
 
     status = problem.solve(solver=solver)
     if status == 1:
-        return (
-            item for item, variable in X.items()
-            if variable.value() > 0
-        )
+        return [item for item, variable in X.items() if variable.value() > 0]
     else:
         raise ValueError('No valid solution found')
 
@@ -139,13 +136,13 @@ def solution_to_array(solution, events, slots):
 
 
 def solution_to_schedule(solution, events, slots):
-    return (
+    return [
         ScheduledItem(
             event=events[item[0]],
             slot=slots[item[1]]
         )
         for item in solution
-    )
+    ]
 
 
 def schedule_to_array(schedule, events, slots):
@@ -157,10 +154,10 @@ def schedule_to_array(schedule, events, slots):
 
 def array_to_schedule(array, events, slots):
     scheduled = np.transpose(np.nonzero(array))
-    return (
+    return [
         ScheduledItem(event=events[item[0]], slot=slots[item[1]])
         for item in scheduled
-    )
+    ]
 
 
 # Functions to compute the difference between two schedules
