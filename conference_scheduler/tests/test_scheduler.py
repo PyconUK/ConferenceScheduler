@@ -40,6 +40,7 @@ def test_demand_difference_schedule(slots, events):
         events=events, slots=slots,
         objective_function=of.capacity_demand_difference
     )
+    assert type(solution) is list
     assert list(solution) == [(0, 3), (1, 4), (2, 6)]
 
 
