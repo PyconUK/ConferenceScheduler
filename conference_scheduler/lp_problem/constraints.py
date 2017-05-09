@@ -47,7 +47,7 @@ def _max_one_event_per_slot(events, slots, X, summation_type=None):
         )
 
 
-def _events_in_session_share_a_tag(events, slots, X):
+def _events_in_session_share_a_tag(events, slots, X, summation_type=None):
     """
     Constraint that ensures that if an event has a tag and
     is in a given session then it must
@@ -55,6 +55,7 @@ def _events_in_session_share_a_tag(events, slots, X):
     """
 
     session_array, tag_array = lpu.session_array(slots), lpu.tag_array(events)
+    summation = summation_functions[summation_type]
 
     label = 'Dissimilar events schedule in same session'
     event_indices = range(len(tag_array))
@@ -69,8 +70,13 @@ def _events_in_session_share_a_tag(events, slots, X):
                         # If they have different tags they cannot be scheduled
                         # together
                         yield Constraint(
-                           f'{label} - event: {event}, slot: {slot}',
-                           X[(event, slot)] + X[(other_event, other_slot)] <= 1
+                            f'{label} - event: {event}, slot: {slot}',
+                            summation(
+                                (
+                                    X[(event, slot)],
+                                    X[(other_event, other_slot)]
+                                )
+                            ) <= 1
                         )
 
 
@@ -126,7 +132,7 @@ def all_constraints(events, slots, X, summation_type=None):
     generators = {
         _schedule_all_events: {**kwargs, **summation},
         _max_one_event_per_slot: {**kwargs, **summation},
-        _events_in_session_share_a_tag: kwargs,
+        _events_in_session_share_a_tag: {**kwargs, **summation},
         _events_available_in_scheduled_slot: kwargs,
         _events_available_during_other_events: {**kwargs, **summation},
     }
