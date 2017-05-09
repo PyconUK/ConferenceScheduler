@@ -1,9 +1,9 @@
 Obtaining the mathematical representation of a schedule
 =======================================================
 
-When scheduling an event it might be desirable to recover the schedule in a
+When scheduling a conference, it might be desirable to recover the schedule in a
 different format.
-Let us schedule a simple event as described in :ref:`tutorial`::
+Let us schedule a simple conference as described in :ref:`tutorial`::
 
     >>> from conference_scheduler.resources import Slot, Event
     >>> from conference_scheduler import scheduler
@@ -15,7 +15,7 @@ Let us schedule a simple event as described in :ref:`tutorial`::
 
     >>> schedule = scheduler.schedule(events, slots)
 
-We can view this event as before::
+We can view this schedule as before::
 
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
