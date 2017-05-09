@@ -40,6 +40,7 @@ def test_demand_difference_schedule(slots, events):
         events=events, slots=slots,
         objective_function=of.capacity_demand_difference
     )
+    assert type(solution) is list
     assert list(solution) == [(0, 3), (1, 4), (2, 6)]
 
 
@@ -56,6 +57,7 @@ def test_small_distance_from_other_schedule(slots, events):
         objective_function=of.number_of_changes,
         original_schedule=schedule,
     )
+    assert type(solution) is list
     assert list(solution) == [(0, 5), (1, 4), (2, 6)]
 
     X_orig = np.array([
@@ -129,6 +131,7 @@ def test_solution_to_array(valid_solution, valid_array, events, slots):
 
 def test_solution_to_schedule(valid_solution, valid_schedule, events, slots):
     schedule = scheduler.solution_to_schedule(valid_solution, events, slots)
+    assert type(schedule) is list
     assert list(schedule) == valid_schedule
 
 
@@ -141,6 +144,7 @@ def test_array_to_schedule(valid_schedule, valid_array, events, slots):
     schedule = list(
         scheduler.array_to_schedule(valid_array, events, slots)
     )
+    assert type(schedule) is list
     assert schedule == valid_schedule
 
 
