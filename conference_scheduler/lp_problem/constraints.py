@@ -5,7 +5,7 @@ from conference_scheduler.lp_problem import utils as lpu
 
 
 # According to David MacIver, using this function is more efficient than
-# using sum()
+# using sum() or plain addition
 # This code is taken from his gist at:
 # https://gist.github.com/DRMacIver/4b6561c8e4776597bf7568ccac52742f
 def lpsum(variables):
