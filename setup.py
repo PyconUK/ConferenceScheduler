@@ -1,9 +1,11 @@
 from setuptools import setup, find_packages
 
+
 setup(
     name='conference-scheduler',
     version='1.1.0',
-    packages=find_packages(),
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
     url='https://github.com/PyconUK/ConferenceScheduler',
     license='MIT',
     author='Owen Campbell, Vince Knight',

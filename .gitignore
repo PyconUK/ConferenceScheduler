@@ -95,3 +95,6 @@ ENV/
 # Sublime Text
 *.sublime-project
 *.sublime-workspace
+
+# Local PyTest Settings
+pytest.ini

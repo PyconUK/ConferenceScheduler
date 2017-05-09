@@ -2,17 +2,16 @@
 language: python
 python:
   - 3.6
-
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - export PYTEST_ADDOPTS="--pep8 --doctest-glob='*.rst'"
 install:
   - pip install -r requirements.txt
   - pip install coverage
   - pip install coveralls
 script:
-  - coverage run --source=conference_scheduler -m pytest
+  - coverage run --source=conference_scheduler setup.py test
   - coverage report -m
-  - python doctests.py
 after_success:
   - coveralls
