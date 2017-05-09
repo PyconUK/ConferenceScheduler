@@ -1,3 +1,4 @@
+import pulp
 import itertools as it
 from conference_scheduler.resources import Shape, Constraint
 from conference_scheduler.lp_problem import utils as lpu
