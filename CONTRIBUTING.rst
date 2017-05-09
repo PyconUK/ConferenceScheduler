@@ -29,10 +29,9 @@ To setup `ConferenceScheduler` for local development:
 Testing
 -------
 
-The library includes a comprehensive test suite. Please ensure that you run all the tests before submitting
-a Pull Request.
+ConferenceScheduler includes a comprehensive test suite. Please ensure that you run all the tests before submitting a Pull Request.
 
-To setup your environment for testing the library:
+To setup your environment for testing:
 
 1. Install the necessary Python libraries::
 
