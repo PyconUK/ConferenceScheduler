@@ -1,7 +1,7 @@
 environment:
+  PYTEST_ADDOPTS: "--pep8"
   matrix:
     - PYTHON: "C:\\Python36"
-    - PYTEST_ADDOPTS: "--pep8"
 install:
   - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
 build: off
