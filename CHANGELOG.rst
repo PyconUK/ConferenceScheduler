@@ -4,6 +4,12 @@ Changelog
 
 Unreleased
 ----------
+*  Enhancement: Add the `bumpversion <https://pypi.python.org/pypi/bumpversion>`_ tool and its configuration
+   `#64 <https://github.com/PyconUK/ConferenceScheduler/pull/64>`_
+
+*  Enhancement: Use a more efficient summation function instead of plain
+   addition within constraints
+   `#64 <https://github.com/PyconUK/ConferenceScheduler/pull/64>`_
 
 *  New Feature: Differences between schedules
    `#63 <https://github.com/PyconUK/ConferenceScheduler/pull/63>`_
