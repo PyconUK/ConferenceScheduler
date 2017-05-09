@@ -4,6 +4,9 @@ Changelog
 
 Unreleased
 ----------
+*  Enhancement: Schedules are now returned as lists rather than generator objects
+   `#67 <https://github.com/PyconUK/ConferenceScheduler/pull/67>`_
+
 *  Enhancement: Add the `bumpversion <https://pypi.python.org/pypi/bumpversion>`_ tool and its configuration
    `#65 <https://github.com/PyconUK/ConferenceScheduler/pull/65>`_
 
