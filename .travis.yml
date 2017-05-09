@@ -6,6 +6,7 @@ python:
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - export PYTEST_ADDOPTS="--pep8 --doctest-glob='*.rst'"
 install:
   - pip install -r requirements.txt
   - pip install coverage
