@@ -92,11 +92,14 @@ def _events_available_in_scheduled_slot(events, slots, X):
                 )
 
 
-def _events_available_during_other_events(events, slots, X):
+def _events_available_during_other_events(
+    events, slots, X, summation_type=None
+):
     """
     Constraint that ensures that an event is not scheduled at the same time as
     another event for which it is unavailable.
     """
+    summation = summation_functions[summation_type]
     event_availability_array = lpu.event_availability_array(events)
 
     label = 'Event clashes with another event'
@@ -107,7 +110,9 @@ def _events_available_during_other_events(events, slots, X):
                     if availability == 0:
                         yield Constraint(
                             f'{label} - event: {row} and event: {col}',
-                            X[row, slot1] + X[col, slot2] <= 1 + availability
+                            summation(
+                                (X[row, slot1], X[col, slot2])
+                            ) <= 1 + availability
                         )
 
 
@@ -123,7 +128,7 @@ def all_constraints(events, slots, X, summation_type=None):
         _max_one_event_per_slot: {**kwargs, **summation},
         _events_in_session_share_a_tag: kwargs,
         _events_available_in_scheduled_slot: kwargs,
-        _events_available_during_other_events: kwargs,
+        _events_available_during_other_events: {**kwargs, **summation},
     }
 
     for generator, kwargs in generators.items():
