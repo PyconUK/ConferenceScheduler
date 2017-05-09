@@ -4,27 +4,10 @@ from conference_scheduler.resources import Shape, Constraint
 from conference_scheduler.lp_problem import utils as lpu
 
 
-# According to David MacIver, using this function is more efficient than
-# using sum()
-# This code is taken from his gist at:
-# https://gist.github.com/DRMacIver/4b6561c8e4776597bf7568ccac52742f
-def lpsum(variables):
-    result = pulp.LpAffineExpression()
-    for v in variables:
-        result.addInPlace(v)
-    return result
-
-
-summation_functions = {
-    'lpsum': lpsum,
-    None: sum
-}
-
-
 def _schedule_all_events(events, slots, X, summation_type=None):
 
     shape = Shape(len(events), len(slots))
-    summation = summation_functions[summation_type]
+    summation = lpu.summation_functions[summation_type]
 
     label = 'Event either not scheduled or scheduled multiple times'
     for event in range(shape.events):
@@ -37,7 +20,7 @@ def _schedule_all_events(events, slots, X, summation_type=None):
 def _max_one_event_per_slot(events, slots, X, summation_type=None):
 
     shape = Shape(len(events), len(slots))
-    summation = summation_functions[summation_type]
+    summation = lpu.summation_functions[summation_type]
 
     label = 'Slot with multiple events scheduled'
     for slot in range(shape.slots):
@@ -47,7 +30,7 @@ def _max_one_event_per_slot(events, slots, X, summation_type=None):
         )
 
 
-def _events_in_session_share_a_tag(events, slots, X):
+def _events_in_session_share_a_tag(events, slots, X, summation_type=None):
     """
     Constraint that ensures that if an event has a tag and
     is in a given session then it must
@@ -55,6 +38,7 @@ def _events_in_session_share_a_tag(events, slots, X):
     """
 
     session_array, tag_array = lpu.session_array(slots), lpu.tag_array(events)
+    summation = lpu.summation_functions[summation_type]
 
     label = 'Dissimilar events schedule in same session'
     event_indices = range(len(tag_array))
@@ -69,12 +53,17 @@ def _events_in_session_share_a_tag(events, slots, X):
                         # If they have different tags they cannot be scheduled
                         # together
                         yield Constraint(
-                           f'{label} - event: {event}, slot: {slot}',
-                           X[(event, slot)] + X[(other_event, other_slot)] <= 1
+                            f'{label} - event: {event}, slot: {slot}',
+                            summation(
+                                (
+                                    X[(event, slot)],
+                                    X[(other_event, other_slot)]
+                                )
+                            ) <= 1
                         )
 
 
-def _events_available_in_scheduled_slot(events, slots, X):
+def _events_available_in_scheduled_slot(events, slots, X, **kwargs):
     """
     Constraint that ensures that an event is scheduled in slots for which it is
     available
@@ -92,11 +81,14 @@ def _events_available_in_scheduled_slot(events, slots, X):
                 )
 
 
-def _events_available_during_other_events(events, slots, X):
+def _events_available_during_other_events(
+    events, slots, X, summation_type=None
+):
     """
     Constraint that ensures that an event is not scheduled at the same time as
     another event for which it is unavailable.
     """
+    summation = lpu.summation_functions[summation_type]
     event_availability_array = lpu.event_availability_array(events)
 
     label = 'Event clashes with another event'
@@ -107,7 +99,9 @@ def _events_available_during_other_events(events, slots, X):
                     if availability == 0:
                         yield Constraint(
                             f'{label} - event: {row} and event: {col}',
-                            X[row, slot1] + X[col, slot2] <= 1 + availability
+                            summation(
+                                (X[row, slot1], X[col, slot2])
+                            ) <= 1 + availability
                         )
 
 
@@ -115,17 +109,17 @@ def all_constraints(events, slots, X, summation_type=None):
     kwargs = {
         'events': events,
         'slots': slots,
-        'X': X
+        'X': X,
+        'summation_type': summation_type
     }
-    summation = {'summation_type': summation_type}
-    generators = {
-        _schedule_all_events: {**kwargs, **summation},
-        _max_one_event_per_slot: {**kwargs, **summation},
-        _events_in_session_share_a_tag: kwargs,
-        _events_available_in_scheduled_slot: kwargs,
-        _events_available_during_other_events: kwargs,
-    }
+    generators = (
+        _schedule_all_events,
+        _max_one_event_per_slot,
+        _events_in_session_share_a_tag,
+        _events_available_in_scheduled_slot,
+        _events_available_during_other_events,
+    )
 
-    for generator, kwargs in generators.items():
+    for generator in generators:
         for constraint in generator(**kwargs):
             yield constraint

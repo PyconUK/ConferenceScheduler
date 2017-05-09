@@ -5,6 +5,23 @@ import datetime
 from conference_scheduler.resources import Shape
 
 
+# According to David MacIver, using this function is more efficient than
+# using sum() or plain addition
+# This code is taken from his gist at:
+# https://gist.github.com/DRMacIver/4b6561c8e4776597bf7568ccac52742f
+def lpsum(variables):
+    result = pulp.LpAffineExpression()
+    for v in variables:
+        result.addInPlace(v)
+    return result
+
+
+summation_functions = {
+    'lpsum': lpsum,
+    None: sum
+}
+
+
 def variables(shape: Shape):
     return pulp.LpVariable.dicts(
         "x",
