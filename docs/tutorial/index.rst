@@ -107,7 +107,7 @@ event::
     >>> schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 333 at 15-Sep-2016 09:30 in Small
+    Talk 3 at 15-Sep-2016 09:30 in Small
     Talk 11 at 15-Sep-2016 09:30 in Big
     Talk 4 at 15-Sep-2016 10:00 in Small
     Talk 8 at 15-Sep-2016 10:00 in Big
