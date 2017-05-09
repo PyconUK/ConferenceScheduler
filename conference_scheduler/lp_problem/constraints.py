@@ -80,7 +80,7 @@ def _events_in_session_share_a_tag(events, slots, X, summation_type=None):
                         )
 
 
-def _events_available_in_scheduled_slot(events, slots, X):
+def _events_available_in_scheduled_slot(events, slots, X, **kwargs):
     """
     Constraint that ensures that an event is scheduled in slots for which it is
     available
@@ -126,17 +126,17 @@ def all_constraints(events, slots, X, summation_type=None):
     kwargs = {
         'events': events,
         'slots': slots,
-        'X': X
+        'X': X,
+        'summation_type': summation_type
     }
-    summation = {'summation_type': summation_type}
-    generators = {
-        _schedule_all_events: {**kwargs, **summation},
-        _max_one_event_per_slot: {**kwargs, **summation},
-        _events_in_session_share_a_tag: {**kwargs, **summation},
-        _events_available_in_scheduled_slot: kwargs,
-        _events_available_during_other_events: {**kwargs, **summation},
-    }
+    generators = (
+        _schedule_all_events,
+        _max_one_event_per_slot,
+        _events_in_session_share_a_tag,
+        _events_available_in_scheduled_slot,
+        _events_available_during_other_events,
+    )
 
-    for generator, kwargs in generators.items():
+    for generator in generators:
         for constraint in generator(**kwargs):
             yield constraint
