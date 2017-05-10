@@ -50,6 +50,11 @@ Here is how we might represent this information using JSON::
     ...     }
     ... """)
 
+We can see that data is loaded into a Python dictionary::
+
+    >>> print(days)
+    {'16-Sep-2016': {'event_types': ['talk', 'plenary']}, '17-Sep-2016': {'event_types': ['talk', 'plenary']}, '18-Sep-2016': {'event_types': ['talk', 'plenary', 'workshop']}}
+
 The time periods available for the three event types were not the same and they
 were also grouped for talks but not for the other two.
 
@@ -109,6 +114,14 @@ This time using YAML, here is how we might represent that information::
     ...             starts_at: 09:10:00
     ...             duration: 50
     ... """)
+
+Again, the data is loaded into a Python dictionary with each event type as a
+key mapping to a further dictionary with the session name as key and as list
+of slot times as its values. The start times are converted to an integer
+representing the number of seconds since midnight::
+
+    >>> print(session_times['workshop'])
+    {'all': [{'starts_at': 36900, 'duration': 90}, {'starts_at': 40500, 'duration': 105}, {'starts_at': 52200, 'duration': 90}, {'starts_at': 59400, 'duration': 60}]}
 
 And, of course, there are also events which need to be scheduled. Here, we have
 an example of how to load a file (in this case, in YAML format) which holds the
