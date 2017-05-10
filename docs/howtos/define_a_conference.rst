@@ -169,7 +169,7 @@ we'll need each list of :code:`Slots` separately later on::
     ...             venue=venue,
     ...             starts_at=slot_time['starts_at'],
     ...             duration=slot_time['duration'],
-    ...             session=slot_time['session_name'],
+    ...             session=f"{day} {slot_time['session_name']}",
     ...             capacity=venues[venue]['capacity']
     ...         )
     ...         for venue, day, slot_time in it.product(
@@ -181,4 +181,5 @@ we'll need each list of :code:`Slots` separately later on::
     ...     for event_type in event_types
     ... }
     >>> print(slots['workshop'])
-    [Slot(venue='Room A', starts_at=36900, duration=90, capacity=80, session='all'), Slot(venue='Room A', starts_at=40500, duration=105, capacity=80, session='all'), Slot(venue='Room A', starts_at=52200, duration=90, capacity=80, session='all'), Slot(venue='Room A', starts_at=59400, duration=60, capacity=80, session='all'), Slot(venue='Room C', starts_at=36900, duration=90, capacity=80, session='all'), Slot(venue='Room C', starts_at=40500, duration=105, capacity=80, session='all'), Slot(venue='Room C', starts_at=52200, duration=90, capacity=80, session='all'), Slot(venue='Room C', starts_at=59400, duration=60, capacity=80, session='all')]
+    [Slot(venue='Room A', starts_at=36900, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room A', starts_at=40500, duration=105, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room A', starts_at=52200, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room A', starts_at=59400, duration=60, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=36900, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=40500, duration=105, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=52200, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=59400, duration=60, capacity=80, session='18-Sep-2016 all')]
+
