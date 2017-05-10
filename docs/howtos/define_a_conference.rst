@@ -111,7 +111,7 @@ This time using YAML, here is how we might represent that information::
     ...     plenary:
     ...         all:
     ...         -
-    ...             starts_at: 09:10:00
+    ...             starts_at: 9:10:00
     ...             duration: 50
     ... """)
 
@@ -161,13 +161,14 @@ Again, we'll create a dictionary of those with the event type as key because
 we'll need each list of :code:`Slots` separately later on::
 
     >>> import itertools as it
+    >>> from datetime import datetime, timedelta
     >>> from conference_scheduler.resources import Slot
     >>>
     >>> slots = {
     ...     event_type: [
     ...         Slot(
     ...             venue=venue,
-    ...             starts_at=slot_time['starts_at'],
+    ...             starts_at=datetime.strptime(day, '%d-%b-%Y') + timedelta(0, slot_time['starts_at']),
     ...             duration=slot_time['duration'],
     ...             session=f"{day} {slot_time['session_name']}",
     ...             capacity=venues[venue]['capacity']
@@ -181,5 +182,5 @@ we'll need each list of :code:`Slots` separately later on::
     ...     for event_type in event_types
     ... }
     >>> print(slots['talk'][0:5])
-    [Slot(venue='Assembly Room', starts_at=36900, duration=30, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=40500, duration=45, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=43200, duration=30, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=45000, duration=30, capacity=500, session='16-Sep-2016 afternoon'), Slot(venue='Assembly Room', starts_at=52200, duration=30, capacity=500, session='16-Sep-2016 afternoon')]
+    [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='16-Sep-2016 afternoon'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='16-Sep-2016 afternoon')]
 
