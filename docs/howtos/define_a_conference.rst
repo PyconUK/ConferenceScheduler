@@ -153,7 +153,7 @@ key as we'll need each associated list separately later on::
 
 And now, we can use the data we have defined to create instances of
 :code:`conference_scheduler.resources.Slot`. A :code:`Slot` instance represents
-a time and a place into which and event can be scheduled. We'll combine the
+a time and a place into which an event can be scheduled. We'll combine the
 :code:`slot_times` dictionary with the :code:`days` list and the :code:`venues`
 dictionary to give us all the possible combinations.
 
