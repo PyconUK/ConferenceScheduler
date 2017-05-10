@@ -136,8 +136,8 @@ as we'll need each associated list of tuples separately later on::
     ...     for event_type in event_types
     ... }
 
-And now, we can use the data we have defined to create instances of the Slot
-class from the conference_scheduler library. Again, we'll create a dictionary
+And now, we can use the data we have defined to create instances of
+`conference_scheduler.resources.Slot`. Again, we'll create a dictionary
 of those with the event type as key because we'll need each list of Slots
 separately later on::
 
