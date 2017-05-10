@@ -1,6 +1,11 @@
 Changelog
 #########
 
+v1.3.0 (tbc)
+------------
+*  Enhancement: the ``tags`` and ``availability`` arguments to ``Event`` are
+   optional, and default to an empty list.
+   `#74 <https://github.com/PyconUK/ConferenceScheduler/pull/74>`_
 
 v1.2.0 (2017-05-09)
 -------------------
