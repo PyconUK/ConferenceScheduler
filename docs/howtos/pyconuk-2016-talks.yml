@@ -1,0 +1,207 @@
+-
+    title: Transforming the government’s Digital Marketplace from portal to platform
+    duration: 30
+-
+    title: Django REST framework - Schemas, Hypermedia & Client libraries.
+    duration: 45
+-
+    title: django CMS in the real time web - how to mix CMS, websockets, REST for a fully real time experience
+    duration: 30
+-
+    title: Lessons learned from PHP
+    duration: 30
+-
+    title: 5 mistakes you will make building a Python Software House
+    duration: 30
+-
+    title: 'Life as the Sourcerer''s Apprentice'
+    duration: 30
+-
+    title: 'Tech interviews that don''t suck'
+    duration: 30
+-
+    title: Timezones - A tale of (more than) two cities
+    duration: 30
+-
+    title: Python, Locales and Writing Systems
+    duration: 30
+-
+    title: Distributed systems from scratch - lessons learned the hard way!
+    duration: 30
+-
+    title: Python in Medicine - ventilator data
+    duration: 45
+-
+    title: Cerberus - Data Validation for Humans
+    duration: 30
+-
+    title: Neurodiversity in Technology
+    duration: 30
+-
+    title: Chat bots - What is AI?
+    duration: 30
+-
+    title: Taking control of your Bluetooth devices
+    duration: 30
+-
+    title: Scripting across hosts with Chopsticks
+    duration: 30
+-
+    title: I love being Pythonic, you?
+    duration: 30
+-
+    title: The state of PyPy
+    duration: 45
+-
+    title: Declarative user interfaces in Python using ENAML
+    duration: 30
+-
+    title: Using Python for National Cipher Challenge
+    duration: 30
+-
+    title: High School Pythonistas - What PYNAM did next.
+    duration: 30
+-
+    title: Using Machine Learning to solve a classification problem with scikit-learn - a practical walkthrough
+    duration: 30
+-
+    title: 'Children''s Day Show and Tell'
+    duration: 30
+-
+    title: Why do kids need to code and how can we help?
+    duration: 30
+-
+    title: Developing CS education - how can you help
+    duration: 30
+-
+    title: Introducing MetaClasses
+    duration: 30
+-
+    title: How to Automate your Data Cleanup with Python
+    duration: 45
+-
+    title: 'Fast Python? Don''t Bother!'
+    duration: 30
+-
+    title: The Art of Doing Nothing – Using profiling to speed up your code
+    duration: 30
+-
+    title: Python Library Development
+    duration: 30
+-
+    title: So you "want" to maintain a Python legacy code base?
+    duration: 30
+-
+    title: Avoiding the "left-pad" problem - How to secure your pip install process
+    duration: 30
+-
+    title: An Introduction to web scraping using Python
+    duration: 30
+-
+    title: Getting started with requests HTTP library
+    duration: 30
+-
+    title: A data processing toolbox for agile scientific research
+    duration: 30
+-
+    title: An Introduction to Deep Learning with TensorFlow
+    duration: 45
+-
+    title: Building a Python Cake - Testing The Layers of Your Application
+    duration: 30
+-
+    title: Test-Driven Data Analysis
+    duration: 30
+-
+    title: The CSD Python API – Helping the world’s structural chemists innovate
+    duration: 30
+-
+    title: recipy - completely effortless provenance for Python
+    duration: 30
+-
+    title: My journey from wxPython to PyQt
+    duration: 30
+-
+    title: The Breakup - Monolith to Microservices
+    duration: 30
+-
+    title: Behind the scenes - writing tutorials
+    duration: 30
+-
+    title: Developing a Zero boilerplate library for Raspberry Pi GPIO
+    duration: 45
+-
+    title: PiNet - A project that was never intended to be...
+    duration: 30
+-
+    title: From QA to UX - Learning how to accommodate developers
+    duration: 30
+-
+    title: Introducing type hints - challenges and lessons
+    duration: 30
+-
+    title: Type checking - Whose responsibility is it?
+    duration: 30
+-
+    title: 'Python and static types: Let''s use mypy!'
+    duration: 30
+-
+    title: Form Follows Functions
+    duration: 30
+-
+    title: Ancient Greek Philosophy, Medieval Mental Models and 21st Century Technology
+    duration: 30
+-
+    title: Some challenges in automatic English text correction
+    duration: 30
+-
+    title: An adventure in exploitation with Python
+    duration: 45
+-
+    title: Creating a reproducible more secure python application
+    duration: 30
+-
+    title: 'Why /dev/random is a horrible idea and other problems you didn''t know you had yet'
+    duration: 30
+-
+    title: An introduction to property-based testing and Hypothesis
+    duration: 30
+-
+    title: Lessons learned from organizing SciPy Latin America 2016
+    duration: 30
+-
+    title: Cleaner unit testing with the Arrange Act Assert pattern
+    duration: 30
+-
+    title: Build your Microservices with ZeroMQ
+    duration: 30
+-
+    title: Rewriting without rewriting - porting an ATC radar display to Python/Qt without starting from scratch
+    duration: 30
+-
+    title: Assessing performance of Support Vector Machine kernels to detect interactions in genotyped data
+    duration: 30
+-
+    title: Simulating a CPU with Python or - surprising programs you might have thought were better written in C
+    duration: 45
+-
+    title: Attempting to Win at Blackjack
+    duration: 30
+-
+    title: Easy solutions to hard problems
+    duration: 30
+-
+    title: Queueing and Python - pip install ciw
+    duration: 30
+-
+    title: 'Euler''s Key to Cryptography'
+    duration: 30
+-
+    title: Prisoners, Cooperation and Spatial Structure
+    duration: 30
+-
+    title: Addition - well, that escalated quickly!
+    duration: 30
+-
+    title: Symbolic Computation with Python using SymPy
+    duration: 30
