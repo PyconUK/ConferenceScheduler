@@ -8,3 +8,4 @@ A number of specific instructions for particular things you might want to do:
 
    use_different_solver.rst
    mathematical_representation.rst
+   define_a_conference.rst
