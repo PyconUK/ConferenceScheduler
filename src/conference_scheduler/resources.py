@@ -1,4 +1,4 @@
-from typing import NamedTuple, Sequence, Dict, Iterable, List
+from typing import NamedTuple
 from datetime import datetime
 
 
@@ -10,12 +10,43 @@ class Slot(NamedTuple):
     session: str
 
 
-class Event(NamedTuple):
-    name: str
-    duration: int
-    demand: int
-    tags: List[str] = []
-    unavailability: List = []
+class Event:
+
+    def __init__(self, name, duration, demand, tags=None, unavailability=None):
+        self.name = name
+        self.duration = duration
+        self.demand = demand
+        if tags is None:
+            tags = []
+        self.tags = tags
+        if unavailability is None:
+            unavailability = []
+        self.unavailability = unavailability
+
+    def __repr__(self):
+        return (
+            f'{type(self).__name__}('
+            f'name={self.name!r}, duration={self.duration!r}, '
+            f'demand={self.demand!r}, tags={self.tags!r}, '
+            f'unavailability={self.unavailability!r})'
+        )
+
+    def __eq__(self, other):
+        if not isinstance(other, Event):
+            return False
+        return (
+            self.name == other.name and
+            self.duration == other.duration and
+            self.demand == other.demand and
+            self.tags == other.tags and
+            self.unavailability == other.unavailability
+        )
+
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __hash__(self):
+        return hash(repr(self))
 
 
 class ScheduledItem(NamedTuple):

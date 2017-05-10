@@ -10,8 +10,8 @@ Let us schedule a simple conference as described in :ref:`tutorial`::
 
     >>> slots  = [Slot(venue='Big', starts_at='15-Sep-2016 09:30', duration=30, session="A", capacity=200),
     ...           Slot(venue='Big', starts_at='15-Sep-2016 10:00', duration=30, session="A", capacity=200)]
-    >>> events = [Event(name='Talk 1', duration=30, tags=[], unavailability=[], demand=50),
-    ...           Event(name='Talk 2', duration=30, tags=[], unavailability=[], demand=130)]
+    >>> events = [Event(name='Talk 1', duration=30, demand=50),
+    ...           Event(name='Talk 2', duration=30, demand=130)]
 
     >>> schedule = scheduler.schedule(events, slots)
 

@@ -332,12 +332,12 @@ We will need 6 chairpersons for these slots and we will use events as chairs. In
 practice, all chairing will be taken care of by 3 people, with each person
 chairing 2 sessions::
 
-    >>> events = [Event(name='Chair A-1', duration=60, tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair A-2', duration=60, tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair B-1', duration=60, tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair B-2', duration=60, tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair C-1', duration=60, tags=[], unavailability=[], demand=0),
-    ...           Event(name='Chair D-2', duration=60, tags=[], unavailability=[], demand=0)]
+    >>> events = [Event(name='Chair A-1', duration=60, demand=0),
+    ...           Event(name='Chair A-2', duration=60, demand=0),
+    ...           Event(name='Chair B-1', duration=60, demand=0),
+    ...           Event(name='Chair B-2', duration=60, demand=0),
+    ...           Event(name='Chair C-1', duration=60, demand=0),
+    ...           Event(name='Chair D-2', duration=60, demand=0)]
 
 
 As you can see, we have set all unavailabilities to be empty however
