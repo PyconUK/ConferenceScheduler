@@ -2,7 +2,7 @@ Define a Conference
 ===================
 
 >>> event_types = ('talk', 'workshop', 'plenary')
-
+>>>
 >>> venues = {
 ...     'Assembly Room': {
 ...         'capacity': 500,
@@ -27,7 +27,7 @@ Define a Conference
 ... }
 
 >>> import json
-
+>>>
 >>> days = json.loads("""
 ...     {
 ...         "16-Sep-2016": {"event_types": ["talk", "plenary"]},
@@ -37,7 +37,7 @@ Define a Conference
 ... """)
 
 >>> import yaml
-
+>>>
 >>> session_times = yaml.load("""
 ...     talk:
 ...         morning:
@@ -109,7 +109,7 @@ Define a Conference
 
 >>> import itertools as it
 >>> from conference_scheduler.resources import Slot
-
+>>>
 >>> slots = {
 ...     event_type: [
 ...         Slot(
