@@ -116,7 +116,7 @@ This time using YAML, here is how we might represent that information::
     ... """)
 
 Again, the data is loaded into a Python dictionary with each event type as a
-key mapping to a further dictionary with the session name as key and as list
+key mapping to a further dictionary with the session name as key and a list
 of slot times as its values. The start times are converted to an integer
 representing the number of seconds since midnight::
 
