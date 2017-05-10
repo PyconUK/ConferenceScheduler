@@ -180,6 +180,6 @@ we'll need each list of :code:`Slots` separately later on::
     ...     ]
     ...     for event_type in event_types
     ... }
-    >>> print(slots['workshop'])
-    [Slot(venue='Room A', starts_at=36900, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room A', starts_at=40500, duration=105, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room A', starts_at=52200, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room A', starts_at=59400, duration=60, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=36900, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=40500, duration=105, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=52200, duration=90, capacity=80, session='18-Sep-2016 all'), Slot(venue='Room C', starts_at=59400, duration=60, capacity=80, session='18-Sep-2016 all')]
+    >>> print(slots['talk'][0:5])
+    [Slot(venue='Assembly Room', starts_at=36900, duration=30, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=40500, duration=45, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=43200, duration=30, capacity=500, session='16-Sep-2016 morning'), Slot(venue='Assembly Room', starts_at=45000, duration=30, capacity=500, session='16-Sep-2016 afternoon'), Slot(venue='Assembly Room', starts_at=52200, duration=30, capacity=500, session='16-Sep-2016 afternoon')]
 
