@@ -10,12 +10,26 @@ class Slot(NamedTuple):
     session: str
 
 
-class Event(NamedTuple):
+class BaseEvent(NamedTuple):
     name: str
     duration: int
     demand: int
-    tags: List[str] = []
-    unavailability: List = []
+    tags: List[str]
+    unavailability: List
+
+
+class Event(BaseEvent):
+
+    __slots__ = ()
+
+    def __new__(cls, name, duration, demand, tags=None, unavailability=None):
+        if tags is None:
+            tags = []
+        if unavailability is None:
+            unavailability = []
+        return super().__new__(
+            cls, name, duration, demand, tags, unavailability
+        )
 
 
 class ScheduledItem(NamedTuple):
