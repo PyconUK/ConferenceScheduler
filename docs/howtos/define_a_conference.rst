@@ -180,3 +180,5 @@ we'll need each list of :code:`Slots` separately later on::
     ...     ]
     ...     for event_type in event_types
     ... }
+    >>> print(slots['workshop'])
+    [Slot(venue='Room A', starts_at=36900, duration=90, capacity=80, session='all'), Slot(venue='Room A', starts_at=40500, duration=105, capacity=80, session='all'), Slot(venue='Room A', starts_at=52200, duration=90, capacity=80, session='all'), Slot(venue='Room A', starts_at=59400, duration=60, capacity=80, session='all'), Slot(venue='Room C', starts_at=36900, duration=90, capacity=80, session='all'), Slot(venue='Room C', starts_at=40500, duration=105, capacity=80, session='all'), Slot(venue='Room C', starts_at=52200, duration=90, capacity=80, session='all'), Slot(venue='Room C', starts_at=59400, duration=60, capacity=80, session='all')]
