@@ -92,7 +92,7 @@ Define a Conference
 ... """)
 
 >>> with open('docs/howtos/pyconuk-2016-talks.yml', 'r') as file:
-...    talks = yaml.load(file)
+...     talks = yaml.load(file)
 
 >>> slot_times = {
 ...     event_type: [
@@ -108,6 +108,7 @@ Define a Conference
 ... }
 
 >>> import itertools as it
+>>> from conference_scheduler.resources import Slot
 
 >>> slots = {
 ...     event_type: [
@@ -122,8 +123,7 @@ Define a Conference
 ...             venues, days, slot_times[event_type]
 ...         )
 ...         if (event_type in venues[venue]['suitable_for'] and
-...             event_type in days[day]['event_types']
-...         )
+...             event_type in days[day]['event_types'])
 ...     ]
 ...     for event_type in event_types
 ... }
