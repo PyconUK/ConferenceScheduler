@@ -133,8 +133,8 @@ details of the talks which took place in Cardiff::
 The structure in which we have defined our session times is convenient and
 readable, but it's not the structure required by the scheduler. Instead, we
 need to flatten it so that we have the start time, duration and session name
-in one tuple. We'll create a dictionary of these with the event type as a key
-as we'll need each associated list of tuples separately later on::
+at the same level. We'll create a dictionary of these with the event type as a
+key as we'll need each associated list separately later on::
 
     >>> slot_times = {
     ...     event_type: [
@@ -148,11 +148,17 @@ as we'll need each associated list of tuples separately later on::
     ...     ]
     ...     for event_type in event_types
     ... }
+    >>> print(slot_times['workshop'])
+    [{'starts_at': 36900, 'duration': 90, 'session_name': 'all'}, {'starts_at': 40500, 'duration': 105, 'session_name': 'all'}, {'starts_at': 52200, 'duration': 90, 'session_name': 'all'}, {'starts_at': 59400, 'duration': 60, 'session_name': 'all'}]
 
 And now, we can use the data we have defined to create instances of
-:code:`conference_scheduler.resources.Slot`. Again, we'll create a dictionary
-of those with the event type as key because we'll need each list of Slots
-separately later on::
+:code:`conference_scheduler.resources.Slot`. A :code:`Slot` instance represents
+a time and a place into which and event can be scheduled. We'll combine the
+:code:`slot_times` dictionary with the :code:`days` list and the :code:`venues`
+dictionary to give us all the possible combinations.
+
+Again, we'll create a dictionary of those with the event type as key because
+we'll need each list of :code:`Slots` separately later on::
 
     >>> import itertools as it
     >>> from conference_scheduler.resources import Slot
