@@ -33,3 +33,8 @@ def test_optional_args_are_safely_mutable():
     # polluted the default arguments.
     f = Event(name='another example', duration=30, demand=50)
     assert f.tags == []
+
+
+def test_event_is_hashable():
+    e = Event(name='example', duration=60, demand=100)
+    events = set([e])
