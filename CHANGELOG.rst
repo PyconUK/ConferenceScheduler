@@ -1,7 +1,7 @@
 Changelog
 #########
 
-v1.3.0 (tbc)
+Not Released
 ------------
 *  Enhancement: the ``tags`` and ``availability`` arguments to ``Event`` are
    optional, and default to an empty list.
