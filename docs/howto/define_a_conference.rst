@@ -241,10 +241,7 @@ tags defined::
 
     >>> from collections import defaultdict
 
-    >>> talks = [
-    ...     defaultdict(lambda: None, talk)
-    ...     for talk in talks
-    ... ]
+    >>> talks = [defaultdict(lambda: None, talk) for talk in talks]
 
 We can use that list to create instances of
 :code:`conference_scheduler.resources.Event`. Once again, we'll create a
@@ -254,11 +251,7 @@ dictionary with the event type as the keys::
     >>>
     >>> events = {
     ...     'talk': [
-    ...         Event(
-    ...             talk['title'],
-    ...             talk['duration'],
-    ...             talk['tags']
-    ...         )
+    ...         Event(talk['title'], talk['duration'], talk['tags'])
     ...         for talk in talks
     ...     ]
     ... }
