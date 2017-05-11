@@ -216,7 +216,7 @@ dictionary with the event type as the keys::
     >>>
     >>> events = {
     ...     'talk': [
-    ...         Event(talk['title'], talk['duration'], None, tags=talk.get('tags', None))
+    ...         Event(talk['title'], talk['duration'], demand=None, tags=talk.get('tags', None))
     ...         for talk in talks]}
 
     >>> pp.pprint(events['talk'][0:3])
