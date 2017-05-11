@@ -13,8 +13,8 @@ we'll include both inline data and external files. This is simply by way of
 example and it's likely that a real application would standardise on far fewer
 of those options than are shown here.
 
-Slots
------
+Data Structures
+---------------
 
 In 2016, there were three types of event: talks, workshops and plenary sessions
 and these were held in five rooms at Cardiff City Hall. Not all the rooms were
@@ -45,42 +45,12 @@ Here is how we might represent this information using JSON::
     ...     "17-Sep-2016": {"event_types": ["talk", "plenary"]},
     ...     "18-Sep-2016": {"event_types": ["talk", "plenary", "workshop"]}}"""
 
-We can load that JSON document into Python. We'll include a function to convert
-the strings representing the dates into proper Python datetime objects. The end
-result is another Python dictionary::
-
-    >>> import json
-    >>> from datetime import datetime
-    >>> from pprint import PrettyPrinter
-
-    >>> def date_decoder(day):
-    ...    for key in day.keys():
-    ...        try:
-    ...            new_key = datetime.strptime(key, '%d-%b-%Y')
-    ...            day[new_key] = day[key]
-    ...            del day[key]
-    ...        except:
-    ...            pass
-    ...    return day
-    >>>
-    >>> days = json.loads(json_days, object_hook=date_decoder)
-
-    >>> pp = PrettyPrinter()
-    >>> pp.pprint(days)
-    {datetime.datetime(2016, 9, 16, 0, 0): {'event_types': ['talk', 'plenary']},
-     datetime.datetime(2016, 9, 17, 0, 0): {'event_types': ['talk', 'plenary']},
-     datetime.datetime(2016, 9, 18, 0, 0): {'event_types': ['talk',
-                                                            'plenary',
-                                                            'workshop']}}
-
 The time periods available for the three event types were not the same and they
 were also grouped for talks but not for the other two.
 
 This time using YAML, here is how we might represent that information::
 
-    >>> import yaml
-
-    >>> session_times = yaml.load("""
+    >>> yaml_session_times = """
     ...     talk:
     ...         morning:
     ...         -
@@ -130,18 +100,85 @@ This time using YAML, here is how we might represent that information::
     ...         None:
     ...         -
     ...             starts_at: 9:10:00
-    ...             duration: 50""")
+    ...             duration: 50"""
 
-Again, the data is loaded into a Python dictionary with each event type as a
-key mapping to a further dictionary with the session name as key and a list
-of slot times as its values. The start times are converted to an integer
-representing the number of seconds since midnight::
+Next, we have the events which need to be scheduled. For this example, we have
+the talks that were accepted for PyConUK 2016 in a
+:download:`YAML file <pyconuk-2016-talks.yml>`
+
+
+Loading into Python
+-------------------
+
+Since we used a Python list and dictionary for the event types and venues,
+those are already available to us.
+
+Next, we need to load the JSON and YAML so that it too is available as lists
+and dictionaries. First, let's load the JSON document which holds the 'days'
+information. We'll include a function to convert the strings representing the
+dates into proper Python datetime objects.::
+
+    >>> import json
+    >>> from datetime import datetime
+    >>> from pprint import PrettyPrinter
+
+    >>> def date_decoder(day):
+    ...    for key in day.keys():
+    ...        try:
+    ...            new_key = datetime.strptime(key, '%d-%b-%Y')
+    ...            day[new_key] = day[key]
+    ...            del day[key]
+    ...        except:
+    ...            pass
+    ...    return day
+    >>>
+    >>> days = json.loads(json_days, object_hook=date_decoder)
+
+    >>> pp = PrettyPrinter()
+    >>> pp.pprint(days)
+    {datetime.datetime(2016, 9, 16, 0, 0): {'event_types': ['talk', 'plenary']},
+     datetime.datetime(2016, 9, 17, 0, 0): {'event_types': ['talk', 'plenary']},
+     datetime.datetime(2016, 9, 18, 0, 0): {'event_types': ['talk',
+                                                            'plenary',
+                                                            'workshop']}}
+
+We can load the YAML document containing the 'session times' information in a
+similar fashion. Again, the data is loaded into a Python dictionary with each
+event type as a key mapping to a further dictionary with the session name as
+key and a list of slot times as its values. The start times are converted to an
+integer representing the number of seconds since midnight::
+
+    >>> import yaml
+
+    >>> session_times = yaml.load(yaml_session_times)
 
     >>> pp.pprint(session_times['workshop'])
     {'None': [{'duration': 90, 'starts_at': 36900},
               {'duration': 105, 'starts_at': 40500},
               {'duration': 90, 'starts_at': 52200},
               {'duration': 60, 'starts_at': 59400}]}
+
+And also the file containing the talks::
+
+    >>> with open('docs/howto/pyconuk-2016-talks.yml', 'r') as file:
+    ...     talks = yaml.load(file)
+
+    >>> pp.pprint(talks[0:3])
+    [{'duration': 30,
+      'speaker': 'Kevin Keenoy',
+      'title': 'Transforming the government’s Digital Marketplace from portal to '
+               'platform'},
+     {'duration': 45,
+      'speaker': 'Tom Christie',
+      'title': 'Django REST framework: Schemas, Hypermedia & Client libraries.'},
+     {'duration': 30,
+      'speaker': 'Iacopo Spalletti',
+      'title': 'django CMS in the real time web: how to mix CMS, websockets, REST '
+               'for a fully real time experience'}]
+
+
+Processing
+----------
 
 The nested structure we have used to define our session times is convenient and
 readable, but it's not the structure required by the scheduler. Instead, we
@@ -164,7 +201,7 @@ key as we'll need each associated list separately later on::
      {'duration': 90, 'session_name': 'None', 'starts_at': 52200},
      {'duration': 60, 'session_name': 'None', 'starts_at': 59400}]
 
-And now, we can use the data we have defined to create instances of
+Now, we can that flattened structure to create instances of
 :code:`conference_scheduler.resources.Slot`. A :code:`Slot` instance represents
 a time and a place into which an event can be scheduled. We'll combine the
 :code:`slot_times` dictionary with the :code:`days` list and the :code:`venues`
@@ -198,18 +235,7 @@ we'll need each list of :code:`Slots` separately later on::
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
 
-Events
-------
-
-Next, we have the events which need to be scheduled. For this example, we have
-the talks that were accepted for PyConUK 2016 in a
-:download:`YAML file <pyconuk-2016-talks.yml>` which we can load
-into a Python list::
-
-    >>> with open('docs/howto/pyconuk-2016-talks.yml', 'r') as file:
-    ...     talks = yaml.load(file)
-
-We can use that list to create instances of
+For our talks, we can use the list we've loaded to create instances of
 :code:`conference_scheduler.resources.Event`. Once again, we'll create a
 dictionary with the event type as the keys::
 
