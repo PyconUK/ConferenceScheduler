@@ -33,7 +33,8 @@ We can capture this information using a Python list and dictionary::
 
 The events took place over the course of five days in September but, for this
 example, we are not considering the first day of the conference (Thursday) or
-the last (Monday).
+the last (Monday). There were talks given on all three of those days (Friday to
+Sunday) but the workshops only took place on the Sunday.
 
 Here is how we might represent this information using JSON::
 
