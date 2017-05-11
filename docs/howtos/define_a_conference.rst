@@ -221,7 +221,8 @@ Events
 ------
 
 Next, we have the events which need to be scheduled. For this example, we have
-the talks that were accepted for PyConUK 2016 in a YAML file which we can load
+the talks that were accepted for PyConUK 2016 in a
+:download:`YAML file <pyconuk-2016-talks.yml>` which we can load
 into a Python list::
 
     >>> with open('docs/howtos/pyconuk-2016-talks.yml', 'r') as file:
