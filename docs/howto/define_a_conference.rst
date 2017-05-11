@@ -236,13 +236,6 @@ into a Python list::
     >>> with open('docs/howto/pyconuk-2016-talks.yml', 'r') as file:
     ...     talks = yaml.load(file)
 
-We'll use a defaultdict to handle the fact that only some of the talks have
-tags defined::
-
-    >>> from collections import defaultdict
-
-    >>> talks = [defaultdict(lambda: None, talk) for talk in talks]
-
 We can use that list to create instances of
 :code:`conference_scheduler.resources.Event`. Once again, we'll create a
 dictionary with the event type as the keys::
@@ -251,7 +244,9 @@ dictionary with the event type as the keys::
     >>>
     >>> events = {
     ...     'talk': [
-    ...         Event(talk['title'], talk['duration'], talk['tags'])
+    ...         Event(talk['title'], talk['duration'], None, tags=talk['tags'])
+    ...         if 'tags' in talk else
+    ...         Event(talk['title'], talk['duration'], None)
     ...         for talk in talks
     ...     ]
     ... }
