@@ -89,17 +89,17 @@
 -
     title: 'Children''s Day Show and Tell'
     duration: 30
-    Tags: [Education]
+    tags: [Education]
     speaker:
 -
     title: Why do kids need to code and how can we help?
     duration: 30
-    Tags: [Education]
+    tags: [Education]
     speaker: Cat Lamin
 -
     title: Developing CS education - how can you help
     duration: 30
-    Tags: [Education]
+    tags: [Education]
     speaker: Laura Dixon
 -
     title: Introducing MetaClasses

@@ -228,16 +228,34 @@ into a Python list::
     >>> with open('docs/howto/pyconuk-2016-talks.yml', 'r') as file:
     ...     talks = yaml.load(file)
 
-    >>> pp.pprint(talks[0:3])
-    [   {   'duration': 30,
-            'speaker': 'Kevin Keenoy',
-            'title': 'Transforming the government’s Digital Marketplace from '
-                     'portal to platform'},
-        {   'duration': 45,
-            'speaker': 'Tom Christie',
-            'title': 'Django REST framework: Schemas, Hypermedia & Client '
-                     'libraries.'},
-        {   'duration': 30,
-            'speaker': 'Iacopo Spalletti',
-            'title': 'django CMS in the real time web: how to mix CMS, websockets, '
-                     'REST for a fully real time experience'}]
+We'll use a defaultdict to handle the fact that only some of the talks have
+tags defined::
+
+    >>> from collections import defaultdict
+
+    >>> talks = [
+    ...     defaultdict(lambda: None, talk)
+    ...     for talk in talks
+    ... ]
+
+We can use that list to create instances of
+:code:`conference_scheduler.resources.Event`. Once again, we'll create a
+dictionary with the event type as the keys::
+
+    >>> from conference_scheduler.resources import Event
+    >>>
+    >>> events = {
+    ...     'talk': [
+    ...         Event(
+    ...             talk['title'],
+    ...             talk['duration'],
+    ...             talk['tags']
+    ...         )
+    ...         for talk in talks
+    ...     ]
+    ... }
+
+    >>> pp.pprint(events['talk'][0:3])
+    [   Event(name='Transforming the government’s Digital Marketplace from portal to platform', duration=30, demand=None, tags=[], unavailability=[]),
+        Event(name='Django REST framework: Schemas, Hypermedia & Client libraries.', duration=45, demand=None, tags=[], unavailability=[]),
+        Event(name='django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience', duration=30, demand=None, tags=[], unavailability=[])]
