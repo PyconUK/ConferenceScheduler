@@ -4,6 +4,9 @@ Define a Conference
 Using PyCon UK 2016 for example data, let us consider how we might define a
 conference and pass the necessary data to the scheduler.
 
+Slots - A Time and a Place for Everything
+-----------------------------------------
+
 In 2016, there were three types of event: talks, workshops and plenary sessions
 and these were held in five rooms at Cardiff City Hall. Not all the rooms were
 suitable for all types event.
@@ -35,8 +38,9 @@ We can capture this information using a Python list and dictionary::
     ...     },
     ... }
 
-The events took place over the course of three days in September, but the
-workshops only occurred on the final day.
+The events took place over the course of five days in September but, for this
+example, we are not considering the first day of the conference (Thursday) or
+the last (Monday).
 
 Here is how we might represent this information using JSON::
 
@@ -150,13 +154,6 @@ representing the number of seconds since midnight::
                     {'duration': 90, 'starts_at': 52200},
                     {'duration': 60, 'starts_at': 59400}]}
 
-And, of course, there are also events which need to be scheduled. Here, we have
-an example of how to load a file (in this case, in YAML format) which holds the
-details of the talks which took place in Cardiff::
-
-    >>> with open('docs/howtos/pyconuk-2016-talks.yml', 'r') as file:
-    ...     talks = yaml.load(file)
-
 The nested structure we have used to define our session times is convenient and
 readable, but it's not the structure required by the scheduler. Instead, we
 need to flatten it so that we have the start time, duration and session name
@@ -220,4 +217,26 @@ we'll need each list of :code:`Slots` separately later on::
         Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'),
         Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
 
+Events
+------
 
+Next, we have the events which need to be scheduled. For this example, we have
+the talks that were accepted for PyConUK 2016 in a YAML file which we can load
+into a Python list::
+
+    >>> with open('docs/howtos/pyconuk-2016-talks.yml', 'r') as file:
+    ...     talks = yaml.load(file)
+
+    >>> pp.pprint(talks[0:3])
+    [   {   'duration': 30,
+            'speaker': 'Kevin Keenoy',
+            'title': 'Transforming the government’s Digital Marketplace from '
+                     'portal to platform'},
+        {   'duration': 45,
+            'speaker': 'Tom Christie',
+            'title': 'Django REST framework: Schemas, Hypermedia & Client '
+                     'libraries.'},
+        {   'duration': 30,
+            'speaker': 'Iacopo Spalletti',
+            'title': 'django CMS in the real time web: how to mix CMS, websockets, '
+                     'REST for a fully real time experience'}]
