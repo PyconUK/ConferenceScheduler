@@ -180,6 +180,9 @@ And also the file containing the talks::
 Processing
 ----------
 
+Slots
+*****
+
 The nested structure we have used to define our session times is convenient and
 readable, but it's not the structure required by the scheduler. Instead, we
 need to flatten it so that we have the start time, duration and session name
@@ -234,6 +237,9 @@ we'll need each list of :code:`Slots` separately later on::
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
+
+Events
+******
 
 For our talks, we can use the list we've loaded to create instances of
 :code:`conference_scheduler.resources.Event`. Once again, we'll create a
