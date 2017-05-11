@@ -1,7 +1,5 @@
-How tos
-=======
-
-A number of specific instructions for particular things you might want to do:
+How To...
+=========
 
 .. toctree::
    :maxdepth: 2
