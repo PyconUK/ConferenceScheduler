@@ -69,8 +69,15 @@ result is another Python dictionary::
     >>>
     >>> days = json.loads(json_days, object_hook=date_decoder)
 
-    >>> print(days)
-    {datetime.datetime(2016, 9, 16, 0, 0): {'event_types': ['talk', 'plenary']}, datetime.datetime(2016, 9, 17, 0, 0): {'event_types': ['talk', 'plenary']}, datetime.datetime(2016, 9, 18, 0, 0): {'event_types': ['talk', 'plenary', 'workshop']}}
+    >>> from pprint import PrettyPrinter
+
+    >>> pp = PrettyPrinter(indent=4)
+    >>> pp.pprint(days)
+    {   datetime.datetime(2016, 9, 16, 0, 0): {'event_types': ['talk', 'plenary']},
+        datetime.datetime(2016, 9, 17, 0, 0): {'event_types': ['talk', 'plenary']},
+        datetime.datetime(2016, 9, 18, 0, 0): {   'event_types': [   'talk',
+                                                                     'plenary',
+                                                                     'workshop']}}
 
 The time periods available for the three event types were not the same and they
 were also grouped for talks but not for the other two.
@@ -112,7 +119,7 @@ This time using YAML, here is how we might represent that information::
     ...             starts_at: 17:00:00
     ...             duration: 30
     ...     workshop:
-    ...         all:
+    ...         None:
     ...         -
     ...             starts_at: 10:15:00
     ...             duration: 90
@@ -126,7 +133,7 @@ This time using YAML, here is how we might represent that information::
     ...             starts_at: 16:30:00
     ...             duration: 60
     ...     plenary:
-    ...         all:
+    ...         None:
     ...         -
     ...             starts_at: 9:10:00
     ...             duration: 50
@@ -137,8 +144,11 @@ key mapping to a further dictionary with the session name as key and a list
 of slot times as its values. The start times are converted to an integer
 representing the number of seconds since midnight::
 
-    >>> print(session_times['workshop'])
-    {'all': [{'starts_at': 36900, 'duration': 90}, {'starts_at': 40500, 'duration': 105}, {'starts_at': 52200, 'duration': 90}, {'starts_at': 59400, 'duration': 60}]}
+    >>> pp.pprint(session_times['workshop'])
+    {   'None': [   {'duration': 90, 'starts_at': 36900},
+                    {'duration': 105, 'starts_at': 40500},
+                    {'duration': 90, 'starts_at': 52200},
+                    {'duration': 60, 'starts_at': 59400}]}
 
 And, of course, there are also events which need to be scheduled. Here, we have
 an example of how to load a file (in this case, in YAML format) which holds the
@@ -166,8 +176,11 @@ key as we'll need each associated list separately later on::
     ...     for event_type in event_types
     ... }
 
-    >>> print(slot_times['workshop'])
-    [{'starts_at': 36900, 'duration': 90, 'session_name': 'all'}, {'starts_at': 40500, 'duration': 105, 'session_name': 'all'}, {'starts_at': 52200, 'duration': 90, 'session_name': 'all'}, {'starts_at': 59400, 'duration': 60, 'session_name': 'all'}]
+    >>> pp.pprint(slot_times['workshop'])
+    [   {'duration': 90, 'session_name': 'None', 'starts_at': 36900},
+        {'duration': 105, 'session_name': 'None', 'starts_at': 40500},
+        {'duration': 90, 'session_name': 'None', 'starts_at': 52200},
+        {'duration': 60, 'session_name': 'None', 'starts_at': 59400}]
 
 And now, we can use the data we have defined to create instances of
 :code:`conference_scheduler.resources.Slot`. A :code:`Slot` instance represents
@@ -200,6 +213,11 @@ we'll need each list of :code:`Slots` separately later on::
     ...     for event_type in event_types
     ... }
 
-    >>> print(slots['talk'][0:5])
-    [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
+    >>> pp.pprint(slots['talk'][0:5])
+    [   Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
+        Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
+        Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'),
+        Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'),
+        Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
+
 
