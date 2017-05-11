@@ -4,8 +4,8 @@ Define a Conference
 Using PyCon UK 2016 for example data, let us consider how we might define a
 conference and pass the necessary data to the scheduler.
 
-Slots - A Time and a Place for Everything
------------------------------------------
+Slots
+-----
 
 In 2016, there were three types of event: talks, workshops and plenary sessions
 and these were held in five rooms at Cardiff City Hall. Not all the rooms were
