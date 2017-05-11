@@ -244,9 +244,7 @@ dictionary with the event type as the keys::
     >>>
     >>> events = {
     ...     'talk': [
-    ...         Event(talk['title'], talk['duration'], None, tags=talk['tags'])
-    ...         if 'tags' in talk else
-    ...         Event(talk['title'], talk['duration'], None)
+    ...         Event(talk['title'], talk['duration'], None, tags=talk.get('tags', None))
     ...         for talk in talks
     ...     ]
     ... }
