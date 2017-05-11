@@ -2,10 +2,10 @@
     title: Transforming the government’s Digital Marketplace from portal to platform
     duration: 30
 -
-    title: Django REST framework - Schemas, Hypermedia & Client libraries.
+    title: 'Django REST framework: Schemas, Hypermedia & Client libraries.'
     duration: 45
 -
-    title: django CMS in the real time web - how to mix CMS, websockets, REST for a fully real time experience
+    title: 'django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience'
     duration: 30
 -
     title: Lessons learned from PHP
@@ -20,16 +20,16 @@
     title: 'Tech interviews that don''t suck'
     duration: 30
 -
-    title: Timezones - A tale of (more than) two cities
+    title: 'Timezones: A tale of (more than) two cities'
     duration: 30
 -
     title: Python, Locales and Writing Systems
     duration: 30
 -
-    title: Distributed systems from scratch - lessons learned the hard way!
+    title: 'Distributed systems from scratch: lessons learned the hard way!'
     duration: 30
 -
-    title: Python in Medicine - ventilator data
+    title: 'Python in Medicine: ventilator data'
     duration: 45
 -
     title: Cerberus - Data Validation for Humans
@@ -38,7 +38,7 @@
     title: Neurodiversity in Technology
     duration: 30
 -
-    title: Chat bots - What is AI?
+    title: 'Chat bots: What is AI?'
     duration: 30
 -
     title: Taking control of your Bluetooth devices
@@ -59,7 +59,7 @@
     title: Using Python for National Cipher Challenge
     duration: 30
 -
-    title: High School Pythonistas - What PYNAM did next.
+    title: 'High School Pythonistas: What PYNAM did next.'
     duration: 30
 -
     title: Using Machine Learning to solve a classification problem with scikit-learn - a practical walkthrough
@@ -67,12 +67,15 @@
 -
     title: 'Children''s Day Show and Tell'
     duration: 30
+    Tags: [Education]
 -
     title: Why do kids need to code and how can we help?
     duration: 30
+    Tags: [Education]
 -
     title: Developing CS education - how can you help
     duration: 30
+    Tags: [Education]
 -
     title: Introducing MetaClasses
     duration: 30
@@ -92,7 +95,7 @@
     title: So you "want" to maintain a Python legacy code base?
     duration: 30
 -
-    title: Avoiding the "left-pad" problem - How to secure your pip install process
+    title: 'Avoiding the "left-pad" problem: How to secure your pip install process'
     duration: 30
 -
     title: An Introduction to web scraping using Python
@@ -107,7 +110,7 @@
     title: An Introduction to Deep Learning with TensorFlow
     duration: 45
 -
-    title: Building a Python Cake - Testing The Layers of Your Application
+    title: 'Building a Python Cake: Testing The Layers of Your Application'
     duration: 30
 -
     title: Test-Driven Data Analysis
@@ -116,16 +119,16 @@
     title: The CSD Python API – Helping the world’s structural chemists innovate
     duration: 30
 -
-    title: recipy - completely effortless provenance for Python
+    title: 'recipy: completely effortless provenance for Python'
     duration: 30
 -
     title: My journey from wxPython to PyQt
     duration: 30
 -
-    title: The Breakup - Monolith to Microservices
+    title: 'The Breakup: Monolith to Microservices'
     duration: 30
 -
-    title: Behind the scenes - writing tutorials
+    title: 'Behind the scenes: writing tutorials'
     duration: 30
 -
     title: Developing a Zero boilerplate library for Raspberry Pi GPIO
@@ -182,7 +185,7 @@
     title: Assessing performance of Support Vector Machine kernels to detect interactions in genotyped data
     duration: 30
 -
-    title: Simulating a CPU with Python or - surprising programs you might have thought were better written in C
+    title: 'Simulating a CPU with Python or: surprising programs you might have thought were better written in C'
     duration: 45
 -
     title: Attempting to Win at Blackjack
@@ -191,7 +194,7 @@
     title: Easy solutions to hard problems
     duration: 30
 -
-    title: Queueing and Python - pip install ciw
+    title: 'Queueing and Python: pip install ciw'
     duration: 30
 -
     title: 'Euler''s Key to Cryptography'
@@ -200,7 +203,7 @@
     title: Prisoners, Cooperation and Spatial Structure
     duration: 30
 -
-    title: Addition - well, that escalated quickly!
+    title: 'Addition: well, that escalated quickly!'
     duration: 30
 -
     title: Symbolic Computation with Python using SymPy
