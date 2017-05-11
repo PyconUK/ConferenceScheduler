@@ -25,27 +25,11 @@ We can capture this information using a Python list and dictionary::
     >>> event_types = ('talk', 'workshop', 'plenary')
 
     >>> venues = {
-    ...     'Assembly Room': {
-    ...         'capacity': 500,
-    ...         'suitable_for': ['talk', 'plenary']
-    ...     },
-    ...     'Room A': {
-    ...         'capacity': 80,
-    ...         'suitable_for': ['workshop']
-    ...     },
-    ...     'Ferrier Hall': {
-    ...         'capacity': 200,
-    ...         'suitable_for': ['talk']
-    ...     },
-    ...     'Room C': {
-    ...         'capacity': 80,
-    ...         'suitable_for': ['talk', 'workshop']
-    ...     },
-    ...     'Room D': {
-    ...         'capacity': 100,
-    ...         'suitable_for': ['talk']
-    ...     },
-    ... }
+    ...     'Assembly Room': {'capacity': 500, 'suitable_for': ['talk', 'plenary']},
+    ...     'Room A': {'capacity': 80, 'suitable_for': ['workshop']},
+    ...     'Ferrier Hall': {'capacity': 200, 'suitable_for': ['talk']},
+    ...     'Room C': {'capacity': 80, 'suitable_for': ['talk', 'workshop']},
+    ...     'Room D': {'capacity': 100, 'suitable_for': ['talk']}}
 
 The events took place over the course of five days in September but, for this
 example, we are not considering the first day of the conference (Thursday) or
@@ -55,13 +39,10 @@ Here is how we might represent this information using JSON::
 
     >>> import json
 
-    >>> json_days = """
-    ...     {
-    ...         "16-Sep-2016": {"event_types": ["talk", "plenary"]},
-    ...         "17-Sep-2016": {"event_types": ["talk", "plenary"]},
-    ...         "18-Sep-2016": {"event_types": ["talk", "plenary", "workshop"]}
-    ...     }
-    ... """
+    >>> json_days = """{
+    ...     "16-Sep-2016": {"event_types": ["talk", "plenary"]},
+    ...     "17-Sep-2016": {"event_types": ["talk", "plenary"]},
+    ...     "18-Sep-2016": {"event_types": ["talk", "plenary", "workshop"]}}"""
 
 We can load that JSON document into Python. We'll include a function to convert
 the strings representing the dates into proper Python datetime objects. The end
@@ -148,8 +129,7 @@ This time using YAML, here is how we might represent that information::
     ...         None:
     ...         -
     ...             starts_at: 9:10:00
-    ...             duration: 50
-    ... """)
+    ...             duration: 50""")
 
 Again, the data is loaded into a Python dictionary with each event type as a
 key mapping to a further dictionary with the session name as key and a list
@@ -169,17 +149,13 @@ at the same level. We'll create a dictionary of these with the event type as a
 key as we'll need each associated list separately later on::
 
     >>> slot_times = {
-    ...     event_type: [
-    ...         {
-    ...             'starts_at': slot_time['starts_at'],
-    ...             'duration': slot_time['duration'],
-    ...             'session_name': session_name
-    ...         }
+    ...     event_type: [{
+    ...         'starts_at': slot_time['starts_at'],
+    ...         'duration': slot_time['duration'],
+    ...         'session_name': session_name}
     ...         for session_name, slot_times in session_times[event_type].items()
-    ...         for slot_time in slot_times
-    ...     ]
-    ...     for event_type in event_types
-    ... }
+    ...         for slot_time in slot_times]
+    ...     for event_type in event_types}
 
     >>> pp.pprint(slot_times['workshop'])
     [{'duration': 90, 'session_name': 'None', 'starts_at': 36900},
@@ -207,16 +183,12 @@ we'll need each list of :code:`Slots` separately later on::
     ...             starts_at=day + timedelta(0, slot_time['starts_at']),
     ...             duration=slot_time['duration'],
     ...             session=f"{day.date()} {slot_time['session_name']}",
-    ...             capacity=venues[venue]['capacity']
-    ...         )
+    ...             capacity=venues[venue]['capacity'])
     ...         for venue, day, slot_time in it.product(
-    ...             venues, days, slot_times[event_type]
-    ...         )
+    ...             venues, days, slot_times[event_type])
     ...         if (event_type in venues[venue]['suitable_for'] and
-    ...             event_type in days[day]['event_types'])
-    ...     ]
-    ...     for event_type in event_types
-    ... }
+    ...             event_type in days[day]['event_types'])]
+    ...     for event_type in event_types}
 
     >>> pp.pprint(slots['talk'][0:5])
     [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
@@ -245,9 +217,7 @@ dictionary with the event type as the keys::
     >>> events = {
     ...     'talk': [
     ...         Event(talk['title'], talk['duration'], None, tags=talk.get('tags', None))
-    ...         for talk in talks
-    ...     ]
-    ... }
+    ...         for talk in talks]}
 
     >>> pp.pprint(events['talk'][0:3])
     [Event(name='Transforming the government’s Digital Marketplace from portal to platform', duration=30, demand=None, tags=[], unavailability=[]),
