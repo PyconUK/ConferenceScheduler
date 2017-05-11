@@ -225,7 +225,7 @@ the talks that were accepted for PyConUK 2016 in a
 :download:`YAML file <pyconuk-2016-talks.yml>` which we can load
 into a Python list::
 
-    >>> with open('docs/howtos/pyconuk-2016-talks.yml', 'r') as file:
+    >>> with open('docs/howto/pyconuk-2016-talks.yml', 'r') as file:
     ...     talks = yaml.load(file)
 
     >>> pp.pprint(talks[0:3])
