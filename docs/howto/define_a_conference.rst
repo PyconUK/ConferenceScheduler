@@ -60,6 +60,7 @@ result is another Python dictionary::
 
     >>> import json
     >>> from datetime import datetime
+    >>> from pprint import PrettyPrinter
 
     >>> def date_decoder(day):
     ...    for key in day.keys():
@@ -72,8 +73,6 @@ result is another Python dictionary::
     ...    return day
     >>>
     >>> days = json.loads(json_days, object_hook=date_decoder)
-
-    >>> from pprint import PrettyPrinter
 
     >>> pp = PrettyPrinter()
     >>> pp.pprint(days)
