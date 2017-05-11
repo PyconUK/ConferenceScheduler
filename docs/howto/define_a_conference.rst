@@ -22,7 +22,7 @@ suitable for all types event.
 
 We can capture this information using a Python list and dictionary::
 
-    >>> event_types = ('talk', 'workshop', 'plenary')
+    >>> event_types = ['talk', 'workshop', 'plenary']
 
     >>> venues = {
     ...     'Assembly Room': {'capacity': 500, 'suitable_for': ['talk', 'plenary']},
