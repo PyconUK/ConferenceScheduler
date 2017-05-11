@@ -1,210 +1,279 @@
 -
     title: Transforming the government’s Digital Marketplace from portal to platform
     duration: 30
+    speaker: Kevin Keenoy
 -
     title: 'Django REST framework: Schemas, Hypermedia & Client libraries.'
     duration: 45
+    speaker: Tom Christie
 -
     title: 'django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience'
     duration: 30
+    speaker: Iacopo Spalletti
 -
     title: Lessons learned from PHP
     duration: 30
+    speaker: Jenny Wong
 -
     title: 5 mistakes you will make building a Python Software House
     duration: 30
+    speaker: Maciej Dziergwa
 -
     title: 'Life as the Sourcerer''s Apprentice'
     duration: 30
+    speaker: Eva Gonzalez
 -
     title: 'Tech interviews that don''t suck'
     duration: 30
+    speaker: Marc Tamlyn
 -
     title: 'Timezones: A tale of (more than) two cities'
     duration: 30
+    speaker: Stephanos Papanikolopoulos
 -
     title: Python, Locales and Writing Systems
     duration: 30
+    speaker: Rae Knowler
 -
     title: 'Distributed systems from scratch: lessons learned the hard way!'
     duration: 30
+    speaker: Becky Lewis
 -
     title: 'Python in Medicine: ventilator data'
     duration: 45
+    speaker: Gusztav Belteki
 -
     title: Cerberus - Data Validation for Humans
     duration: 30
+    speaker: Nicola Iarocci
 -
     title: Neurodiversity in Technology
     duration: 30
+    speaker: John Chandler
 -
     title: 'Chat bots: What is AI?'
     duration: 30
+    speaker: Chloe Parkes
 -
     title: Taking control of your Bluetooth devices
     duration: 30
+    speaker: Helen Sherwood-Taylor
 -
     title: Scripting across hosts with Chopsticks
     duration: 30
+    speaker: Daniel Pope
 -
     title: I love being Pythonic, you?
     duration: 30
+    speaker: Busra Koken
 -
     title: The state of PyPy
     duration: 45
+    speaker: Ronan Lamy
 -
     title: Declarative user interfaces in Python using ENAML
     duration: 30
+    speaker: Tom Stordy-Allison
 -
     title: Using Python for National Cipher Challenge
     duration: 30
+    speaker: Thomas Campbell
 -
     title: 'High School Pythonistas: What PYNAM did next.'
     duration: 30
+    speaker: Jessica Upani
 -
     title: Using Machine Learning to solve a classification problem with scikit-learn - a practical walkthrough
     duration: 30
+    speaker: an Ozsvald
 -
     title: 'Children''s Day Show and Tell'
     duration: 30
     Tags: [Education]
+    speaker:
 -
     title: Why do kids need to code and how can we help?
     duration: 30
     Tags: [Education]
+    speaker: Cat Lamin
 -
     title: Developing CS education - how can you help
     duration: 30
     Tags: [Education]
+    speaker: Laura Dixon
 -
     title: Introducing MetaClasses
     duration: 30
+    speaker: Amit Kumar
 -
     title: How to Automate your Data Cleanup with Python
     duration: 45
+    speaker: Katharine Jarmul
 -
     title: 'Fast Python? Don''t Bother!'
     duration: 30
+    speaker: Russel Winder
 -
     title: The Art of Doing Nothing – Using profiling to speed up your code
     duration: 30
+    speaker: Charlie Clark
 -
     title: Python Library Development
     duration: 30
+    speaker: Vitor Baptista
 -
     title: So you "want" to maintain a Python legacy code base?
     duration: 30
+    speaker: César Cardenas Desales
 -
     title: 'Avoiding the "left-pad" problem: How to secure your pip install process'
     duration: 30
+    speaker: Aaron Bassett
 -
     title: An Introduction to web scraping using Python
     duration: 30
+    speaker: Manoj Pandey
 -
     title: Getting started with requests HTTP library
     duration: 30
+    speaker: Andrea Grandi
 -
     title: A data processing toolbox for agile scientific research
     duration: 30
+    speaker: Thomas Edwards
 -
     title: An Introduction to Deep Learning with TensorFlow
     duration: 45
+    speaker: Peter Goldsborough
 -
     title: 'Building a Python Cake: Testing The Layers of Your Application'
     duration: 30
+    speaker: Matthew Behrens
 -
     title: Test-Driven Data Analysis
     duration: 30
+    speaker: Nick Radcliffe
 -
     title: The CSD Python API – Helping the world’s structural chemists innovate
     duration: 30
+    speaker: Stewart Adcock
 -
     title: 'recipy: completely effortless provenance for Python'
     duration: 30
+    speaker: Robin Wilson
 -
     title: My journey from wxPython to PyQt
     duration: 30
+    speaker: Barry Scott
 -
     title: 'The Breakup: Monolith to Microservices'
     duration: 30
+    speaker: Julie MacDonell
 -
     title: 'Behind the scenes: writing tutorials'
     duration: 30
+    speaker: Emmanuelle Delescolle
 -
     title: Developing a Zero boilerplate library for Raspberry Pi GPIO
     duration: 45
+    speaker: Ben Nuttall and Dave Jones
 -
     title: PiNet - A project that was never intended to be...
     duration: 30
+    speaker: Andrew Mulholland
 -
     title: From QA to UX - Learning how to accommodate developers
     duration: 30
+    speaker: Yulia Zozulya
 -
     title: Introducing type hints - challenges and lessons
     duration: 30
+    speaker: Angela Santin
 -
     title: Type checking - Whose responsibility is it?
     duration: 30
+    speaker: Samathy Barratt
 -
     title: 'Python and static types: Let''s use mypy!'
     duration: 30
+    speaker: Daniel F Moisset
 -
     title: Form Follows Functions
     duration: 30
+    speaker: Ed Singleton
 -
     title: Ancient Greek Philosophy, Medieval Mental Models and 21st Century Technology
     duration: 30
+    speaker: Owen Campbell
 -
     title: Some challenges in automatic English text correction
     duration: 30
+    speaker: Tatiana Al-Chueyr Martins
 -
     title: An adventure in exploitation with Python
     duration: 45
+    speaker: Colin Newell
 -
     title: Creating a reproducible more secure python application
     duration: 30
+    speaker: Tessa Alexander
 -
     title: 'Why /dev/random is a horrible idea and other problems you didn''t know you had yet'
     duration: 30
+    speaker: Cory Benfield
 -
     title: An introduction to property-based testing and Hypothesis
     duration: 30
+    speaker: Alex Chan
 -
     title: Lessons learned from organizing SciPy Latin America 2016
     duration: 30
+    speaker: Raniere Gaia Costa da Silva
 -
     title: Cleaner unit testing with the Arrange Act Assert pattern
     duration: 30
+    speaker: James Cooke
 -
     title: Build your Microservices with ZeroMQ
     duration: 30
+    speaker: Floris Bruynooghe
 -
     title: Rewriting without rewriting - porting an ATC radar display to Python/Qt without starting from scratch
     duration: 30
+    speaker: Jim Hague
 -
     title: Assessing performance of Support Vector Machine kernels to detect interactions in genotyped data
     duration: 30
+    speaker: Tim Vivian-Griffiths
 -
     title: 'Simulating a CPU with Python or: surprising programs you might have thought were better written in C'
     duration: 45
+    speaker: Sarah Mount
 -
     title: Attempting to Win at Blackjack
     duration: 30
+    speaker: William Dudley
 -
     title: Easy solutions to hard problems
     duration: 30
+    speaker: David R. MacIver
 -
     title: 'Queueing and Python: pip install ciw'
     duration: 30
+    speaker: Geraint Palmer
 -
     title: 'Euler''s Key to Cryptography'
     duration: 30
+    speaker: Timothy John Weaving
 -
     title: Prisoners, Cooperation and Spatial Structure
     duration: 30
+    speaker: Nikoleta Evdokia Glynatsi
 -
     title: 'Addition: well, that escalated quickly!'
     duration: 30
+    speaker: Zara Siddique
 -
     title: Symbolic Computation with Python using SymPy
     duration: 30
+    speaker: Sartaj Singh
