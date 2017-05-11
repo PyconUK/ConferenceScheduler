@@ -106,7 +106,6 @@ Next, we have the events which need to be scheduled. For this example, we have
 the talks that were accepted for PyConUK 2016 in a
 :download:`YAML file <pyconuk-2016-talks.yml>`
 
-
 Loading into Python
 -------------------
 
@@ -175,7 +174,6 @@ And also the file containing the talks::
       'speaker': 'Iacopo Spalletti',
       'title': 'django CMS in the real time web: how to mix CMS, websockets, REST '
                'for a fully real time experience'}]
-
 
 Processing
 ----------
