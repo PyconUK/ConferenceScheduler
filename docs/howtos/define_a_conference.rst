@@ -11,7 +11,7 @@ suitable for all types event.
 We can capture this information using a Python list and dictionary::
 
     >>> event_types = ('talk', 'workshop', 'plenary')
-    >>>
+
     >>> venues = {
     ...     'Assembly Room': {
     ...         'capacity': 500,
@@ -41,7 +41,7 @@ workshops only occurred on the final day.
 Here is how we might represent this information using JSON::
 
     >>> import json
-    >>>
+
     >>> json_days = """
     ...     {
     ...         "16-Sep-2016": {"event_types": ["talk", "plenary"]},
@@ -56,7 +56,7 @@ result is another Python dictionary::
 
     >>> import json
     >>> from datetime import datetime
-    >>>
+
     >>> def date_decoder(day):
     ...    for key in day.keys():
     ...        try:
@@ -78,7 +78,7 @@ were also grouped for talks but not for the other two.
 This time using YAML, here is how we might represent that information::
 
     >>> import yaml
-    >>>
+
     >>> session_times = yaml.load("""
     ...     talk:
     ...         morning:
@@ -165,6 +165,7 @@ key as we'll need each associated list separately later on::
     ...     ]
     ...     for event_type in event_types
     ... }
+
     >>> print(slot_times['workshop'])
     [{'starts_at': 36900, 'duration': 90, 'session_name': 'all'}, {'starts_at': 40500, 'duration': 105, 'session_name': 'all'}, {'starts_at': 52200, 'duration': 90, 'session_name': 'all'}, {'starts_at': 59400, 'duration': 60, 'session_name': 'all'}]
 
@@ -180,7 +181,7 @@ we'll need each list of :code:`Slots` separately later on::
     >>> import itertools as it
     >>> from datetime import timedelta
     >>> from conference_scheduler.resources import Slot
-    >>>
+
     >>> slots = {
     ...     event_type: [
     ...         Slot(
@@ -198,6 +199,7 @@ we'll need each list of :code:`Slots` separately later on::
     ...     ]
     ...     for event_type in event_types
     ... }
+
     >>> print(slots['talk'][0:5])
     [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'), Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
 
