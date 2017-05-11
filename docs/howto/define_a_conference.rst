@@ -4,6 +4,15 @@ Define a Conference
 Using PyCon UK 2016 for example data, let us consider how we might define a
 conference and pass the necessary data to the scheduler.
 
+The aim here is to show how we might use simple data structures and formats
+to hold the information we require and then parse and process those structures
+into the necessary form for the scheduler.
+
+We'll use a variety of simply Python data types, YAML and JSON documents and
+we'll include both inline data and external files. This is simply by way of
+example and it's likely that a real application would standardise on far fewer
+of those options than are shown here.
+
 Slots
 -----
 
