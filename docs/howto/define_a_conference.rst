@@ -113,10 +113,10 @@ Loading into Python
 Since we used a Python list and dictionary for the event types and venues,
 those are already available to us.
 
-Next, we need to load the JSON and YAML so that it too is available as lists
-and dictionaries. First, let's load the JSON document which holds the 'days'
-information. We'll include a function to convert the strings representing the
-dates into proper Python datetime objects.::
+Next, we need to load the JSON and YAML data so that it too becomes available
+as lists and dictionaries. First, let's load the JSON document which holds the
+'days' information. We'll include a function to convert the strings
+representing the dates into proper Python datetime objects.::
 
     >>> import json
     >>> from datetime import datetime
