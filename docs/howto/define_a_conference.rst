@@ -178,6 +178,9 @@ And also the file containing the talks::
 Processing
 ----------
 
+Before we can compute a schedule for our conference, we need to create the
+:code:`Event` and :code:`Slot` objects required by the scheduler.
+
 Slots
 *****
 
