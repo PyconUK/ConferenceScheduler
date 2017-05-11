@@ -248,10 +248,9 @@ dictionary with the event type as the keys::
 
     >>> from conference_scheduler.resources import Event
     >>>
-    >>> events = {
-    ...     'talk': [
-    ...         Event(talk['title'], talk['duration'], demand=None, tags=talk.get('tags', None))
-    ...         for talk in talks]}
+    >>> events = {'talk': [
+    ...     Event(talk['title'], talk['duration'], demand=None, tags=talk.get('tags', None))
+    ...     for talk in talks]}
 
     >>> pp.pprint(events['talk'][0:3])
     [Event(name='Transforming the government’s Digital Marketplace from portal to platform', duration=30, demand=None, tags=[], unavailability=[]),
