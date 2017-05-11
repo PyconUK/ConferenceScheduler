@@ -205,7 +205,7 @@ key as we'll need each associated list separately later on::
      {'duration': 90, 'session_name': 'None', 'starts_at': 52200},
      {'duration': 60, 'session_name': 'None', 'starts_at': 59400}]
 
-Now, we can that flattened structure to create instances of
+Now, we can use that flattened structure to create instances of
 :code:`conference_scheduler.resources.Slot`. A :code:`Slot` instance represents
 a time and a place into which an event can be scheduled. We'll combine the
 :code:`slot_times` dictionary with the :code:`days` list and the :code:`venues`
