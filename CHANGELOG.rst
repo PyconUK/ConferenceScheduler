@@ -47,7 +47,7 @@ v1.1.0 (2017-05-06)
 *  Enhancement: Added a more efficient summation function in constraints
    `#55 <https://github.com/PyconUK/ConferenceScheduler/pull/55>`_
 
-*  Enhancement: Removed the creation of unecessary constraints
+*  Enhancement: Removed the creation of unnecessary constraints
    `#54 <https://github.com/PyconUK/ConferenceScheduler/pull/54>`_
 
 *  Enhancement: Altered the treatment of duration within constraints
