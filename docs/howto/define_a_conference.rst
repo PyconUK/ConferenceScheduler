@@ -117,7 +117,7 @@ Events
 ******
 
 For the events which need to be scheduled, we have the talks that were accepted
-for PyConUK 2016 in a :download:`YAML file <pyconuk-2016-talks.yml>`
+for PyCon UK 2016 in a :download:`YAML file <pyconuk-2016-talks.yml>`
 
 .. _data_structures_unavailability:
 
@@ -224,9 +224,9 @@ And also the file containing the talks::
 
 Finally, the unavailability and clashes::
 
-    >>> speaker_unvailability = yaml.load(yaml_speaker_unavailability)
+    >>> speaker_unavailability = yaml.load(yaml_speaker_unavailability)
 
-    >>> pp.pprint(speaker_unvailability)
+    >>> pp.pprint(speaker_unavailability)
     {'Alex Chan': [{'unavailable_from': datetime.datetime(2016, 9, 16, 0, 0),
                     'unavailable_until': datetime.datetime(2016, 9, 16, 23, 59, 59)},
                    {'unavailable_from': datetime.datetime(2016, 9, 18, 0, 0),
@@ -341,7 +341,7 @@ talk as the key mapping to a list of all slots on Friday and Sunday morning)::
     ...      for slot in slots['talk']
     ...      if period['unavailable_from'] <= slot.starts_at and
     ...      period['unavailable_until'] >= slot.starts_at + timedelta(0, slot.duration * 60)]
-    ... for speaker, periods in speaker_unvailability.items()
+    ... for speaker, periods in speaker_unavailability.items()
     ... for talk in talks if talk['speaker'] == speaker}
 
     >>> pp.pprint(talk_unavailability[55][0:3])
