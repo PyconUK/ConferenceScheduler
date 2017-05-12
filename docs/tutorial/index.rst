@@ -345,8 +345,8 @@ As you can see, we have set all unavailabilities to be empty however
 has informed us that they are not present on the first day. We can include these
 constraints::
 
-    >>> events[0].add_unavailability(*chair_slots[4])
-    >>> events[1].add_unavailability(*chair_slots[4])
+    >>> events[0].add_unavailability(chair_slots[4])
+    >>> events[1].add_unavailability(chair_slots[4])
     >>> events[2].add_unavailability(*chair_slots[4:])
     >>> events[3].add_unavailability(*chair_slots[4:])
 
@@ -367,9 +367,9 @@ Now let us get the chair schedule::
     Chair A-2 chairing 15-Sep-2016 09:30 in Big
     Chair B-1 chairing 15-Sep-2016 09:30 in Small
     Chair B-2 chairing 15-Sep-2016 12:30 in Small
-    Chair D-2 chairing 15-Sep-2016 12:30 in Big
-    Chair A-1 chairing 16-Sep-2016 12:30 in Big
-    Chair C-1 chairing 16-Sep-2016 12:30 in Small
+    Chair C-1 chairing 15-Sep-2016 12:30 in Big
+    Chair A-1 chairing 16-Sep-2016 12:30 in Small
+    Chair D-2 chairing 16-Sep-2016 12:30 in Big
 
 
 Validating a schedule
