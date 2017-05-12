@@ -12,13 +12,13 @@ def test_can_construct_event():
     assert isinstance(e, Event)
     assert e.name == 'example'
     assert e.tags == ['beginner', 'python']
-    assert e.unavailability == []
+    assert e.unavailability == ()
 
 
 def test_optional_args_to_event_are_defaulted():
     e = Event(name='example', duration=60, demand=100)
     assert e.tags == []
-    assert e.unavailability == []
+    assert e.unavailability == ()
 
 
 def test_optional_args_are_safely_mutable():
@@ -38,3 +38,4 @@ def test_optional_args_are_safely_mutable():
 def test_event_is_hashable():
     e = Event(name='example', duration=60, demand=100)
     events = set([e])
+    assert len(events) == 1
