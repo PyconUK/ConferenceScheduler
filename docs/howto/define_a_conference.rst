@@ -28,7 +28,7 @@ Slots
 
 In 2016, there were three types of event: talks, workshops and plenary sessions
 and these were held in five rooms at Cardiff City Hall. Not all the rooms were
-suitable for all types event.
+suitable for all types of event.
 
 We can capture this information using a Python list and dictionary::
 
