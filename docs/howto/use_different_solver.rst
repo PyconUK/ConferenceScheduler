@@ -1,5 +1,5 @@
-Using different solvers
-=======================
+Use different solvers
+=====================
 
 The `Pulp <https://pythonhosted.org/PuLP/index.html>`_ library is a Python
 interface to underlying solution engines. By default it comes packaged with `CBC

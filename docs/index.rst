@@ -12,7 +12,7 @@ Contents:
    :maxdepth: 2
 
    tutorial/index.rst
-   howtos/index.rst
+   howto/index.rst
    background/index.rst
 
 
