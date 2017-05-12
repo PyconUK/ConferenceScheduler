@@ -26,7 +26,7 @@ def test_optional_args_are_safely_mutable():
     # omitted, then assign it a tag
     e = Event(name='example', duration=60, demand=100)
     assert e.tags == ()
-    e.add_tag('intermediate')
+    e.add_tags('intermediate')
     assert e.tags == ('intermediate', )
 
     # Now create a second instance of `Event`, and check we haven't
@@ -41,53 +41,53 @@ def test_event_is_hashable():
     assert len(events) == 1
 
 
-def test_add_unavailability_append():
+def test_add_single_unavailability():
     e = Event(name='example', duration=60, demand=100)
     e.add_unavailability(2)
     assert e.unavailability == (2, )
 
 
-def test_add_unavailability_extend():
+def test_add_multiple_unavailability():
     e = Event(name='example', duration=60, demand=100)
-    e.add_unavailability([2, 3, 4])
+    e.add_unavailability(2, 3, 4)
     assert e.unavailability == (2, 3, 4)
 
 
 def test_remove_unavailability():
     e = Event(name='example', duration=60, demand=100)
-    e.add_unavailability([2, 3, 4])
+    e.add_unavailability(2, 3, 4)
     e.remove_unavailability(3)
     assert e.unavailability == (2, 4)
 
 
 def test_clear_unavailability():
     e = Event(name='example', duration=60, demand=100)
-    e.add_unavailability([2, 3, 4])
+    e.add_unavailability(2, 3, 4)
     e.clear_unavailability()
     assert e.unavailability == ()
 
 
-def test_add_tag():
+def test_add_single_tag():
     e = Event(name='example', duration=60, demand=100)
-    e.add_tag('test')
+    e.add_tags('test')
     assert e.tags == ('test', )
 
 
-def test_add_tags():
+def test_add_multiple_tags():
     e = Event(name='example', duration=60, demand=100)
-    e.add_tags(['test1', 'test2', 'test3'])
+    e.add_tags('test1', 'test2', 'test3')
     assert e.tags == ('test1', 'test2', 'test3')
 
 
 def test_remove_tag():
     e = Event(name='example', duration=60, demand=100)
-    e.add_tags(['test1', 'test2', 'test3'])
+    e.add_tags('test1', 'test2', 'test3')
     e.remove_tag('test2')
     assert e.tags == ('test1', 'test3')
 
 
 def test_clear_tags():
     e = Event(name='example', duration=60, demand=100)
-    e.add_tags(['test1', 'test2', 'test3'])
+    e.add_tags('test1', 'test2', 'test3')
     e.clear_tags()
     assert e.tags == ()

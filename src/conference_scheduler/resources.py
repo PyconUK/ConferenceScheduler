@@ -52,11 +52,9 @@ class Event:
     def unavailability(self):
         return tuple(self._unavailability)
 
-    def add_unavailability(self, object):
-        try:
-            self._unavailability.extend(object)
-        except TypeError:
-            self._unavailability.append(object)
+    def add_unavailability(self, *args):
+        for arg in args:
+            self._unavailability.append(arg)
 
     def remove_unavailability(self, object):
         self._unavailability.remove(object)
@@ -68,11 +66,9 @@ class Event:
     def tags(self):
         return tuple(self._tags)
 
-    def add_tag(self, tag):
-        self._tags.append(tag)
-
-    def add_tags(self, tags):
-        self._tags.extend(tags)
+    def add_tags(self, *args):
+        for arg in args:
+            self._tags.append(arg)
 
     def remove_tag(self, tag):
         self._tags.remove(tag)
