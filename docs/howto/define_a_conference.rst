@@ -310,15 +310,32 @@ we'll need each list of :code:`Slots` separately later on::
 
 Events
 ******
+We can now create instances of :code:`conference_scheduler.resources.Event`
+using the talks dictionary we loaded from the YAML file. Once again, we'll
+create a dictionary with the event type as the keys::
 
-We'll need to take our unavailability information and map that to the talks it
+    >>> from conference_scheduler.resources import Event
+    >>>
+    >>> events = {'talk': [
+    ...     Event(
+    ...         talk['title'], talk['duration'], demand=None,
+    ...         tags=talk.get('tags', None))
+    ...     for talk in talks]}
+
+    >>> pp.pprint(events['talk'][0:3])
+    [Event(name='Transforming the government’s Digital Marketplace from portal to platform', duration=30, demand=None, tags=[], unavailability=[]),
+     Event(name='Django REST framework: Schemas, Hypermedia & Client libraries.', duration=45, demand=None, tags=[], unavailability=[]),
+     Event(name='django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience', duration=30, demand=None, tags=[], unavailability=[])]
+
+We then need to add our unavailability information to those Event objects.
+First, let's take our unavailability information and map that to the talks it
 might affect. Let's create a dictionary with the talk index as its key and a
 list of slots in which it must not be scheduled. (This will give us a
 dictionary with the index of Alex Chan's talk as the key mapping to a list of
 all slots on Friday and Sunday morning)::
 
     >>> talk_unavailability = {talks.index(talk): [
-    ...      slot
+    ...      slots['talk'].index(slot)
     ...      for period in periods
     ...      for slot in slots['talk']
     ...      if period['unavailable_from'] <= slot.starts_at and
@@ -327,28 +344,17 @@ all slots on Friday and Sunday morning)::
     ... for talk in talks if talk['speaker'] == speaker}
 
     >>> pp.pprint(talk_unavailability[55][0:3])
+    [0, 1, 2]
+
+And then add those entries to our :code:`events` dictionary::
+
+    >>> for talk, unavailable_slots in talk_unavailability.items():
+    ...     events['talk'][talk].unavailability.extend([slots['talk'][s] for s in unavailable_slots])
+
+    >>> pp.pprint(events['talk'][55].unavailability[0:3])
     [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning')]
-
-We can now create instances of :code:`conference_scheduler.resources.Event`
-using the talks dictionary we loaded from the YAML file and the unavailability
-dictionary we've just created. Once again, we'll create a dictionary with the
-event type as the keys::
-
-    >>> from conference_scheduler.resources import Event
-    >>>
-    >>> events = {'talk': [
-    ...     Event(
-    ...         talk['title'], talk['duration'], demand=None,
-    ...         tags=talk.get('tags', None),
-    ...         unavailability=talk_unavailability.get(talk['title'], None))
-    ...     for talk in talks]}
-
-    >>> pp.pprint(events['talk'][0:3])
-    [Event(name='Transforming the government’s Digital Marketplace from portal to platform', duration=30, demand=None, tags=[], unavailability=[]),
-     Event(name='Django REST framework: Schemas, Hypermedia & Client libraries.', duration=45, demand=None, tags=[], unavailability=[]),
-     Event(name='django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience', duration=30, demand=None, tags=[], unavailability=[])]
 
 To complete our Event objects, we'll need to add the information from our
 :code:`speaker_clashes` dictionary to their unavailability. First, let's map
