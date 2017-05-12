@@ -315,12 +315,12 @@ Events
 ******
 
 We'll need to take our unavailability information and map that to the talks it
-might affect. Let's create a dictionary with the talk title as its key and a
+might affect. Let's create a dictionary with the talk index as its key and a
 list of slots in which it must not be scheduled. (This will give us a
 dictionary with Alex Chan's talk title as the key mapping to a list of all
 slots on Friday and Sunday morning)::
 
-    >>> talk_unavailability = {talk['title']: [
+    >>> talk_unavailability = {talks.index(talk): [
     ...      slot
     ...      for period in periods
     ...      for slot in slots['talk']
@@ -329,7 +329,7 @@ slots on Friday and Sunday morning)::
     ... for speaker, periods in speaker_unvailability.items()
     ... for talk in talks if talk['speaker'] == speaker}
 
-    >>> pp.pprint(talk_unavailability['An introduction to property-based testing and Hypothesis'][0:3])
+    >>> pp.pprint(talk_unavailability[55][0:3])
     [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning')]
@@ -353,4 +353,24 @@ event type as the keys::
      Event(name='Django REST framework: Schemas, Hypermedia & Client libraries.', duration=45, demand=None, tags=[], unavailability=[]),
      Event(name='django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience', duration=30, demand=None, tags=[], unavailability=[])]
 
-.. todo:: Description of how to add clashes as event unavailability
+To complete our Event objects, we'll need to add the information from our
+:code:`speaker_clashes` dictionary to their unavailability. First, let's map
+the speaker entries in that dictionary to the relevant talks::
+
+    >>> talk_clashes = {talks.index(talk): [
+    ...     talks.index(t) for s in clashing_speakers
+    ...     for t in talks if t['speaker'] == s]
+    ... for speaker, clashing_speakers in speaker_clashes.items()
+    ... for talk in talks if talk['speaker'] == speaker}
+
+    >>> pp.pprint(talk_clashes)
+    {50: [19, 63]}
+
+
+And now we can add those entries to our :code:`events` dictionary::
+
+    >>> for talk, clashing_talks in talk_clashes.items():
+    ...     events['talk'][talk].unavailability.extend([events['talk'][t] for t in clashing_talks])
+
+    >>> pp.pprint(events['talk'][50])
+    Event(name='Ancient Greek Philosophy, Medieval Mental Models and 21st Century Technology', duration=30, demand=None, tags=[], unavailability=[Event(name='Using Python for National Cipher Challenge', duration=30, demand=None, tags=[], unavailability=[]), Event(name='Easy solutions to hard problems', duration=30, demand=None, tags=[], unavailability=[])])
