@@ -84,12 +84,12 @@ Further to this we have a couple of other constraints:
 
 - The speaker for :code:`Talk 1` is also the person delivering :code:`Workshop 1`::
 
-        >>> events[0].unavailability.append(events[6])
+        >>> events[0].add_unavailability(events[6])
 
 - Also, the person running :code:`Workshop 2` is the person hosting the
   :code:`Boardgames`::
 
-        >>> events[13].unavailability.append(events[-1])
+        >>> events[13].add_unavailability(events[-1])
 
 Note that we haven't indicated the workshops cannot happen in the talk slots but
 this will automatically be taken care of because of the duration of the
@@ -123,7 +123,6 @@ event::
     Talk 12 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     City tour at 16-Sep-2016 13:00 in Outside
-
 
 We see that all the events are scheduled in appropriate rooms (as indicated by
 the unavailability attribute for the events). Also we have that :code:`Talk 1`
@@ -178,11 +177,11 @@ Coping with new information
 This is fantastic! Our schedule has now been published and everyone is excited
 about the conference. However, as can often happen, one of the speakers now
 informs us of a particular new constraints. For example, the speaker for
-:code:`Talk 11` is unable to speak on the second day.
+:code:`Talk 11` is unable to speak on the first day.
 
 We can enter this new constraint::
 
-    >>> events[10].unavailability.extend(slots[9:])
+    >>> events[10].add_unavailability(*slots[9:])
 
 We can now solve the problem one more time from scratch just as before::
 
@@ -236,6 +235,7 @@ old schedule::
     Talk 9 at 16-Sep-2016 13:00 in Big
     Workshop 1 at 16-Sep-2016 13:00 in Small
     City tour at 16-Sep-2016 13:00 in Outside
+
 
 
 Spotting the Changes
@@ -345,17 +345,17 @@ As you can see, we have set all unavailabilities to be empty however
 has informed us that they are not present on the first day. We can include these
 constraints::
 
-    >>> events[0].unavailability.append(chair_slots[4])
-    >>> events[1].unavailability.append(chair_slots[4])
-    >>> events[2].unavailability.extend(chair_slots[4:])
-    >>> events[3].unavailability.extend(chair_slots[4:])
+    >>> events[0].add_unavailability(chair_slots[4])
+    >>> events[1].add_unavailability(chair_slots[4])
+    >>> events[2].add_unavailability(*chair_slots[4:])
+    >>> events[3].add_unavailability(*chair_slots[4:])
 
 Finally, each chair cannot chair more than one session at a time::
 
 
-    >>> events[0].unavailability.append(events[1])
-    >>> events[2].unavailability.append(events[3])
-    >>> events[4].unavailability.append(events[5])
+    >>> events[0].add_unavailability(events[1])
+    >>> events[2].add_unavailability(events[3])
+    >>> events[4].add_unavailability(events[5])
 
 Now let us get the chair schedule::
 
@@ -370,6 +370,7 @@ Now let us get the chair schedule::
     Chair C-1 chairing 15-Sep-2016 12:30 in Big
     Chair A-1 chairing 16-Sep-2016 12:30 in Small
     Chair D-2 chairing 16-Sep-2016 12:30 in Big
+
 
 Validating a schedule
 ---------------------
