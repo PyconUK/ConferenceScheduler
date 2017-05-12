@@ -18,7 +18,7 @@ class Event:
         self.demand = demand
         if tags is None:
             tags = []
-        self.tags = tags
+        self._tags = tags
         if unavailability is None:
             unavailability = []
         self._unavailability = unavailability
@@ -60,6 +60,25 @@ class Event:
 
     def remove_unavailability(self, object):
         self._unavailability.remove(object)
+
+    def clear_unavailability(self):
+        del self._unavailability[:]
+
+    @property
+    def tags(self):
+        return tuple(self._tags)
+
+    def add_tag(self, tag):
+        self._tags.append(tag)
+
+    def add_tags(self, tags):
+        self._tags.extend(tags)
+
+    def remove_tag(self, tag):
+        self._tags.remove(tag)
+
+    def clear_tags(self):
+        del self._tags[:]
 
 
 class ScheduledItem(NamedTuple):
