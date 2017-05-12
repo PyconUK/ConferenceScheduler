@@ -1,8 +1,14 @@
 Changelog
 #########
 
-Not Released
-------------
+v2.0.0 (2017-05-12)
+-------------------
+*  Incompatibility: Event.tags and Event.unavailability are now immutable
+   rather than list object. List methods to update them will no longer work.
+
+*  New Feature: Methods to add tags and unavailability to Event objects
+   `#77 <https://github.com/PyconUK/ConferenceScheduler/pull/77>`_
+
 *  Enhancement: the ``tags`` and ``availability`` arguments to ``Event`` are
    optional, and default to an empty list.
    `#74 <https://github.com/PyconUK/ConferenceScheduler/pull/74>`_
