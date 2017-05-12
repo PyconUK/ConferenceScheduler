@@ -133,7 +133,7 @@ Although we don't have the real information from PyCon UK 2016, for this
 example, we can create some fictitious data. Let's say that Alex Chan
 was not available on either the Friday or the Sunday morning::
 
-    >>> yaml_speaker_unvailability =  """
+    >>> yaml_speaker_unavailability =  """
     ...     Alex Chan:
     ...     -   unavailable_from: 2016-09-16 00:00:00
     ...         unavailable_until: 2016-09-16 23:59:59
@@ -227,7 +227,7 @@ And also the file containing the talks::
 
 Finally, the unavailability and clashes::
 
-    >>> speaker_unvailability = yaml.load(yaml_speaker_unvailability)
+    >>> speaker_unvailability = yaml.load(yaml_speaker_unavailability)
 
     >>> pp.pprint(speaker_unvailability)
     {'Alex Chan': [{'unavailable_from': datetime.datetime(2016, 9, 16, 0, 0),
