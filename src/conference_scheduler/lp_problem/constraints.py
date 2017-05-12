@@ -45,7 +45,7 @@ def _events_in_session_share_a_tag(events, slots, X, summation_type=None):
     for session in session_indices:
         slots = lpu._slots_in_session(session, session_array)
         for slot, event in it.product(slots, event_indices):
-            if events[event].tags != []:
+            if len(events[event].tags) > 0:
                 other_events = lpu._events_with_diff_tag(event, tag_array)
                 for other_slot, other_event in it.product(slots, other_events):
                     if other_slot != slot and other_event != event:
