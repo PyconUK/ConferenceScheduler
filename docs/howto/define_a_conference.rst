@@ -126,7 +126,31 @@ for PyConUK 2016 in a :download:`YAML file <pyconuk-2016-talks.yml>`
 Unavailability
 **************
 
-.. todo:: Section describing how to define unavailability for people
+When organising any conference, it is common that speakers might be unavailable
+to attend on certain days or for certain time periods.
+
+Although we don't have the real information from PyCon UK 2016, for this
+example, we can create some fictitious data. Let's say that Alex Chan
+was not available on either the Friday or the Sunday morning::
+
+    >>> yaml_speaker_unvailability =  """
+    ...     Alex Chan:
+    ...     -   unavailable_from: 2016-09-16 00:00:00
+    ...         unavailable_until: 2016-09-16 23:59:59
+    ...     -   unavailable_from: 2016-09-18 00:00:00
+    ...         unavailable_until: 2016-09-18 12:00:00"""
+
+It's also common for speakers to request that their talk not be scheduled at
+the same time as somebody else's that they would like to attend. For example,
+in 2016, Owen Campbell asked that his talk not be scheduled opposite his son's,
+Thomas Campbell. Let's also say that Owen wanted to attend David R. MacIver's
+talk 'Easy solutions to hard problems' (because he wanted to be inspired to
+create this library)::
+
+    >>> yaml_speaker_clashes = """
+    ...     Owen Campbell:
+    ...         - Thomas Campbell
+    ...         - David R. MacIver"""
 
 
 .. _loading:
@@ -201,6 +225,22 @@ And also the file containing the talks::
                'for a fully real time experience'}]
 
 
+Finally, the unavailability and clashes::
+
+    >>> speaker_unvailability = yaml.load(yaml_speaker_unvailability)
+
+    >>> pp.pprint(speaker_unvailability)
+    {'Alex Chan': [{'unavailable_from': datetime.datetime(2016, 9, 16, 0, 0),
+                    'unavailable_until': datetime.datetime(2016, 9, 16, 23, 59, 59)},
+                   {'unavailable_from': datetime.datetime(2016, 9, 18, 0, 0),
+                    'unavailable_until': datetime.datetime(2016, 9, 18, 12, 0)}]}
+
+
+    >>> speaker_clashes = yaml.load(yaml_speaker_clashes)
+
+    >>> pp.pprint(speaker_clashes)
+    {'Owen Campbell': ['Thomas Campbell', 'David R. MacIver']}
+
 .. _processing:
 
 Processing
@@ -274,17 +314,43 @@ we'll need each list of :code:`Slots` separately later on::
 Events
 ******
 
-For our talks, we can use the list we've loaded to create instances of
-:code:`conference_scheduler.resources.Event`. Once again, we'll create a
-dictionary with the event type as the keys::
+We'll need to take our unavailability information and map that to the talks it
+might affect. Let's create a dictionary with the talk title as its key and a
+list of slots in which it must not be scheduled. (This will give us a
+dictionary with Alex Chan's talk title as the key mapping to a list of all
+slots on Friday and Sunday morning)::
+
+    >>> talk_unavailability = {talk['title']: [
+    ...      slot
+    ...      for period in periods
+    ...      for slot in slots['talk']
+    ...      if period['unavailable_from'] <= slot.starts_at and
+    ...      period['unavailable_until'] >= slot.starts_at + timedelta(0, slot.duration * 60)]
+    ... for speaker, periods in speaker_unvailability.items()
+    ... for talk in talks if talk['speaker'] == speaker}
+
+    >>> pp.pprint(talk_unavailability['An introduction to property-based testing and Hypothesis'][0:3])
+    [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
+     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
+     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning')]
+
+We can now create instances of :code:`conference_scheduler.resources.Event`
+using the talks dictionary we loaded from the YAML file and the unavailability
+dictionary we've just created. Once again, we'll create a dictionary with the
+event type as the keys::
 
     >>> from conference_scheduler.resources import Event
     >>>
     >>> events = {'talk': [
-    ...     Event(talk['title'], talk['duration'], demand=None, tags=talk.get('tags', None))
+    ...     Event(
+    ...         talk['title'], talk['duration'], demand=None,
+    ...         tags=talk.get('tags', None),
+    ...         unavailability=talk_unavailability.get(talk['title'], None))
     ...     for talk in talks]}
 
     >>> pp.pprint(events['talk'][0:3])
     [Event(name='Transforming the government’s Digital Marketplace from portal to platform', duration=30, demand=None, tags=[], unavailability=[]),
      Event(name='Django REST framework: Schemas, Hypermedia & Client libraries.', duration=45, demand=None, tags=[], unavailability=[]),
      Event(name='django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience', duration=30, demand=None, tags=[], unavailability=[])]
+
+.. todo:: Description of how to add clashes as event unavailability
