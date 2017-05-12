@@ -21,7 +21,7 @@ class Event:
         self.tags = tags
         if unavailability is None:
             unavailability = []
-        self.unavailability = unavailability
+        self._unavailability = unavailability
 
     def __repr__(self):
         return (
@@ -47,6 +47,19 @@ class Event:
 
     def __hash__(self):
         return hash(repr(self))
+
+    @property
+    def unavailability(self):
+        return tuple(self._unavailability)
+
+    def add_unavailability(self, object):
+        try:
+            self._unavailability.extend(object)
+        except TypeError:
+            self._unavailability.append(object)
+
+    def remove_unavailability(self, object):
+        self._unavailability.remove(object)
 
 
 class ScheduledItem(NamedTuple):
