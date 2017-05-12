@@ -119,7 +119,6 @@ Events
 For the events which need to be scheduled, we have the talks that were accepted
 for PyConUK 2016 in a :download:`YAML file <pyconuk-2016-talks.yml>`
 
-
 .. _data_structures_unavailability:
 
 Unavailability
@@ -150,7 +149,6 @@ create this library)::
     ...     Owen Campbell:
     ...         - Thomas Campbell
     ...         - David R. MacIver"""
-
 
 .. _loading:
 
@@ -364,7 +362,6 @@ the speaker entries in that dictionary to the relevant talks::
 
     >>> pp.pprint(talk_clashes)
     {50: [19, 63]}
-
 
 And now we can add those entries to our :code:`events` dictionary::
 
