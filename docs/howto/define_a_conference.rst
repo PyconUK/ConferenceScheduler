@@ -1,3 +1,5 @@
+.. _define_a_conference:
+
 Define a Conference
 ===================
 
@@ -13,8 +15,16 @@ we'll include both inline data and external files. This is simply by way of
 example and it's likely that a real application would standardise on far fewer
 of those options than are shown here.
 
+.. _data_structures:
+
 Data Structures
 ---------------
+
+
+.. _data_structures_slots:
+
+Slots
+*****
 
 In 2016, there were three types of event: talks, workshops and plenary sessions
 and these were held in five rooms at Cardiff City Hall. Not all the rooms were
@@ -102,9 +112,24 @@ This time using YAML, here is how we might represent that information::
     ...             starts_at: 9:10:00
     ...             duration: 50"""
 
-Next, we have the events which need to be scheduled. For this example, we have
-the talks that were accepted for PyConUK 2016 in a
-:download:`YAML file <pyconuk-2016-talks.yml>`
+.. _data_structures_events:
+
+Events
+******
+
+For the events which need to be scheduled, we have the talks that were accepted
+for PyConUK 2016 in a :download:`YAML file <pyconuk-2016-talks.yml>`
+
+
+.. _data_structures_unavailability:
+
+Unavailability
+**************
+
+.. todo:: Section describing how to define unavailability for people
+
+
+.. _loading:
 
 Loading into Python
 -------------------
@@ -175,11 +200,16 @@ And also the file containing the talks::
       'title': 'django CMS in the real time web: how to mix CMS, websockets, REST '
                'for a fully real time experience'}]
 
+
+.. _processing:
+
 Processing
 ----------
 
 Before we can compute a schedule for our conference, we need to create the
 :code:`Event` and :code:`Slot` objects required by the scheduler.
+
+.. _processing_slots:
 
 Slots
 *****
@@ -238,6 +268,8 @@ we'll need each list of :code:`Slots` separately later on::
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
+
+.. _processing_events:
 
 Events
 ******
