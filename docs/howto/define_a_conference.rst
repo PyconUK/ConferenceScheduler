@@ -328,11 +328,11 @@ create a dictionary with the event type as the keys::
      Event(name='django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience', duration=30, demand=None, tags=[], unavailability=[])]
 
 We then need to add our unavailability information to those Event objects.
-First, let's take our unavailability information and map that to the talks it
-might affect. Let's create a dictionary with the talk index as its key and a
-list of slots in which it must not be scheduled. (This will give us a
-dictionary with the index of Alex Chan's talk as the key mapping to a list of
-all slots on Friday and Sunday morning)::
+It's currently in a form based on the speaker so that it's easy to maintain but
+we need it based on the talks those speakers will give. We'll create a
+dictionary with the talk index as its key and a list of slots in which it must
+not be scheduled. (This will give us a dictionary with the index of Alex Chan's
+talk as the key mapping to a list of all slots on Friday and Sunday morning)::
 
     >>> talk_unavailability = {talks.index(talk): [
     ...      slots['talk'].index(slot)
