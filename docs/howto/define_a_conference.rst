@@ -20,7 +20,6 @@ of those options than are shown here.
 Data Structures
 ---------------
 
-
 .. _data_structures_slots:
 
 Slots
