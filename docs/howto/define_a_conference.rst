@@ -314,8 +314,8 @@ Events
 We'll need to take our unavailability information and map that to the talks it
 might affect. Let's create a dictionary with the talk index as its key and a
 list of slots in which it must not be scheduled. (This will give us a
-dictionary with Alex Chan's talk title as the key mapping to a list of all
-slots on Friday and Sunday morning)::
+dictionary with the index of Alex Chan's talk as the key mapping to a list of
+all slots on Friday and Sunday morning)::
 
     >>> talk_unavailability = {talks.index(talk): [
     ...      slot
