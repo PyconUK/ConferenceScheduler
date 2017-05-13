@@ -14,8 +14,8 @@ setup(
     install_requires=['pulp', 'numpy'],
     extras_require={
         'docs': [
-            'sphinx >= 1.5',
-            'sphinx_rtd_theme']}
+            'sphinx >= 1.5.5',
+            'sphinx_rtd_theme >= 0.2.4']}
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'pytest-pep8'],
     classifiers=[
