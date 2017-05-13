@@ -1,5 +1,5 @@
-Modifying event tags and unavailabiity.
-=======================================
+Modify event tags and unavailabiity
+===================================
 
 As shown in :ref:`tutorial` it is possible to add to the :code:`unavailability`
 of an :code:`Event` by using the :code:`Event.add_unavailability` method::
@@ -42,4 +42,3 @@ Similar methods exist for modifying event :code:`tags`::
     >>> events[0].clear_tags()
     >>> events[0].tags
     ()
-
