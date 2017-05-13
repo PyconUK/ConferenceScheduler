@@ -12,6 +12,10 @@ setup(
     author_email='owen.campbell@tanti.org.uk',
     description='A Python tool to assist the task of scheduling a conference',
     install_requires=['pulp', 'numpy'],
+    extras_require={
+        'docs': [
+            'sphinx >= 1.5',
+            'sphinx_rtd_theme']}
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'pytest-pep8'],
     classifiers=[
