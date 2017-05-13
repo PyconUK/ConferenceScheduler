@@ -1,8 +1,4 @@
 name: py36
-python:
-  version: 3.6
-  extra_requirements:
-        - docs
 dependencies:
 - python=3.6.1
 - numpy>=1.9.2
