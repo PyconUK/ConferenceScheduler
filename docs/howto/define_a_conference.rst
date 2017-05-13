@@ -165,7 +165,7 @@ representing the dates into Python datetime objects::
 
     >>> import json
     >>> from datetime import datetime
-    >>> from pprint import PrettyPrinter
+    >>> from pprint import pprint
 
     >>> def date_decoder(day):
     ...    for key in day.keys():
@@ -179,8 +179,7 @@ representing the dates into Python datetime objects::
     >>>
     >>> days = json.loads(json_days, object_hook=date_decoder)
 
-    >>> pp = PrettyPrinter()
-    >>> pp.pprint(days)
+    >>> pprint(days)
     {datetime.datetime(2016, 9, 16, 0, 0): {'event_types': ['talk', 'plenary']},
      datetime.datetime(2016, 9, 17, 0, 0): {'event_types': ['talk', 'plenary']},
      datetime.datetime(2016, 9, 18, 0, 0): {'event_types': ['talk',
@@ -197,7 +196,7 @@ integer representing the number of seconds since midnight::
 
     >>> session_times = yaml.load(yaml_session_times)
 
-    >>> pp.pprint(session_times['workshop'])
+    >>> pprint(session_times['workshop'])
     {'None': [{'duration': 90, 'starts_at': 36900},
               {'duration': 105, 'starts_at': 40500},
               {'duration': 90, 'starts_at': 52200},
@@ -208,7 +207,7 @@ And also the file containing the talks::
     >>> with open('docs/howto/pyconuk-2016-talks.yml', 'r') as file:
     ...     talks = yaml.load(file)
 
-    >>> pp.pprint(talks[0:3])
+    >>> pprint(talks[0:3])
     [{'duration': 30,
       'speaker': 'Kevin Keenoy',
       'title': 'Transforming the government’s Digital Marketplace from portal to '
@@ -226,7 +225,7 @@ Finally, the unavailability and clashes::
 
     >>> speaker_unavailability = yaml.load(yaml_speaker_unavailability)
 
-    >>> pp.pprint(speaker_unavailability)
+    >>> pprint(speaker_unavailability)
     {'Alex Chan': [{'unavailable_from': datetime.datetime(2016, 9, 16, 0, 0),
                     'unavailable_until': datetime.datetime(2016, 9, 16, 23, 59, 59)},
                    {'unavailable_from': datetime.datetime(2016, 9, 18, 0, 0),
@@ -235,7 +234,7 @@ Finally, the unavailability and clashes::
 
     >>> speaker_clashes = yaml.load(yaml_speaker_clashes)
 
-    >>> pp.pprint(speaker_clashes)
+    >>> pprint(speaker_clashes)
     {'Owen Campbell': ['Thomas Campbell', 'David R. MacIver']}
 
 .. _processing:
@@ -266,7 +265,7 @@ key as we'll need each associated list separately later on::
     ...         for slot_time in slot_times]
     ...     for event_type in event_types}
 
-    >>> pp.pprint(slot_times['workshop'])
+    >>> pprint(slot_times['workshop'])
     [{'duration': 90, 'session_name': 'None', 'starts_at': 36900},
      {'duration': 105, 'session_name': 'None', 'starts_at': 40500},
      {'duration': 90, 'session_name': 'None', 'starts_at': 52200},
@@ -299,7 +298,7 @@ we'll need each list of :code:`Slots` separately later on::
     ...             event_type in days[day]['event_types'])]
     ...     for event_type in event_types}
 
-    >>> pp.pprint(slots['talk'][0:5])
+    >>> pprint(slots['talk'][0:5])
     [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'),
@@ -322,7 +321,7 @@ create a dictionary with the event type as the keys::
     ...         tags=talk.get('tags', None))
     ...     for talk in talks]}
 
-    >>> pp.pprint(events['talk'][0:3])
+    >>> pprint(events['talk'][0:3])
     [Event(name='Transforming the government’s Digital Marketplace from portal to platform', duration=30, demand=None, tags=(), unavailability=()),
      Event(name='Django REST framework: Schemas, Hypermedia & Client libraries.', duration=45, demand=None, tags=(), unavailability=()),
      Event(name='django CMS in the real time web: how to mix CMS, websockets, REST for a fully real time experience', duration=30, demand=None, tags=(), unavailability=())]
@@ -344,7 +343,7 @@ talk as the key mapping to a list of all slots on Friday and Sunday morning)::
     ... for speaker, periods in speaker_unavailability.items()
     ... for talk in talks if talk['speaker'] == speaker}
 
-    >>> pp.pprint(talk_unavailability[55][0:3])
+    >>> pprint(talk_unavailability[55][0:3])
     [0, 1, 2]
 
 And then add those entries to our :code:`events` dictionary::
@@ -352,7 +351,7 @@ And then add those entries to our :code:`events` dictionary::
     >>> for talk, unavailable_slots in talk_unavailability.items():
     ...     events['talk'][talk].add_unavailability(*[slots['talk'][s] for s in unavailable_slots])
 
-    >>> pp.pprint(events['talk'][55].unavailability[0:3])
+    >>> pprint(events['talk'][55].unavailability[0:3])
     (Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
      Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'))
@@ -367,7 +366,7 @@ the speaker entries in that dictionary to the relevant talks::
     ... for speaker, clashing_speakers in speaker_clashes.items()
     ... for talk in talks if talk['speaker'] == speaker}
 
-    >>> pp.pprint(talk_clashes)
+    >>> pprint(talk_clashes)
     {50: [19, 63]}
 
 And now we can add those entries to our :code:`events` dictionary::
@@ -375,5 +374,5 @@ And now we can add those entries to our :code:`events` dictionary::
     >>> for talk, clashing_talks in talk_clashes.items():
     ...     events['talk'][talk].add_unavailability(*[events['talk'][t] for t in clashing_talks])
 
-    >>> pp.pprint(events['talk'][50])
+    >>> pprint(events['talk'][50])
     Event(name='Ancient Greek Philosophy, Medieval Mental Models and 21st Century Technology', duration=30, demand=None, tags=(), unavailability=(Event(name='Using Python for National Cipher Challenge', duration=30, demand=None, tags=(), unavailability=()), Event(name='Easy solutions to hard problems', duration=30, demand=None, tags=(), unavailability=())))
