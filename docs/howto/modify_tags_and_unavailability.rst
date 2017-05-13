@@ -12,7 +12,7 @@ of an :code:`Event` by using the :code:`Event.add_unavailability` method::
     >>> events = [Event(name='Talk 1', duration=30, demand=50),
     ...           Event(name='Talk 2', duration=30, demand=130)]
 
-Let us note the first event as unavailable for the first slot::
+Let us note the first event as unavailable for all the slots::
 
     >>> events[0].add_unavailability(*slots)
     >>> pprint(events[0].unavailability)
