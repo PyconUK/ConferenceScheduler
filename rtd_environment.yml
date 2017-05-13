@@ -1,0 +1,4 @@
+name: py36
+dependencies:
+- python=3.6.1
+- numpy>=1.9.2
