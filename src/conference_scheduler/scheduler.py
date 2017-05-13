@@ -19,30 +19,34 @@ def solution(events, slots, objective_function=None, solver=None, **kwargs):
 
     Parameters
     ----------
-        events : list or tuple
-            of resources.Event instances
-        slots : list or tuple
-            of resources.Slot instances
-        solve : pulp.solver
-            a pulp solver
-        objective_function: callable
-            from lp_problem.objective_functions
-        kwargs : keyword arguments
-            arguments for the objective function
+    events : list or tuple
+        of resources.Event instances
+    slots : list or tuple
+        of resources.Slot instances
+    solve : pulp.solver
+        a pulp solver
+    objective_function: callable
+        from lp_problem.objective_functions
+    kwargs : keyword arguments
+        arguments for the objective function
 
     Returns
     -------
-        Generator
-            of tuples giving the event and slot index (for the given events and
-            slots lists) for all scheduled items.
+    Generator
+        of tuples giving the event and slot index (for the given events and
+        slots lists) for all scheduled items.
 
-            e.g. for a solution where:
-                event 0 is scheduled in slot 1
-                event 1 is scheduled in slot 4
-                event 2 is scheduled in slot 5
+    Examples
+    --------
+    For a solution where
 
-            the resulting generator would produce:
-                [(0, 1), (1, 4), (2, 5)]
+        * event 0 is scheduled in slot 1
+        * event 1 is scheduled in slot 4
+        * event 2 is scheduled in slot 5
+
+    the resulting generator would produce::
+
+        [(0, 1), (1, 4), (2, 5)]
     """
     shape = Shape(len(events), len(slots))
     problem = pulp.LpProblem()
@@ -69,31 +73,33 @@ def array(events, slots, objective_function=None):
 
     Parameters
     ----------
-        events : list or tuple
-            of resources.Event instances
-        slots : list or tuple
-            of resources.Slot instances
-        objective_function : callable
-            from lp_problem.objective_functions
+    events : list or tuple
+        of resources.Event instances
+    slots : list or tuple
+        of resources.Slot instances
+    objective_function : callable
+        from lp_problem.objective_functions
 
     Returns
     -------
-        np.array
-            an E by S array (X) where E is the number of events and S the
-            number of slots. Xij is 1 if event i is scheduled in slot j and
-            zero otherwise
+    np.array
+        an E by S array (X) where E is the number of events and S the
+        number of slots. Xij is 1 if event i is scheduled in slot j and
+        zero otherwise
 
     Examples
     --------
-        For 3 events, 7 slots and a solution where:
-            event 0 is scheduled in slot 1
-            event 1 is scheduled in slot 4
-            event 2 is scheduled in slot 5
+    For 3 events, 7 slots and a solution where
 
-        the resulting array would be:
-            [[0, 1, 0, 0, 0, 0, 0],
-             [0, 0, 0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0, 1, 0]]
+        * event 0 is scheduled in slot 1
+        * event 1 is scheduled in slot 4
+        * event 2 is scheduled in slot 5
+
+    the resulting array would be::
+
+        [[0, 1, 0, 0, 0, 0, 0],
+         [0, 0, 0, 0, 1, 0, 0],
+         [0, 0, 0, 0, 0, 1, 0]]
     """
     return solution_to_array(
         solution(events, slots, objective_function),
@@ -106,21 +112,21 @@ def schedule(events, slots, objective_function=None, solver=None, **kwargs):
 
     Parameters
     ----------
-        events : list or tuple
-            of resources.Event instances
-        slots : list or tuple
-            of resources.Slot instances
-        solver : pulp.solver
-            a pulp solver
-        objective_function : callable
-            from lp_problem.objective_functions
-        kwargs : keyword arguments
-            arguments for the objective function
+    events : list or tuple
+        of resources.Event instances
+    slots : list or tuple
+        of resources.Slot instances
+    solver : pulp.solver
+        a pulp solver
+    objective_function : callable
+        from lp_problem.objective_functions
+    kwargs : keyword arguments
+        arguments for the objective function
 
     Returns
     -------
-        Generator
-            of tuples of instances of resources.ScheduledItem
+    Generator
+        of tuples of instances of resources.ScheduledItem
     """
     return solution_to_schedule(
         solution(events, slots, objective_function, solver=solver, **kwargs),
