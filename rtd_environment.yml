@@ -1,6 +1,6 @@
 name: py36
 dependencies:
 - python=3.6.1
-- sphinx>=1.5.5
+- sphinx>=1.5
 - sphinx_rtd_theme>=0.2.4
 - numpy>=1.9.2
