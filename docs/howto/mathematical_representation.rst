@@ -1,5 +1,5 @@
-How to obtain the mathematical representation of a schedule
-===========================================================
+Obtain the mathematical representation of a schedule
+====================================================
 
 When scheduling a conference, it might be desirable to recover the schedule in a
 different format.
