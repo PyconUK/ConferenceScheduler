@@ -5,6 +5,6 @@ How To...
    :maxdepth: 2
 
    define_a_conference.rst
-   modifying_tags_and_unavailability.rst
+   modify_tags_and_unavailability.rst
    use_different_solver.rst
-   mathematical_representation.rst
+   obtain_mathematical_representation.rst
