@@ -67,7 +67,7 @@ def solution(events, slots, objective_function=None, solver=None, **kwargs):
 def array(events, slots, objective_function=None):
     """Compute the ILP solution and return it in array form
 
-     Parameters
+    Parameters
     ----------
         events : list or tuple
             of resources.Event instances
@@ -80,18 +80,20 @@ def array(events, slots, objective_function=None):
     -------
         np.array
             an E by S array (X) where E is the number of events and S the
-            number of slots.
-            Xij is 1 if event i is scheduled in slot j and zero otherwise
+            number of slots. Xij is 1 if event i is scheduled in slot j and
+            zero otherwise
 
-            e.g. 3 events, 7 slots and a solution where:
-                event 0 is scheduled in slot 1
-                event 1 is scheduled in slot 4
-                event 2 is scheduled in slot 5
+    Examples
+    --------
+        For 3 events, 7 slots and a solution where:
+            event 0 is scheduled in slot 1
+            event 1 is scheduled in slot 4
+            event 2 is scheduled in slot 5
 
-            the resulting array would be:
-                [[0, 1, 0, 0, 0, 0, 0],
-                 [0, 0, 0, 0, 1, 0, 0],
-                 [0, 0, 0, 0, 0, 1, 0]]
+        the resulting array would be:
+            [[0, 1, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 1, 0, 0],
+             [0, 0, 0, 0, 0, 1, 0]]
     """
     return solution_to_array(
         solution(events, slots, objective_function),
@@ -102,7 +104,7 @@ def array(events, slots, objective_function=None):
 def schedule(events, slots, objective_function=None, solver=None, **kwargs):
     """Compute the ILP solution and return it in schedule form
 
-     Parameters
+    Parameters
     ----------
         events : list or tuple
             of resources.Event instances
