@@ -161,7 +161,7 @@ those are already available to us.
 Next, we need to load the JSON and YAML data so that it too becomes available
 as lists and dictionaries. First, let's load the JSON document which holds the
 'days' information. We'll include a function to convert the strings
-representing the dates into proper Python datetime objects.::
+representing the dates into Python datetime objects::
 
     >>> import json
     >>> from datetime import datetime
