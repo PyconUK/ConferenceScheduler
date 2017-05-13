@@ -1,5 +1,5 @@
-Modifying event tags and unavailabiity.
-=======================================
+How to modify event tags and unavailabiity
+==========================================
 
 As shown in :ref:`tutorial` it is possible to add to the :code:`unavailability`
 of an :code:`Event` by using the :code:`Event.add_unavailability` method::
