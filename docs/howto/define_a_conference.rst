@@ -1,6 +1,6 @@
 .. _define_a_conference:
 
-Define a Conference
+Define a conference
 ===================
 
 Using PyCon UK 2016 for example data, let us consider how we might define a
