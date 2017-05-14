@@ -212,11 +212,14 @@ def event_schedule_difference(old_schedule, new_schedule):
     >>> events = [Event(f'event_{i}', 30, 0) for i in range(5)]
     >>> slots = [Slot(f'venue_{i}', '', 30, 100, None) for i in range(5)]
     >>> old_schedule = (
-    ...     ScheduledItem(events[0], slots[0]), ScheduledItem(events[1], slots[1]),
+    ...     ScheduledItem(events[0], slots[0]),
+    ...     ScheduledItem(events[1], slots[1]),
     ...     ScheduledItem(events[2], slots[2]))
     >>> new_schedule = (
-    ...     ScheduledItem(events[0], slots[0]), ScheduledItem(events[1], slots[2]),
-    ...     ScheduledItem(events[2], slots[3]), ScheduledItem(events[3], slots[4]))
+    ...     ScheduledItem(events[0], slots[0]),
+    ...     ScheduledItem(events[1], slots[2]),
+    ...     ScheduledItem(events[2], slots[3]),
+    ...     ScheduledItem(events[3], slots[4]))
     >>> diff = (event_schedule_difference(old_schedule, new_schedule))
     >>> print([item.event.name for item in diff])
     ['event_1', 'event_2', 'event_3']
@@ -267,12 +270,15 @@ def slot_schedule_difference(old_schedule, new_schedule):
     >>> from conference_scheduler.scheduler import slot_schedule_difference
     >>> events = [Event(f'event_{i}', 30, 0) for i in range(5)]
     >>> slots = [Slot(f'venue_{i}', '', 30, 100, None) for i in range(5)]
-    >>> old_schedule = [
-    ...     ScheduledItem(events[0], slots[0]), ScheduledItem(events[1], slots[1]),
-    ...     ScheduledItem(events[2], slots[2])]
-    >>> new_schedule = [
-    ...     ScheduledItem(events[0], slots[0]), ScheduledItem(events[1], slots[2]),
-    ...     ScheduledItem(events[2], slots[3]), ScheduledItem(events[3], slots[4])]
+    >>> old_schedule = (
+    ...     ScheduledItem(events[0], slots[0]),
+    ...     ScheduledItem(events[1], slots[1]),
+    ...     ScheduledItem(events[2], slots[2]))
+    >>> new_schedule = (
+    ...     ScheduledItem(events[0], slots[0]),
+    ...     ScheduledItem(events[1], slots[2]),
+    ...     ScheduledItem(events[2], slots[3]),
+    ...     ScheduledItem(events[3], slots[4]))
     >>> diff = slot_schedule_difference(old_schedule, new_schedule)
     >>> print([item.slot.venue for item in diff])
     ['venue_1', 'venue_2', 'venue_3', 'venue_4']
