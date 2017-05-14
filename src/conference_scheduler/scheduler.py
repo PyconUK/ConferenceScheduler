@@ -201,9 +201,8 @@ def event_schedule_difference(old_schedule, new_schedule):
 
     Returns
     -------
-    tuple
-        Events which have changed between the two schedules with both their
-        old and new slots
+    list
+        A list of :py:class:`resources.ChangedEventScheduledItem` objects
 
     Example
     -------
