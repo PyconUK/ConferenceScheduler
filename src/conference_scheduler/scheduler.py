@@ -33,8 +33,8 @@ def solution(events, slots, objective_function=None, solver=None, **kwargs):
     Returns
     -------
     Generator
-        of tuples giving the event and slot index (for the given events and
-        slots lists) for all scheduled items.
+        A generator of tuples giving the event and slot index (for the given
+        events and slots lists) for all scheduled items.
 
     Examples
     --------
@@ -83,7 +83,7 @@ def array(events, slots, objective_function=None):
     Returns
     -------
     np.array
-        an E by S array (X) where E is the number of events and S the
+        An E by S array (X) where E is the number of events and S the
         number of slots. Xij is 1 if event i is scheduled in slot j and
         zero otherwise
 
@@ -126,7 +126,7 @@ def schedule(events, slots, objective_function=None, solver=None, **kwargs):
     Returns
     -------
     Generator
-        of tuples of instances of resources.ScheduledItem
+        A generator of tuples of instances of resources.ScheduledItem
     """
     return solution_to_schedule(
         solution(events, slots, objective_function, solver=solver, **kwargs),
