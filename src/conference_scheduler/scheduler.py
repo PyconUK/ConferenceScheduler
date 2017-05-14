@@ -210,7 +210,6 @@ def event_schedule_difference(old_schedule, new_schedule):
 
     >>> from conference_scheduler.resources import Event, Slot, ScheduledItem
     >>> from conference_scheduler.scheduler import event_schedule_difference
-    >>> from pprint import pprint
     >>> events = [Event(f'event_{i}', 30, 0) for i in range(5)]
     >>> slots = [Slot('venue', '', 30, 100, None) for i in range(5)]
     >>> old_schedule = [
@@ -219,7 +218,7 @@ def event_schedule_difference(old_schedule, new_schedule):
     >>> new_schedule = [
     ...     ScheduledItem(events[0], slots[0]), ScheduledItem(events[1], slots[2]),
     ...     ScheduledItem(events[2], slots[3]), ScheduledItem(events[3], slots[4])]
-    >>> pprint(event_schedule_difference(old_schedule, new_schedule))
+    >>> print(event_schedule_difference(old_schedule, new_schedule))
     [ChangedEventScheduledItem(event=Event(name='event_3', duration=30, demand=0, tags=(), unavailability=()), old_slot=None, new_slot=Slot(venue='venue', starts_at='', duration=30, capacity=100, session=None))]
     """
     old = {item.event.name: item for item in old_schedule}
@@ -266,7 +265,6 @@ def slot_schedule_difference(old_schedule, new_schedule):
 
     >>> from conference_scheduler.resources import Event, Slot, ScheduledItem
     >>> from conference_scheduler.scheduler import slot_schedule_difference
-    >>> from pprint import pprint
     >>> events = [Event(f'event_{i}', 30, 0) for i in range(5)]
     >>> slots = [Slot('venue', '', 30, 100, None) for i in range(5)]
     >>> old_schedule = [
@@ -275,7 +273,7 @@ def slot_schedule_difference(old_schedule, new_schedule):
     >>> new_schedule = [
     ...     ScheduledItem(events[0], slots[0]), ScheduledItem(events[1], slots[2]),
     ...     ScheduledItem(events[2], slots[3]), ScheduledItem(events[3], slots[4])]
-    >>> pprint(slot_schedule_difference(old_schedule, new_schedule))
+    >>> print(slot_schedule_difference(old_schedule, new_schedule))
     [ChangedSlotScheduledItem(slot=Slot(venue='venue', starts_at='', duration=30, capacity=100, session=None), old_event=Event(name='event_2', duration=30, demand=0, tags=(), unavailability=()), new_event=Event(name='event_3', duration=30, demand=0, tags=(), unavailability=()))]
     """
     old = {item.slot: item for item in old_schedule}
