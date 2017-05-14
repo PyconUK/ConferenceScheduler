@@ -3,7 +3,8 @@ and compute the difference between .
 
 A schedule can be represented in one of three forms:
 
-    * solution: a generator for a list of tuples of event index and slot index for each scheduled item
+    * solution: a generator for a list of tuples of event index and slot index
+      for each scheduled item
     * array: a numpy array with rows for events and columns for slots
     * schedule: a generator for a list of ScheduledItem instances
 """
