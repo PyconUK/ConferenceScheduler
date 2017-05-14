@@ -274,7 +274,7 @@ def slot_schedule_difference(old_schedule, new_schedule):
     >>> new_schedule = [
     ...     ScheduledItem(events[0], slots[0]), ScheduledItem(events[1], slots[2]),
     ...     ScheduledItem(events[2], slots[3]), ScheduledItem(events[3], slots[4])]
-    >>> diff =slot_schedule_difference(old_schedule, new_schedule)
+    >>> diff = slot_schedule_difference(old_schedule, new_schedule)
     >>> print([item.slot.venue for item in diff])
     ['venue_1', 'venue_2', 'venue_3', 'venue_4']
     """
