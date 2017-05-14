@@ -33,10 +33,10 @@ def solution(events, slots, objective_function=None, solver=None, **kwargs):
     Parameters
     ----------
     events : list or tuple
-        of resources.Event instances
+        of :py:class:`resources.Event` instances
     slots : list or tuple
-        of resources.Slot instances
-    solve : pulp.solver
+        of :py:class:`resources.Slot` instances
+    solver : pulp.solver
         a pulp solver
     objective_function: callable
         from lp_problem.objective_functions
@@ -87,9 +87,9 @@ def array(events, slots, objective_function=None):
     Parameters
     ----------
     events : list or tuple
-        of resources.Event instances
+        of :py:class:`resources.Event` instances
     slots : list or tuple
-        of resources.Slot instances
+        of :py:class:`resources.Slot` instances
     objective_function : callable
         from lp_problem.objective_functions
 
@@ -126,9 +126,9 @@ def schedule(events, slots, objective_function=None, solver=None, **kwargs):
     Parameters
     ----------
     events : list or tuple
-        of resources.Event instances
+        of :py:class:`resources.Event` instances
     slots : list or tuple
-        of resources.Slot instances
+        of :py:class:`resources.Slot` instances
     solver : pulp.solver
         a pulp solver
     objective_function : callable
@@ -189,7 +189,25 @@ def array_to_schedule(array, events, slots):
 
 
 def event_schedule_difference(old_schedule, new_schedule):
-    """Compute the difference between two schedules from an event perspective"""
+    """Compute the difference between two schedules from an event perspective
+
+
+    Parameters
+    ----------
+    old_schedule : list or tuple
+        of :py:class:`resources.ScheduledItem` objects
+    new_schedule : list or tuple
+        of :py:class:`resources.ScheduledItem` objects
+
+    Returns
+    -------
+    tuple
+        Events which have changed between the two schedules with both their
+        old and new slots
+
+    Examples
+    --------
+    """
     old = {item.event.name: item for item in old_schedule}
     new = {item.event.name: item for item in new_schedule}
 
