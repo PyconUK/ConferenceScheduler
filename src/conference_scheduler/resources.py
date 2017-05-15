@@ -28,7 +28,7 @@ class Slot(NamedTuple):
         * It will take place on 2016-09-17
         * There are two rooms - 'Main Hall' and 'Small Room'
         * The Main Hall can seat 500 people and the Small Room, 50
-        * It is intended to hold two 30 talks in the morning (from 09:30
+        * It is intended to hold two 30 minute talks in the morning (from 09:30
           to 10:00 and from 11:00 to 11:30) and two more in the afternoon
           (from 14:00 to 14:30 and 15:00 to 15:30)
 
