@@ -34,30 +34,31 @@ class Slot(NamedTuple):
 
     We would create the following eight objects::
 
-        Slot(
-            venue='Main Hall', starts_at=datetime(2016, 09, 17, 09, 30),
-            duration=30, capacity=500, session='morning')
-        Slot(
-            venue='Main Hall', starts_at=datetime(2016, 09, 17, 10, 00),
-            duration=30, capacity=500, session='morning')
-        Slot(
-            venue='Main Hall', starts_at=datetime(2016, 09, 17, 14, 00),
-            duration=30, capacity=500, session='afternoon')
-        Slot(
-            venue='Main Hall', starts_at=datetime(2016, 09, 17, 15, 00),
-            duration=30, capacity=500, session='afternoon')
-        Slot(
-            venue='Small Room', starts_at=datetime(2016, 09, 17, 09, 30),
-            duration=30, capacity=50, session='morning')
-        Slot(
-            venue='Small Room', starts_at=datetime(2016, 09, 17, 10, 00),
-            duration=30, capacity=50, session='morning')
-        Slot(
-            venue='Small Room', starts_at=datetime(2016, 09, 17, 14, 00),
-            duration=30, capacity=50, session='afternoon')
-        Slot(
-            venue='Small Room', starts_at=datetime(2016, 09, 17, 15, 00),
-            duration=30, capacity=50, session='afternoon')
+        >>> from conference_scheduler.resources import Slot
+        >>> Slot(
+        ...    venue='Main Hall', starts_at=datetime(2016, 09, 17, 09, 30),
+        ...     duration=30, capacity=500, session='morning')
+        >>> Slot(
+        ...     venue='Main Hall', starts_at=datetime(2016, 09, 17, 10, 00),
+        ...     duration=30, capacity=500, session='morning')
+        >>> Slot(
+        ...     venue='Main Hall', starts_at=datetime(2016, 09, 17, 14, 00),
+        ...     duration=30, capacity=500, session='afternoon')
+        >>> Slot(
+        ...     venue='Main Hall', starts_at=datetime(2016, 09, 17, 15, 00),
+        ...     duration=30, capacity=500, session='afternoon')
+        >>> Slot(
+        ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 09, 30),
+        ...     duration=30, capacity=50, session='morning')
+        >>> Slot(
+        ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 10, 00),
+        ...     duration=30, capacity=50, session='morning')
+        >>> Slot(
+        ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 14, 00),
+        ...     duration=30, capacity=50, session='afternoon')
+        >>> Slot(
+        ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 15, 00),
+        ...     duration=30, capacity=50, session='afternoon')
     """
     venue: str
     starts_at: datetime
