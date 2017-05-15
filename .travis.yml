@@ -16,6 +16,7 @@ install:
 script:
   - coverage run --source=conference_scheduler setup.py test
   - coverage report -m
+  - python setup.py install
   - cd docs
   - make doctest
   - make html
