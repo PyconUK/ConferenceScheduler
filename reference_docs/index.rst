@@ -8,4 +8,9 @@ Reference
    :members:
 
 .. automodule:: conference_scheduler.resources
-   :members: Event, Slot, ScheduledItem
+
+.. autoclass:: conference_scheduler.resources.Event
+
+.. autoclass:: conference_scheduler.resources.Slot
+
+.. autoclass:: conference_scheduler.resources.ScheduledItem

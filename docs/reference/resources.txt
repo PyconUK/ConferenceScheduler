@@ -82,31 +82,6 @@ We would create the following eight objects::
     ...     duration=30, capacity=50, session='afternoon')
 
 
-.. py:attribute:: Slot.capacity
-   :module: conference_scheduler.resources
-
-Alias for field number 3
-
-.. py:attribute:: Slot.duration
-   :module: conference_scheduler.resources
-
-Alias for field number 2
-
-.. py:attribute:: Slot.session
-   :module: conference_scheduler.resources
-
-Alias for field number 4
-
-.. py:attribute:: Slot.starts_at
-   :module: conference_scheduler.resources
-
-Alias for field number 1
-
-.. py:attribute:: Slot.venue
-   :module: conference_scheduler.resources
-
-Alias for field number 0
-
 .. py:class:: ScheduledItem
    :module: conference_scheduler.resources
 
@@ -117,13 +92,3 @@ Represents that an event has been scheduled to occur in a slot
 :param slot:
 :type slot: :class:`resources.Slot`
 
-
-.. py:attribute:: ScheduledItem.event
-   :module: conference_scheduler.resources
-
-Alias for field number 0
-
-.. py:attribute:: ScheduledItem.slot
-   :module: conference_scheduler.resources
-
-Alias for field number 1
