@@ -16,8 +16,8 @@ from conference_scheduler.resources import (
     ScheduledItem, Shape, ChangedEventScheduledItem, ChangedSlotScheduledItem
 )
 
-# __all__ is defined in order to control the order in which the functions are
-# documented by sphinx.
+# __all__ is defined so that we can control the order in which the functions
+# are documented by sphinx.
 __all__ = [
     'solution', 'array', 'schedule', 'solution_to_array',
     'solution_to_schedule', 'schedule_to_array', 'array_to_schedule',
