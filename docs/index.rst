@@ -14,6 +14,7 @@ Contents:
    tutorial/index.rst
    howto/index.rst
    background/index.rst
+   reference/index.rst
 
 
 

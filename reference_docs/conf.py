@@ -33,6 +33,7 @@ import os
 extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
     'sphinx.ext.mathjax',
     'sphinx.ext.todo'
 ]

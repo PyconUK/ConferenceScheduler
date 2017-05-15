@@ -156,7 +156,7 @@ class Event:
 class ScheduledItem(NamedTuple):
     """Represents that an event has been scheduled to occur in a slot
 
-    Paramters
+    Parameters
     ---------
     event : :class:`resources.Event`
     slot : :class:`resources.Slot`
