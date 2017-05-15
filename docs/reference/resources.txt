@@ -1,0 +1,129 @@
+
+.. py:module:: conference_scheduler.resources
+
+
+.. py:class:: Event(name, duration, demand, tags=None, unavailability=None)
+   :module: conference_scheduler.resources
+
+An event (e.g. a talk or a workshop) that needs to be scheduled
+
+:param name: A human readable string
+:type name: str
+:param duration: The expected duration of the event in minutes
+:type duration: int
+:param demand: The anticipated demand - e.g. the number of attendees expected
+               This will be compared with :attr:`Slot.capacity` during computation of
+               the schedule to ensure that events are only scheduled in slots that can
+               accommodate them.
+               Use 0 if the event could be scheduled in any slot.
+:type demand: int
+:param tags: of human readable strings
+:type tags: list or tuple, optional
+:param unavailability: of :class:`resources.Slot` or :class:`resources.Event`
+:type unavailability: list or tuple, optional
+
+
+.. py:class:: Slot
+   :module: conference_scheduler.resources
+
+A period of time at a venue in which an event can be scheduled
+
+:param venue: A human readable string
+:type venue: str
+:param starts_at: The starting time for the time period
+:type starts_at: datetime
+:param duration: The duration of the time period in minutes
+:type duration: int
+:param capacity: This will be compared with :attr:`Event.demand` during computation of
+                 the schedule to ensure that events are only scheduled in slots that can
+                 accommodate them.
+:type capacity: int
+:param session: A human readable string which serves as a tag for similar time periods
+                e.g. 'morning', 'afternoon'
+:type session: str
+
+.. rubric:: Example
+
+For a conference where:
+
+    * It will take place on 2016-09-17
+    * There are two rooms - 'Main Hall' and 'Small Room'
+    * The Main Hall can seat 500 people and the Small Room, 50
+    * It is intended to hold two 30 minute talks in the morning (from 09:30
+      to 10:00 and from 11:00 to 11:30) and two more in the afternoon
+      (from 14:00 to 14:30 and 15:00 to 15:30)
+
+We would create the following eight objects::
+
+    >>> from conference_scheduler.resources import Slot
+    >>> Slot(
+    ...    venue='Main Hall', starts_at=datetime(2016, 09, 17, 09, 30),
+    ...     duration=30, capacity=500, session='morning')
+    >>> Slot(
+    ...     venue='Main Hall', starts_at=datetime(2016, 09, 17, 10, 00),
+    ...     duration=30, capacity=500, session='morning')
+    >>> Slot(
+    ...     venue='Main Hall', starts_at=datetime(2016, 09, 17, 14, 00),
+    ...     duration=30, capacity=500, session='afternoon')
+    >>> Slot(
+    ...     venue='Main Hall', starts_at=datetime(2016, 09, 17, 15, 00),
+    ...     duration=30, capacity=500, session='afternoon')
+    >>> Slot(
+    ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 09, 30),
+    ...     duration=30, capacity=50, session='morning')
+    >>> Slot(
+    ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 10, 00),
+    ...     duration=30, capacity=50, session='morning')
+    >>> Slot(
+    ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 14, 00),
+    ...     duration=30, capacity=50, session='afternoon')
+    >>> Slot(
+    ...     venue='Small Room', starts_at=datetime(2016, 09, 17, 15, 00),
+    ...     duration=30, capacity=50, session='afternoon')
+
+
+.. py:attribute:: Slot.capacity
+   :module: conference_scheduler.resources
+
+Alias for field number 3
+
+.. py:attribute:: Slot.duration
+   :module: conference_scheduler.resources
+
+Alias for field number 2
+
+.. py:attribute:: Slot.session
+   :module: conference_scheduler.resources
+
+Alias for field number 4
+
+.. py:attribute:: Slot.starts_at
+   :module: conference_scheduler.resources
+
+Alias for field number 1
+
+.. py:attribute:: Slot.venue
+   :module: conference_scheduler.resources
+
+Alias for field number 0
+
+.. py:class:: ScheduledItem
+   :module: conference_scheduler.resources
+
+Represents that an event has been scheduled to occur in a slot
+
+:param event:
+:type event: :class:`resources.Event`
+:param slot:
+:type slot: :class:`resources.Slot`
+
+
+.. py:attribute:: ScheduledItem.event
+   :module: conference_scheduler.resources
+
+Alias for field number 0
+
+.. py:attribute:: ScheduledItem.slot
+   :module: conference_scheduler.resources
+
+Alias for field number 1
