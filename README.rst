@@ -6,15 +6,17 @@ Conference Scheduler
 Overview
 ========
 
-A Python tool to assist the task of scheduling a conference which: \*
-Can take an existing schedule and validate it against a set of
-constraints \* Can calculate a new valid, optimal schedule \* Can
-calculate a new, valid schedule also optimised to be the minimum change
-necessary from another given schedule \* Has the resources, constraints
-and optimisations defined below already built in \* Has a simple
-mechanism for defining new constraints and optimisations \* Is a
-standalone tool which takes simple data types as input and produces
-simple data types as output (i.e. does no IO or presentation)
+A Python tool to assist the task of scheduling a conference which:
+
+- Can take an existing schedule and validate it against a set of
+  constraints
+- Can calculate a new valid, optimal schedule
+- Can calculate a new, valid schedule also optimised to be the minimum change
+  necessary from another given schedule
+- Has the resources, constraints and optimisations defined below built in
+- Has a simple mechanism for defining new constraints and optimisations
+- Is a standalone tool which takes simple data types as input and produces
+  simple data types as output (i.e. does no IO or presentation)
 
 The full documentation can be found at
 `conference-scheduler.readthedocs.org <http://conference-scheduler.readthedocs.org/>`__.
@@ -57,22 +59,24 @@ Examples
 
 Some examples of situations which have arisen at previous conferences
 and could be handled by the unavailability, clashing and tagging
-constraints: \* A conference organiser says "Talks X and Y are on
-similar subject matter and likely to appeal to a similar audience. Let's
-try not to schedule them against each other." \* A conference organiser
-says "Talks X, Y and Z are likely to appeal to a similar audience. Let's
-try to schedule them sequentially in the same room so that we minimise
-the movement of people from one room to another." \* A conference
-organiser says "The audience for Talk X would benefit greatly from the
-speech-to-text provision. Let's schedule that one in the main hall." \*
-A potential session chair says "I'd like to attend workshop X, so please
-don't schedule me to chair a session that clashes with it." \* A
-potential session chair says "I'm happy to chair a session but I've
-never done it before, so please don't schedule me in the main hall." \*
-A speaker says "I'd like to attend talk X, so please don't schedule my
-talk in the same slot." \* A first-time speaker is assigned a mentor and
-requests that the mentor chairs the session in which they are scheduled
-to give their talk.
+constraints:
+
+- A conference organiser says "Talks X and Y are on similar subject matter and
+  likely to appeal to a similar audience. Let's try not to schedule them
+  against each other."
+- A conference organiser says "Talks X, Y and Z are likely to appeal to a
+  similar audience. Let's try to schedule them sequentially in the same room so
+  that we minimise the movement of people from one room to another."
+- A conference organiser says "The audience for Talk X would benefit greatly
+  from the speech-to-text provision. Let's schedule that one in the main hall."
+- A potential session chair says "I'd like to attend workshop X, so please
+  don't schedule me to chair a session that clashes with it."
+- A potential session chair says "I'm happy to chair a session but I've
+  never done it before, so please don't schedule me in the main hall."
+- A speaker says "I'd like to attend talk X, so please don't schedule my
+  talk in the same slot."
+- A first-time speaker is assigned a mentor and requests that the mentor chairs
+  the session in which they are scheduled to give their talk.
 
 Acknowledgements
 ================
