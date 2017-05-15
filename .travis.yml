@@ -11,7 +11,8 @@ install:
   - pip install pyyaml
   - pip install coverage
   - pip install coveralls
-  - pip install sphinx, sphinx-rtd-theme
+  - pip install sphinx
+  - pip install sphinx-rtd-theme
 script:
   - coverage run --source=conference_scheduler setup.py test
   - coverage report -m
