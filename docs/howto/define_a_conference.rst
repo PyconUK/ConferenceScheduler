@@ -288,7 +288,9 @@ we'll need each list of :code:`Slots` separately later on::
     ...     event_type: [
     ...         Slot(
     ...             venue=venue,
-    ...             starts_at=day + timedelta(0, slot_time['starts_at']),
+    ...             starts_at=(
+    ...                    day + timedelta(0, slot_time['starts_at'])
+    ...             ).strftime('%d-%b-%Y %H:%M'),
     ...             duration=slot_time['duration'],
     ...             session=f"{day.date()} {slot_time['session_name']}",
     ...             capacity=venues[venue]['capacity'])
@@ -299,11 +301,11 @@ we'll need each list of :code:`Slots` separately later on::
     ...     for event_type in event_types}
 
     >>> pprint(slots['talk'][0:5])
-    [Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
-     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
-     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'),
-     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 30), duration=30, capacity=500, session='2016-09-16 afternoon'),
-     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 14, 30), duration=30, capacity=500, session='2016-09-16 afternoon')]
+    [Slot(venue='Assembly Room', starts_at='16-Sep-2016 10:15', duration=30, capacity=500, session='2016-09-16 morning'),
+     Slot(venue='Assembly Room', starts_at='16-Sep-2016 11:15', duration=45, capacity=500, session='2016-09-16 morning'),
+     Slot(venue='Assembly Room', starts_at='16-Sep-2016 12:00', duration=30, capacity=500, session='2016-09-16 morning'),
+     Slot(venue='Assembly Room', starts_at='16-Sep-2016 12:30', duration=30, capacity=500, session='2016-09-16 afternoon'),
+     Slot(venue='Assembly Room', starts_at='16-Sep-2016 14:30', duration=30, capacity=500, session='2016-09-16 afternoon')]
 
 .. _processing_events:
 
@@ -338,8 +340,8 @@ talk as the key mapping to a list of all slots on Friday and Sunday morning)::
     ...      slots['talk'].index(slot)
     ...      for period in periods
     ...      for slot in slots['talk']
-    ...      if period['unavailable_from'] <= slot.starts_at and
-    ...      period['unavailable_until'] >= slot.starts_at + timedelta(0, slot.duration * 60)]
+    ...      if period['unavailable_from'] <= datetime.strptime(slot.starts_at, '%d-%b-%Y %H:%M') and
+    ...      period['unavailable_until'] >= datetime.strptime(slot.starts_at, '%d-%b-%Y %H:%M') + timedelta(0, slot.duration * 60)]
     ... for speaker, periods in speaker_unavailability.items()
     ... for talk in talks if talk['speaker'] == speaker}
 
@@ -352,9 +354,9 @@ And then add those entries to our :code:`events` dictionary::
     ...     events['talk'][talk].add_unavailability(*[slots['talk'][s] for s in unavailable_slots])
 
     >>> pprint(events['talk'][55].unavailability[0:3])
-    (Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 10, 15), duration=30, capacity=500, session='2016-09-16 morning'),
-     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 11, 15), duration=45, capacity=500, session='2016-09-16 morning'),
-     Slot(venue='Assembly Room', starts_at=datetime.datetime(2016, 9, 16, 12, 0), duration=30, capacity=500, session='2016-09-16 morning'))
+    (Slot(venue='Assembly Room', starts_at='16-Sep-2016 10:15', duration=30, capacity=500, session='2016-09-16 morning'),
+     Slot(venue='Assembly Room', starts_at='16-Sep-2016 11:15', duration=45, capacity=500, session='2016-09-16 morning'),
+     Slot(venue='Assembly Room', starts_at='16-Sep-2016 12:00', duration=30, capacity=500, session='2016-09-16 morning'))
 
 To complete our Event objects, we'll need to add the information from our
 :code:`speaker_clashes` dictionary to their unavailability. First, let's map
