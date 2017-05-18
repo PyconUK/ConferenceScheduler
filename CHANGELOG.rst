@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ----------
 
+*  Enhancement: ``scheduler.array``, ``scheduler.schedule_to_array`` and
+   ``scheduler.solution_to_array`` now return arrays of integers, not
+   arrays of floats.
+   `#94 <https://github.com/PyconUK/ConferenceScheduler/pull/94>`_
+
 v2.0.0 (2017-05-12)
 -------------------
 *  Incompatibility: ``Event.tags`` and ``Event.unavailability`` are now immutable
