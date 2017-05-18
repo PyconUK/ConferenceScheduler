@@ -29,7 +29,7 @@ function::
     >>> array = scheduler.schedule_to_array(schedule, events=events, slots=slots)
     >>> array
     array([[1, 0],
-           [0, 1]])
+           [0, 1]], dtype=int8)
 
 We can also return from a mathematical array to the schedule using the
 :code:`scheduler.array_to_schedule` function::
