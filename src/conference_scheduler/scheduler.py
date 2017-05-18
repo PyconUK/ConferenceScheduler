@@ -180,7 +180,7 @@ def solution_to_array(solution, events, slots):
          [0, 0, 0, 0, 1, 0, 0],
          [0, 0, 0, 0, 0, 1, 0]]
     """
-    array = np.zeros((len(events), len(slots)), dtype=np.int64)
+    array = np.zeros((len(events), len(slots)), dtype=np.int8)
     for item in solution:
         array[item[0], item[1]] = 1
     return array
@@ -231,7 +231,7 @@ def schedule_to_array(schedule, events, slots):
         number of slots. Xij is 1 if event i is scheduled in slot j and
         zero otherwise
     """
-    array = np.zeros((len(events), len(slots)), dtype=np.int64)
+    array = np.zeros((len(events), len(slots)), dtype=np.int8)
     for item in schedule:
         array[events.index(item.event), slots.index(item.slot)] = 1
     return array

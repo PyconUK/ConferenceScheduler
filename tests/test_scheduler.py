@@ -109,7 +109,7 @@ def test_array_nonzero(array):
 
 
 def test_array_contains_ints(array):
-    assert all([isinstance(x, np.int64) for x in array.flat])
+    assert all([isinstance(x, np.int8) for x in array.flat])
 
 
 # Schedule form
@@ -131,7 +131,7 @@ def test_schedule_has_all_events(schedule, events):
 def test_solution_to_array(valid_solution, valid_array, events, slots):
     array = scheduler.solution_to_array(valid_solution, events, slots)
     assert np.array_equal(array, valid_array)
-    assert all([isinstance(x, np.int64) for x in array.flat])
+    assert all([isinstance(x, np.int8) for x in array.flat])
 
 
 def test_solution_to_schedule(valid_solution, valid_schedule, events, slots):
@@ -143,7 +143,7 @@ def test_solution_to_schedule(valid_solution, valid_schedule, events, slots):
 def test_schedule_to_array(valid_schedule, valid_array, events, slots):
     array = scheduler.schedule_to_array(valid_schedule, events, slots)
     assert np.array_equal(array, valid_array)
-    assert all([isinstance(x, np.int64) for x in array.flat])
+    assert all([isinstance(x, np.int8) for x in array.flat])
 
 
 def test_array_to_schedule(valid_schedule, valid_array, events, slots):
