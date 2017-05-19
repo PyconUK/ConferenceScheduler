@@ -1,0 +1,11 @@
+name: conference-scheduler
+channels:
+  - defaults
+dependencies:
+  - python=3.6.1
+  - numpy==1.12.1
+  - pytest=3.0.7
+  - pytest-pep8=1.0.6
+  - pyyaml=3.12
+  - pip:
+    - PuLP==1.6.5
