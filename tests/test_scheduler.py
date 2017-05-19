@@ -86,9 +86,19 @@ def test_unsolvable_raises_error(events):
         scheduler.solution(events, slots)
 
 
-def test_solver_recognised_by_pulp_raises_error(events, slots):
+def test_solution_solver_recognised_by_pulp_raises_error(events, slots):
     with pytest.raises(AttributeError):
         scheduler.solution(events, slots, solver="Not a real solver")
+
+
+def test_array_solver_recognised_by_pulp_raises_error(events, slots):
+    with pytest.raises(AttributeError):
+        scheduler.array(events, slots, solver="Not a real solver")
+
+
+def test_schedule_solver_recognised_by_pulp_raises_error(events, slots):
+    with pytest.raises(AttributeError):
+        scheduler.schedule(events, slots, solver="Not a real solver")
 
 # Array form
 # Less testing needed here since it simply calls scheduler.solution and
