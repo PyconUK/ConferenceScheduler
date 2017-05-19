@@ -81,7 +81,7 @@ def solution(events, slots, objective_function=None, solver=None, **kwargs):
         raise ValueError('No valid solution found')
 
 
-def array(events, slots, objective_function=None):
+def array(events, slots, objective_function=None, solver=None, **kwargs):
     """Compute a schedule in array form
 
     Parameters
@@ -115,7 +115,7 @@ def array(events, slots, objective_function=None):
          [0, 0, 0, 0, 0, 1, 0]]
     """
     return solution_to_array(
-        solution(events, slots, objective_function),
+        solution(events, slots, objective_function, solver=solver, **kwargs),
         events, slots
     )
 
