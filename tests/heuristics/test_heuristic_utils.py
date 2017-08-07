@@ -33,3 +33,20 @@ def test_neighbourhood_swap_events():
         [0, 0, 0, 0, 1, 0, 0]
     ])
     assert np.array_equal(X, expected_array)
+
+def test_get_initial_array(events, slots):
+    X = hu.get_initial_array(events=events, slots=slots, seed=0)
+    expected_array = np.array([
+        [0, 0, 1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0]
+    ])
+    assert np.array_equal(X, expected_array)
+
+    X = hu.get_initial_array(events=events, slots=slots, seed=1)
+    expected_array = np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0]
+    ])
+    assert np.array_equal(X, expected_array)

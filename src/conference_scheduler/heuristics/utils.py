@@ -28,3 +28,18 @@ def element_from_neighbourhood(X):
         new_X[swap_rows] = new_X[swap_rows[::-1]]
 
     return new_X
+
+def get_initial_array(events, slots, seed=None):
+    """
+    Obtain a random initial array.
+    """
+    if seed is not None:
+        np.random.seed(seed)
+
+    m = len(events)
+    n = len(slots)
+    X = np.zeros((m, n))
+    for i, row in enumerate(X):
+        X[i, i] = 1
+    np.random.shuffle(X)
+    return X
