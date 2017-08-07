@@ -12,6 +12,8 @@ A schedule can be represented in one of three forms:
 import pulp
 import numpy as np
 import conference_scheduler.lp_problem as lp
+import conference_scheduler.heuristics as heu
+import conference_scheduler.validator as val
 from conference_scheduler.resources import (
     ScheduledItem, Shape, ChangedEventScheduledItem, ChangedSlotScheduledItem
 )
@@ -25,6 +27,56 @@ __all__ = [
 
 
 # Functions to compute a schedule
+
+def heuristic(events,
+              slots,
+              objective_function=None,
+              algorithm=heu.hill_climber,
+              initial_solution_max_iterations=10 ** 5,
+              objective_function_max_iterations=10 ** 2,
+              **kwargs):
+    """
+    Compute a schedule using a heuristic
+
+    Parameters
+    ----------
+    events : list or tuple
+        of :py:class:`resources.Event` instances
+    slots : list or tuple
+        of :py:class:`resources.Slot` instances
+    solver : conference_scheduler.heuristics
+       a heuristic algorithm
+    objective_function: callable
+        from lp_problem.objective_functions
+    kwargs : keyword arguments
+        arguments for the objective function
+
+    Returns
+    -------
+    array
+        A numpy array
+    """
+    X = heu.get_initial_array(events=events, slots=slots)
+    count_violations = lambda array: len(list(val.array_violations(array,
+                                                                   events,
+                                                                   slots)))
+
+    X = algorithm(initial_array=X,
+                  objective_function=count_violations,
+                  lower_bound=0,
+                  max_iterations=initial_solution_max_iterations)
+
+    if objective_function is not None:
+        func = lambda array: objective_function(events=events,
+                                                slots=slots,
+                                                X=array,
+                                                **kwargs)
+        X = algorithm(initial_array=X,
+                      objective_function=func,
+                      max_iterations=objective_function_max_iterations)
+
+    return X
+
 
 
 def solution(events, slots, objective_function=None, solver=None, **kwargs):

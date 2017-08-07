@@ -322,3 +322,13 @@ def test_removed_slot_schedule_difference(events, slots):
         ChangedSlotScheduledItem(slots[4], events[1], events[0])
     ]
     assert difference == expected
+
+
+def test_heuristic_solution(events, slots):
+    np.random.seed(1)
+    array_solution = scheduler.heuristic(events=events, slots=slots)
+
+    expected_array = np.array([[0, 0, 0, 0, 1, 0, 0],
+                               [1, 0, 0, 0, 0, 0, 0],
+                               [0, 0, 0, 0, 0, 1, 0]])
+    assert np.array_equal(array_solution, expected_array)
