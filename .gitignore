@@ -99,3 +99,6 @@ ENV/
 
 # Local PyTest Settings
 pytest.ini
+
+# Mypy
+.mypy_cache/
