@@ -6,6 +6,7 @@ from conference_scheduler.resources import (
     ChangedSlotScheduledItem
 )
 from conference_scheduler import scheduler
+from conference_scheduler import heuristics as heu
 from conference_scheduler.lp_problem import objective_functions as of
 
 
@@ -329,6 +330,16 @@ def test_heuristic_solution(events, slots):
     array_solution = scheduler.heuristic(events=events, slots=slots)
 
     expected_array = np.array([[0, 0, 0, 0, 1, 0, 0],
+                               [1, 0, 0, 0, 0, 0, 0],
+                               [0, 0, 0, 0, 0, 1, 0]])
+    assert np.array_equal(array_solution, expected_array)
+
+def test_heuristic_solution_with_simulated_annealing(events, slots):
+    np.random.seed(1)
+    array_solution = scheduler.heuristic(events=events, slots=slots,
+                                         algorithm=heu.simulated_annealing)
+
+    expected_array = np.array([[0, 0, 0, 1, 0, 0, 0],
                                [1, 0, 0, 0, 0, 0, 0],
                                [0, 0, 0, 0, 0, 1, 0]])
     assert np.array_equal(array_solution, expected_array)
