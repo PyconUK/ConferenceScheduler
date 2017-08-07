@@ -102,3 +102,9 @@ pytest.ini
 
 # Mypy
 .mypy_cache/
+
+# Tex files for diagrams
+*.aux
+*.fdb_latexmk
+*.fls
+*.pdf
