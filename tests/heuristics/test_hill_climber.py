@@ -26,8 +26,7 @@ def test_hill_climber_for_valid_solution(slots, events):
 
 
 def test_hill_climber_for_valid_solution_with_low_max_iterations(
-    slots, events
-):
+        slots, events):
 
     def objective_function(array):
         return len(list(array_violations(array, events, slots)))
