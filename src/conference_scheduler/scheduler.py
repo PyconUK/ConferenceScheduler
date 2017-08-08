@@ -61,6 +61,18 @@ def heuristic(events,
     list
         A list of tuples giving the event and slot index (for the given
         events and slots lists) for all scheduled items.
+
+    Example
+    -------
+    For a solution where
+
+        * event 0 is scheduled in slot 1
+        * event 1 is scheduled in slot 4
+        * event 2 is scheduled in slot 5
+
+    the resulting list would be::
+
+        [(0, 1), (1, 4), (2, 5)]
     """
     X = heu.get_initial_array(events=events, slots=slots)
 
