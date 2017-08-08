@@ -1,8 +1,10 @@
 Changelog
 #########
 
-Unreleased
-----------
+v2.1.0 (2017-08-08)
+-------------------
+*  New Feature: ``scheduler.heuristic`` uses a heuristic method rather than an
+   integer linear programming approach
 
 *  Enhancement: ``scheduler.array``, ``scheduler.schedule_to_array`` and
    ``scheduler.solution_to_array`` now return arrays of integers, not
