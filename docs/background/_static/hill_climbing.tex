@@ -1,0 +1,12 @@
+\documentclass[convert]{standalone}
+
+\usepackage{tikz}
+
+
+\begin{document}
+
+    \begin{tikzpicture}[every node/.style={draw,shape=circle,fill=blue}]
+        \draw [very thick] plot [smooth] coordinates {(0, 0) (4, -5) (8, 3) (12, -10) (16, 3)};
+        \node at (4, -5) {};
+    \end{tikzpicture}
+\end{document}
