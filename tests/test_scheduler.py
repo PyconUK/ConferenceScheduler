@@ -334,13 +334,14 @@ def test_heuristic_solution(events, slots):
                                [0, 0, 0, 0, 0, 1, 0]])
     assert np.array_equal(array_solution, expected_array)
 
+
 def test_heuristic_solution_with_simulated_annealing(events, slots):
     np.random.seed(1)
     array_solution = scheduler.heuristic(
-            events=events,
-            slots=slots,
-            algorithm=heu.simulated_annealing,
-            objective_function=of.capacity_demand_difference)
+        events=events,
+        slots=slots,
+        algorithm=heu.simulated_annealing,
+        objective_function=of.capacity_demand_difference)
 
     expected_array = np.array([[0, 0, 1, 0, 0, 0, 0],
                                [0, 0, 0, 1, 0, 0, 0],
@@ -348,12 +349,12 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
     assert np.array_equal(array_solution, expected_array)
 
     array_solution = scheduler.heuristic(
-            events=events,
-            slots=slots,
-            algorithm=heu.simulated_annealing,
-            initial_solution_algorithm_kwargs={"max_iterations": 10},
-            objective_function_algorithm_kwargs={"max_iterations": 2},
-            objective_function=of.capacity_demand_difference)
+        events=events,
+        slots=slots,
+        algorithm=heu.simulated_annealing,
+        initial_solution_algorithm_kwargs={"max_iterations": 10},
+        objective_function_algorithm_kwargs={"max_iterations": 2},
+        objective_function=of.capacity_demand_difference)
 
     expected_array = np.array([[0, 0, 1, 0, 0, 0, 0],
                                [0, 0, 0, 1, 0, 0, 0],
