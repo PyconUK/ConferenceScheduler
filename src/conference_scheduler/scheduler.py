@@ -62,9 +62,9 @@ def heuristic(events,
         A numpy array
     """
     X = heu.get_initial_array(events=events, slots=slots)
-    count_violations = lambda array: len(list(val.array_violations(array,
-                                                                   events,
-                                                                   slots)))
+
+    def count_violations(array):
+        return len(list(val.array_violations(array, events, slots)))
 
     X = algorithm(initial_array=X,
                   objective_function=count_violations,
@@ -72,16 +72,16 @@ def heuristic(events,
                   **initial_solution_algorithm_kwargs)
 
     if objective_function is not None:
-        func = lambda array: objective_function(events=events,
-                                                slots=slots,
-                                                X=array,
-                                                **kwargs)
+
+        def func(array):
+            return objective_function(
+                events=events, slots=slots, X=array, **kwargs)
+
         X = algorithm(initial_array=X,
                       objective_function=func,
                       **objective_function_algorithm_kwargs)
 
     return X
-
 
 
 def solution(events, slots, objective_function=None, solver=None, **kwargs):
