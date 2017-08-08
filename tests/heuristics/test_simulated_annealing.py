@@ -121,7 +121,7 @@ def test_simulated_annealing_for_objective_function_starting_temp(
                             initial_temperature=1000,
                             max_iterations=10)
 
-    assert objective_function(X) == -290
+    assert objective_function(X) == -400
 
 
 def test_simulated_annealing_for_objective_function_cooldown_rate(
@@ -141,4 +141,4 @@ def test_simulated_annealing_for_objective_function_cooldown_rate(
                             cooldown_rate=.1,
                             max_iterations=10)
 
-    assert objective_function(X) == -290
+    assert objective_function(X) == -400
