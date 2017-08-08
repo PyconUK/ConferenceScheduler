@@ -1,6 +1,11 @@
 Changelog
 #########
 
+v.2.1.1 (2017-08-08)
+--------------------
+*  Enhancement: ``scheduler.heuristic`` now returns in solution form
+   `#97 <https://github.com/PyconUK/ConferenceScheduler/pull/97>`_
+
 v2.1.0 (2017-08-08)
 -------------------
 *  New Feature: ``scheduler.heuristic`` uses a heuristic method rather than an
