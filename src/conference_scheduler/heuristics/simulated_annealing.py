@@ -1,5 +1,4 @@
 from .utils import element_from_neighbourhood, get_initial_array
-from math import exp
 import numpy as np
 import warnings
 
@@ -41,7 +40,8 @@ def simulated_annealing(objective_function,
             best_energy = candidate_energy
             best_X = candidate
 
-        if delta < 0 or np.random.random() < exp(-delta / temperature):
+        if delta < 0 or (temperature > 0 and
+                         np.random.random() < np.exp(-delta / temperature)):
             X = candidate
             current_energy = candidate_energy
 
