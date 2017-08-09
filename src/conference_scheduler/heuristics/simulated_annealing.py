@@ -6,6 +6,7 @@ def simulated_annealing(objective_function,
                         initial_array,
                         initial_temperature=10 ** 4,
                         cooldown_rate=0.7,
+                        acceptance_criteria=None,
                         lower_bound=-float('inf'),
                         max_iterations=10 ** 3):
     """
@@ -21,6 +22,8 @@ def simulated_annealing(objective_function,
     """
 
     X = initial_array
+    if acceptance_criteria is not None:
+        acceptance_bound = acceptance_criteria(X)
     best_X = X
 
     iterations = 0
@@ -36,7 +39,10 @@ def simulated_annealing(objective_function,
 
         delta = candidate_energy - current_energy
 
-        if candidate_energy < best_energy:
+        if (candidate_energy < best_energy and
+            (acceptance_criteria is None or
+             acceptance_criteria(candidate) <= acceptance_bound)):
+
             best_energy = candidate_energy
             best_X = candidate
 

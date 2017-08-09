@@ -4,6 +4,7 @@ import warnings
 def hill_climber(objective_function,
                  initial_array,
                  lower_bound=-float('inf'),
+                 acceptance_criteria=None,
                  max_iterations=10 ** 3):
     """
     Implement a basic hill climbing algorithm.
@@ -12,9 +13,17 @@ def hill_climber(objective_function,
 
     1. Maximum number of iterations;
     2. A known lower bound, a none is passed then this is not used.
+
+    If acceptance_criteria (a callable) is not None then this is used to obtain
+    an upper bound on some other measure (different to the objective function).
+    In practice this is used when optimising the objective function to ensure
+    that we don't accept a solution that improves the objective function but tht
+    adds more constraint violations.
     """
 
     X = initial_array
+    if acceptance_criteria is not None:
+        acceptance_bound = acceptance_criteria(X)
 
     iterations = 0
     current_energy = objective_function(X)
@@ -25,7 +34,9 @@ def hill_climber(objective_function,
         candidate = element_from_neighbourhood(X)
         candidate_energy = objective_function(candidate)
 
-        if candidate_energy < current_energy:
+        if (candidate_energy < current_energy and
+            (acceptance_criteria is None or
+             acceptance_criteria(candidate) <= acceptance_bound)):
 
             X = candidate
             current_energy = candidate_energy

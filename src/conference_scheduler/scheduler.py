@@ -92,6 +92,7 @@ def heuristic(events,
 
         X = algorithm(initial_array=X,
                       objective_function=func,
+                      acceptance_criteria=count_violations,
                       **objective_function_algorithm_kwargs)
 
     return list(zip(*np.nonzero(X)))
