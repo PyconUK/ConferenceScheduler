@@ -94,6 +94,31 @@ def test_simulated_annealing_for_objective_function(slots, events):
     assert objective_function(X) == -440
 
 
+def test_simulated_annealing_for_obj_function_with_criteria(slots, events):
+
+    def objective_function(array):
+        return of.capacity_demand_difference(slots, events, array)
+
+    def acceptance_criteria(array):
+        return sum(array[:, 3])
+
+    array = np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0]
+    ])
+    assert acceptance_criteria(array) == 0
+    assert objective_function(array) == -400
+
+    np.random.seed(0)
+    X = simulated_annealing(initial_array=array,
+                            objective_function=objective_function,
+                            acceptance_criteria=acceptance_criteria,
+                            max_iterations=100)
+
+    assert objective_function(X) == -400
+
+
 def test_simulated_annealing_for_objective_function_starting_temp(
         slots, events):
 

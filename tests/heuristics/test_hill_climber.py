@@ -68,7 +68,6 @@ def test_hill_climber_for_valid_solution_warning_raised(slots, events):
                      max_iterations=1)
 
     assert objective_function(X) == 1
-    # TODO Check warning is raised
 
 
 def test_hill_climber_for_objective_function(slots, events):
@@ -89,3 +88,28 @@ def test_hill_climber_for_objective_function(slots, events):
                      max_iterations=10)
 
     assert objective_function(X) == -440
+
+
+def test_hill_climbing_for_obj_function_with_criteria(slots, events):
+
+    def objective_function(array):
+        return of.capacity_demand_difference(slots, events, array)
+
+    def acceptance_criteria(array):
+        return sum(array[:, 3])
+
+    array = np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
+        [0, 1, 0, 0, 0, 0, 0]
+    ])
+    assert acceptance_criteria(array) == 0
+    assert objective_function(array) == -400
+
+    np.random.seed(0)
+    X = hill_climber(initial_array=array,
+                     objective_function=objective_function,
+                     acceptance_criteria=acceptance_criteria,
+                     max_iterations=100)
+
+    assert objective_function(X) == -400

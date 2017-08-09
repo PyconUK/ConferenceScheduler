@@ -340,7 +340,7 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
         algorithm=heu.simulated_annealing,
         objective_function=of.capacity_demand_difference)
 
-    assert solution == [(0, 2), (1, 3), (2, 1)]
+    assert solution == [(0, 3), (1, 0), (2, 5)]
 
     solution = scheduler.heuristic(
         events=events,
@@ -350,4 +350,4 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
         objective_function_algorithm_kwargs={"max_iterations": 2},
         objective_function=of.capacity_demand_difference)
 
-    assert solution == [(0, 2), (1, 3), (2, 6)]
+    assert solution == [(0, 2), (1, 0), (2, 6)]
