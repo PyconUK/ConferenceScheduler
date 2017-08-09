@@ -36,7 +36,7 @@ def simulated_annealing(objective_function,
 
         delta = candidate_energy - current_energy
 
-        if delta < 0:
+        if candidate_energy < best_energy:
             best_energy = candidate_energy
             best_X = candidate
 
