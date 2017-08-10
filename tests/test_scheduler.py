@@ -5,7 +5,7 @@ from conference_scheduler.resources import (
     Event, Slot, ScheduledItem, ChangedEventScheduledItem,
     ChangedSlotScheduledItem
 )
-from conference_scheduler import scheduler
+from conference_scheduler import scheduler, converter
 from conference_scheduler import heuristics as heu
 from conference_scheduler.lp_problem import objective_functions as of
 
@@ -51,7 +51,7 @@ def test_small_distance_from_other_schedule(slots, events):
         [0, 0, 0, 0, 1, 0, 0],
         [0, 1, 0, 0, 0, 0, 0]
     ])
-    schedule = scheduler.array_to_schedule(array=X_orig, slots=slots,
+    schedule = converter.array_to_schedule(array=X_orig, slots=slots,
                                            events=events)
     solution = scheduler.solution(
         events=events, slots=slots,
@@ -66,7 +66,7 @@ def test_small_distance_from_other_schedule(slots, events):
         [0, 0, 1, 0, 0, 0, 0],
         [0, 1, 0, 0, 0, 0, 0]
     ])
-    schedule = scheduler.array_to_schedule(array=X_orig, slots=slots,
+    schedule = converter.array_to_schedule(array=X_orig, slots=slots,
                                            events=events)
     solution = scheduler.solution(
         events=events, slots=slots,
@@ -135,34 +135,6 @@ def test_schedule_has_content(schedule):
 def test_schedule_has_all_events(schedule, events):
     scheduled_events = [item.event for item in schedule]
     assert scheduled_events == list(events)
-
-
-# Testing the conversion between various forms of schedule output
-
-def test_solution_to_array(valid_solution, valid_array, events, slots):
-    array = scheduler.solution_to_array(valid_solution, events, slots)
-    assert np.array_equal(array, valid_array)
-    assert all([isinstance(x, np.int8) for x in array.flat])
-
-
-def test_solution_to_schedule(valid_solution, valid_schedule, events, slots):
-    schedule = scheduler.solution_to_schedule(valid_solution, events, slots)
-    assert type(schedule) is list
-    assert list(schedule) == valid_schedule
-
-
-def test_schedule_to_array(valid_schedule, valid_array, events, slots):
-    array = scheduler.schedule_to_array(valid_schedule, events, slots)
-    assert np.array_equal(array, valid_array)
-    assert all([isinstance(x, np.int8) for x in array.flat])
-
-
-def test_array_to_schedule(valid_schedule, valid_array, events, slots):
-    schedule = list(
-        scheduler.array_to_schedule(valid_array, events, slots)
-    )
-    assert type(schedule) is list
-    assert schedule == valid_schedule
 
 
 # Testing the difference between two schedules

@@ -1,4 +1,4 @@
-from conference_scheduler import scheduler
+from conference_scheduler import converter
 from conference_scheduler.lp_problem import constraints
 
 
@@ -75,7 +75,7 @@ def is_valid_solution(solution, events, slots):
     """
     if len(solution) == 0:
         return False
-    array = scheduler.solution_to_array(solution, events, slots)
+    array = converter.solution_to_array(solution, events, slots)
     return is_valid_array(array, events, slots)
 
 
@@ -97,7 +97,7 @@ def solution_violations(solution, events, slots):
             of a list of strings indicating the nature of the violated
             constraints
     """
-    array = scheduler.solution_to_array(solution, events, slots)
+    array = converter.solution_to_array(solution, events, slots)
     return array_violations(array, events, slots)
 
 
@@ -121,7 +121,7 @@ def is_valid_schedule(schedule, events, slots):
     """
     if len(schedule) == 0:
         return False
-    array = scheduler.schedule_to_array(schedule, events, slots)
+    array = converter.schedule_to_array(schedule, events, slots)
     return is_valid_array(array, events, slots)
 
 
@@ -143,5 +143,5 @@ def schedule_violations(schedule, events, slots):
             of a list of strings indicating the nature of the violated
             constraints
     """
-    array = scheduler.schedule_to_array(schedule, events, slots)
+    array = converter.schedule_to_array(schedule, events, slots)
     return array_violations(array, events, slots)
