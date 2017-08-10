@@ -1,4 +1,4 @@
-from conference_scheduler.scheduler import schedule_to_array
+from conference_scheduler.converter import schedule_to_array
 
 
 def capacity_demand_difference(slots, events, X, **kwargs):

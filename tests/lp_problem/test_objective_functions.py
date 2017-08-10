@@ -1,6 +1,6 @@
 import numpy as np
 from conference_scheduler.lp_problem import objective_functions as of
-from conference_scheduler.scheduler import array_to_schedule
+from conference_scheduler.converter import array_to_schedule
 
 
 def test_capacity_demand_difference(slots, events, X):
