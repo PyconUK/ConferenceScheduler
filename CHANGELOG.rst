@@ -1,6 +1,11 @@
 Changelog
 #########
 
+v2.2.3 (2017-08-10)
+-------------------
+* Bug Fix: Remove a circular import between scheduler and validator
+  `#100 <https://github.com/PyconUK/ConferenceScheduler/pull/100>`_
+
 v2.2.2 (2017-08-09)
 -------------------
 *  Bug Fixes: Heuristic algorithmss
