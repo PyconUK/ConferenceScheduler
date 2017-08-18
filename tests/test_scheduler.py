@@ -42,7 +42,7 @@ def test_demand_difference_schedule(slots, events):
         objective_function=of.capacity_demand_difference
     )
     assert type(solution) is list
-    assert list(solution) == [(0, 3), (1, 4), (2, 6)]
+    assert list(solution) == [(0, 3), (1, 0), (2, 6)]
 
 
 def test_small_distance_from_other_schedule(slots, events):
@@ -59,7 +59,7 @@ def test_small_distance_from_other_schedule(slots, events):
         original_schedule=schedule,
     )
     assert type(solution) is list
-    assert list(solution) == [(0, 5), (1, 4), (2, 6)]
+    assert list(solution) == [(0, 2), (1, 4), (2, 5)]
 
     X_orig = np.array([
         [0, 0, 0, 0, 0, 0, 1],
@@ -73,7 +73,7 @@ def test_small_distance_from_other_schedule(slots, events):
         objective_function=of.number_of_changes,
         original_schedule=schedule,
     )
-    assert list(solution) == [(0, 6), (1, 0), (2, 5)]
+    assert list(solution) == [(0, 2), (1, 4), (2, 5)]
 
 
 def test_unsolvable_raises_error(events):
@@ -301,7 +301,7 @@ def test_heuristic_solution(events, slots):
     np.random.seed(1)
     solution = scheduler.heuristic(events=events, slots=slots)
 
-    assert solution == [(0, 4), (1, 0), (2, 5)]
+    assert solution == [(0, 4), (1, 0), (2, 6)]
 
 
 def test_heuristic_solution_with_simulated_annealing(events, slots):
@@ -312,7 +312,7 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
         algorithm=heu.simulated_annealing,
         objective_function=of.capacity_demand_difference)
 
-    assert solution == [(0, 3), (1, 0), (2, 5)]
+    assert solution == [(0, 3), (1, 1), (2, 6)]
 
     solution = scheduler.heuristic(
         events=events,
@@ -322,4 +322,4 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
         objective_function_algorithm_kwargs={"max_iterations": 2},
         objective_function=of.capacity_demand_difference)
 
-    assert solution == [(0, 2), (1, 0), (2, 6)]
+    assert solution == [(0, 3), (1, 0), (2, 6)]

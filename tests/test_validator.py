@@ -43,21 +43,6 @@ def test_multiple_slot_schedule_has_violations(events, slots):
     assert violations == ['Slot with multiple events scheduled - slot: 5']
 
 
-def test_session_with_multiple_tags_has_violations(events, slots):
-    # array where events 0 and 2 are in same session but share no tag
-    array = np.array([
-        [0, 0, 0, 1, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0]
-    ])
-    violations = list(validator.array_violations(array, events, slots))
-    assert violations == [
-        'Dissimilar events schedule in same session - event: 0, slot: 3',
-        'Dissimilar events schedule in same session - event: 2, slot: 4',
-        'Event scheduled when not available - event: 2, slot: 4',
-    ]
-
-
 def test_event_scheduled_within_unavailability_has_violations(events, slots):
     # array where event 1 is incorrectly scheduled against event 0
     # as slots 2 and 6 both begin at 11:30
