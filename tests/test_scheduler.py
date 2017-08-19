@@ -36,13 +36,22 @@ def test_events_scheduled_once_only(solution):
         assert count == 1
 
 
-def test_demand_difference_schedule(slots, events):
+def test_total_demand_difference_schedule(slots, events):
     solution = scheduler.solution(
         events=events, slots=slots,
-        objective_function=of.capacity_demand_difference
+        objective_function=of.efficiency_capacity_demand_difference
     )
     assert type(solution) is list
-    assert list(solution) == [(0, 3), (1, 0), (2, 6)]
+    assert list(solution) == [(0, 4), (1, 5), (2, 6)]
+
+
+def test_equity_demand_difference_schedule(slots, events):
+    solution = scheduler.solution(
+        events=events, slots=slots,
+        objective_function=of.equity_capacity_demand_difference
+    )
+    assert type(solution) is list
+    assert list(solution) == [(0, 2), (1, 5), (2, 6)]
 
 
 def test_small_distance_from_other_schedule(slots, events):
@@ -310,9 +319,9 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
         events=events,
         slots=slots,
         algorithm=heu.simulated_annealing,
-        objective_function=of.capacity_demand_difference)
+        objective_function=of.efficiency_capacity_demand_difference)
 
-    assert solution == [(0, 3), (1, 1), (2, 6)]
+    assert solution == [(0, 4), (1, 5), (2, 6)]
 
     solution = scheduler.heuristic(
         events=events,
@@ -320,6 +329,6 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
         algorithm=heu.simulated_annealing,
         initial_solution_algorithm_kwargs={"max_iterations": 10},
         objective_function_algorithm_kwargs={"max_iterations": 2},
-        objective_function=of.capacity_demand_difference)
+        objective_function=of.efficiency_capacity_demand_difference)
 
-    assert solution == [(0, 3), (1, 0), (2, 6)]
+    assert solution == [(0, 4), (1, 0), (2, 6)]

@@ -130,8 +130,8 @@ However, it might be desirable to also optimise a given objective function.
 Objective functions
 +++++++++++++++++++
 
-Optimising to avoid room overflow
----------------------------------
+Efficiency: Optimising to avoid total room overflow
+---------------------------------------------------
 
 Demand for events might be known: this will be captured using a vector
 :math:`d\in\mathbb{R}_{\geq 0}^{M}`. Similarly capacity for rooms might be
@@ -141,19 +141,57 @@ with parallel sessions delegates might not go where they originally intended) we
 can aim to minimise the expected overflow given by the following expression:
 
 .. math::
-   :label: overflow_objective_function
+   :label: total_overflow_objective_function
 
-   \sum_{i=1}^{M}\sum_{j=1}^{N}X_{ij}(c_j - d_i)
+   \sum_{i=1}^{M}\sum_{j=1}^{N}X_{ij}(d_i - c_j)
 
 Using this, our optimisation problem to give a desirable schedule is obtained by
 solving the following problem:
 
-Minimise :eq:`overflow_objective_function` subject to :eq:`all_events_scheduled_constraint`,
-:eq:`all_slots_at_most_1_event_constraint`,
-:eq:`slot_constraint` and :eq:`event_constraint`.
+Minimise :eq:`total_overflow_objective_function` subject to
+:eq:`all_events_scheduled_constraint`,
+:eq:`all_slots_at_most_1_event_constraint`, :eq:`slot_constraint` and
+:eq:`event_constraint`.
 
-Minimise change from a previous schedule
-----------------------------------------
+Equity: Optimising to avoid worse room overflow
+-----------------------------------------------
+
+Minimising :eq:`total_overflow_objective_function` might still leave a given
+slot with a very large overflow relative to all over slots.
+We
+can aim to minimise the maximum overflow in a given slot given by the following
+expression:
+
+.. math::
+
+   \max_{i,j}X_{ij}(d_i - c_j)
+
+Note that it is not possible to use :math:`\max` in the objective function for a
+linear program (it is none linear). However, instead we can define another
+variable: :math:`\beta` as the upper bound for the overflow in each slot:
+
+.. math::
+   :label: overflow_constraints
+
+   X_{ij}(d_i  - c_j) \leq \beta \text{ for all }0\leq i\leq N\text{ for all }1\leq j\leq M
+
+The objective function then becomes to minimize:
+
+.. math::
+   :label: worse_overflow_objective_function
+
+   \beta
+
+Using this, our optimisation problem to give a desirable schedule is obtained by
+solving the following problem:
+
+Minimise :eq:`worse_overflow_objective_function` subject to
+:eq:`all_events_scheduled_constraint`,
+:eq:`all_slots_at_most_1_event_constraint`, :eq:`slot_constraint`,
+:eq:`event_constraint` and :eq:`overflow_constraints`.
+
+Consistency: Minimise change from a previous schedule
+-----------------------------------------------------
 
 Once a schedule has been obtained and publicised to all delegates, a new
 constraint might arise (modifying :eq:`all_events_scheduled_constraint`,
