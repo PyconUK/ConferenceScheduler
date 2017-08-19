@@ -120,45 +120,9 @@ Using this we have the following constraint:
 We see that if :math:`{C_{e}}_{ii'}=0` then at most one of the two events can be
 scheduled across the two slots :math:`j,j'`.
 
-Talks in a given session have something in common
--------------------------------------------------
-
-It might be desirable to schedule collection of time slots in such a way that
-the events in that collection have something in common. Perhaps all talks in a
-morning session in a particular room should be welcoming to delegates of a given
-level of expertise.
-
-To do this we first need to capture each collection of slots into sessions, and
-we define the following set for every slot :math:`j`:
-
-.. math::
-   :label: same_session_set
-
-   {K}_{j} = \{1\leq j' \leq N\,|\,\text{ if }j\text{ and }j'\text{ are in the same session}\}
-
-We also assume that we have a number of collections of events. Note that these
-collections are non disjoint: any event can be in multiple collections. We refer
-to these collections as "tags": an event can for example be tagged as
-"beginner".
-
-Using this we define the following set for every event :math:`i`
-
-.. math::
-   :label: same_tag_event_set
-
-   T_i = \{1\leq i'\leq M\,|\,\text{ if }i\text{ and }j\text{ do not share a tag}\}
-
-This leads us to the following constraint:
-
-.. math::
-   :label: tag_constraint
-
-    X_{ij}  + X_{i'j'} \leq 1 \text{ for all  }j'\in K_j\text{ for all }1\leq j\leq N\text{ for all }i'\in T_i\text{ for all }1\leq i\leq M
-
-
 Expressions :eq:`all_events_scheduled_constraint`,
 :eq:`all_slots_at_most_1_event_constraint`,
-:eq:`slot_constraint`, :eq:`event_constraint` and :eq:`tag_constraint` define a
+:eq:`slot_constraint`, and :eq:`event_constraint` define a
 valid schedule and can be used by themselves.
 
 However, it might be desirable to also optimise a given objective function.
@@ -186,7 +150,7 @@ solving the following problem:
 
 Minimise :eq:`overflow_objective_function` subject to :eq:`all_events_scheduled_constraint`,
 :eq:`all_slots_at_most_1_event_constraint`,
-:eq:`slot_constraint`, :eq:`event_constraint` and :eq:`tag_constraint`.
+:eq:`slot_constraint` and :eq:`event_constraint`.
 
 Minimise change from a previous schedule
 ----------------------------------------
@@ -194,7 +158,7 @@ Minimise change from a previous schedule
 Once a schedule has been obtained and publicised to all delegates, a new
 constraint might arise (modifying :eq:`all_events_scheduled_constraint`,
 :eq:`all_slots_at_most_1_event_constraint`,
-:eq:`slot_constraint`, :eq:`event_constraint` and :eq:`tag_constraint`). At this
+:eq:`slot_constraint` and :eq:`event_constraint`. At this
 point the original optimisation problem can be solved again leading to a
 potentially completely different schedule. An alternative to this is to use
 distance from an original schedule :math:`X_o` as the objective function. Norms
@@ -225,4 +189,4 @@ problem:
 Minimise :eq:`number_of_changes_objective_function` subject to
 :eq:`all_events_scheduled_constraint`,
 :eq:`all_slots_at_most_1_event_constraint`, :eq:`slot_constraint`,
-:eq:`event_constraint` and :eq:`tag_constraint`.
+and :eq:`event_constraint`.

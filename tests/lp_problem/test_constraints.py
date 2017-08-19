@@ -62,37 +62,6 @@ def test_max_one_events_per_slot_pass_np(events, slots):
     assert all(constraints)
 
 
-def test_events_in_session_share_a_tag(events, slots, X):
-    constraints = [c for c in lpc._events_in_session_share_a_tag(
-        events, slots, X)]
-    assert len(constraints) == 16
-
-
-def test_events_in_session_share_a_tag_fails_np(events, slots):
-    # An array where two talks are in same session but share no tag
-    X = np.array([
-        [1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1],
-        [0, 1, 0, 0, 0, 0, 0]
-    ])
-    constraints = [
-        c.condition for c in lpc._events_in_session_share_a_tag(
-            events, slots, X)]
-    assert not all(constraints)
-
-
-def test_events_in_session_share_a_tag_passes_np(events, slots):
-    # An array where no two talks are in same session if they do not share tags
-    X = np.array([
-        [1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 1, 0, 0, 0]
-    ])
-    test = all(lpc._events_in_session_share_a_tag(
-        events, slots, X))
-    assert test is True
-
-
 def test_events_available_in_scheduled_slot(events, slots, X):
     constraints = [
         c for c in lpc._events_available_in_scheduled_slot(
@@ -130,7 +99,7 @@ def test_events_available_in_scheduled_slot_passes_np(events, slots):
 def test_events_available_during_other_events(events, slots, X):
     constraints = [
         c for c in lpc._events_available_during_other_events(events, slots, X)]
-    assert len(constraints) == 10
+    assert len(constraints) == 15
 
 
 def test_events_available_during_other_events_fails_np(events, slots):
@@ -163,4 +132,4 @@ def test_constraints(events, slots, X):
     constraints = [
         c for c in lpc.all_constraints(
             events, slots, X)]
-    assert len(constraints) == 45
+    assert len(constraints) == 34

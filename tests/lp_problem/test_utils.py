@@ -30,8 +30,8 @@ def test_event_availability_array(events):
     event_availability_array = lpu.event_availability_array(events)
     assert np.array_equal(event_availability_array, np.array([
         [1, 0, 1, ],
-        [0, 1, 1, ],
-        [1, 1, 1, ]
+        [0, 1, 0, ],
+        [1, 0, 1, ]
     ]))
 
 

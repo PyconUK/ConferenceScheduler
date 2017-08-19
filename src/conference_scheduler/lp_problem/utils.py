@@ -91,9 +91,12 @@ def event_availability_array(events):
     array = np.ones((len(events), len(events)))
     for row, event in enumerate(events):
         for col, other_event in enumerate(events):
-            if other_event in event.unavailability:
-                array[row, col] = 0
-                array[col, row] = 0
+            if row != col:
+                tags = set(event.tags)
+                events_share_tag = len(tags.intersection(other_event.tags)) > 0
+                if (other_event in event.unavailability) or events_share_tag:
+                    array[row, col] = 0
+                    array[col, row] = 0
     return array
 
 
