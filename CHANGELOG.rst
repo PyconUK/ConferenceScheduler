@@ -1,6 +1,11 @@
 Changelog
 #########
 
+Unreleased
+----------
+* Incompatibility: New definition of tag based constraints
+  `#102 <https://github.com/PyconUK/ConferenceScheduler/pull/102>`_
+
 v2.2.3 (2017-08-10)
 -------------------
 * Bug Fix: Remove a circular import between scheduler and validator
