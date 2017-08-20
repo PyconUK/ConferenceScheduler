@@ -163,6 +163,7 @@ def test_constraints(events, slots, X):
             events, slots, X)]
     assert len(constraints) == 34
 
+
 def test_constraints(events, slots, X):
     beta = pulp.LpVariable("upper_bound")
     constraints = [
