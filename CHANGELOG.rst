@@ -3,6 +3,9 @@ Changelog
 
 Unreleased
 ----------
+* New Feature: Equity objective function
+  `#103 <https://github.com/PyconUK/ConferenceScheduler/pull/103>`_
+
 * Incompatibility: New definition of tag based constraints
   `#102 <https://github.com/PyconUK/ConferenceScheduler/pull/102>`_
 
