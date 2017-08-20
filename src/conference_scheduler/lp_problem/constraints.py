@@ -3,7 +3,7 @@ from conference_scheduler.resources import Shape, Constraint
 from conference_scheduler.lp_problem import utils as lpu
 
 
-def _schedule_all_events(events, slots, X, summation_type=None):
+def _schedule_all_events(events, slots, X, summation_type=None, **kwargs):
 
     shape = Shape(len(events), len(slots))
     summation = lpu.summation_functions[summation_type]
@@ -16,7 +16,7 @@ def _schedule_all_events(events, slots, X, summation_type=None):
         )
 
 
-def _max_one_event_per_slot(events, slots, X, summation_type=None):
+def _max_one_event_per_slot(events, slots, X, summation_type=None, **kwargs):
 
     shape = Shape(len(events), len(slots))
     summation = lpu.summation_functions[summation_type]
@@ -48,7 +48,7 @@ def _events_available_in_scheduled_slot(events, slots, X, **kwargs):
 
 
 def _events_available_during_other_events(
-    events, slots, X, summation_type=None
+    events, slots, X, summation_type=None, **kwargs
 ):
     """
     Constraint that ensures that an event is not scheduled at the same time as
@@ -72,19 +72,38 @@ def _events_available_during_other_events(
                         )
 
 
-def all_constraints(events, slots, X, summation_type=None):
+def _upper_bound_on_event_overflow(
+    events, slots, X, beta, summation_type=None, **kwargs
+):
+    """
+    This is an artificial constraint that is used by the objective function
+    aiming to minimise the maximum overflow in a slot.
+    """
+    label = 'Artificial upper bound constraint'
+    for row, event in enumerate(events):
+        for col, slot in enumerate(slots):
+            yield Constraint(
+                f'{label} - slot: {col} and event: {row}',
+                event.demand * X[row, col] - slot.capacity <= beta)
+
+
+def all_constraints(events, slots, X, beta=None, summation_type=None):
     kwargs = {
         'events': events,
         'slots': slots,
         'X': X,
+        'beta': beta,
         'summation_type': summation_type
     }
-    generators = (
+    generators = [
         _schedule_all_events,
         _max_one_event_per_slot,
         _events_available_in_scheduled_slot,
         _events_available_during_other_events,
-    )
+    ]
+
+    if beta is not None:
+        generators.append(_upper_bound_on_event_overflow)
 
     for generator in generators:
         for constraint in generator(**kwargs):

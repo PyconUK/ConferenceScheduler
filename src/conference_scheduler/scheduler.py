@@ -135,14 +135,16 @@ def solution(events, slots, objective_function=None, solver=None, **kwargs):
     shape = Shape(len(events), len(slots))
     problem = pulp.LpProblem()
     X = lp.utils.variables(shape)
+    beta = pulp.LpVariable("upper_bound")
 
     for constraint in lp.constraints.all_constraints(
-        events, slots, X, 'lpsum'
+        events, slots, X, beta, 'lpsum'
     ):
         problem += constraint.condition
 
     if objective_function is not None:
         problem += objective_function(events=events, slots=slots, X=X,
+                                      beta=beta,
                                       **kwargs)
 
     status = problem.solve(solver=solver)
