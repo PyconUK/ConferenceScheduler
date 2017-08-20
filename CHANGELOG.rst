@@ -1,8 +1,8 @@
 Changelog
 #########
 
-Unreleased
-----------
+v3.0.0 (2017-08-20)
+-------------------
 * New Feature: Equity objective function
   `#103 <https://github.com/PyconUK/ConferenceScheduler/pull/103>`_
 
