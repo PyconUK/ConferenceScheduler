@@ -100,24 +100,26 @@ def event_availability_array(events):
     return array
 
 
-def start_and_end_dates(slot):
+def ends_at(slot):
     """
-    Return the start and end date of a time slot
+    Return the ending datetime of a slot
     """
-    startdate = datetime.datetime.strptime(slot.starts_at, '%d-%b-%Y %H:%M')
-    enddate = startdate + datetime.timedelta(minutes=slot.duration)
-    return startdate, enddate
+    return slot.starts_at + datetime.timedelta(minutes=slot.duration)
 
 
 def slots_overlap(slot, other_slot):
     """
     Return boolean: whether or not two events overlap
     """
-    startdate, enddate = start_and_end_dates(slot)
-    other_startdate, other_enddate = start_and_end_dates(other_slot)
-    if startdate >= other_startdate and enddate <= other_enddate:
+    slot_ends_at = ends_at(slot)
+    other_ends_at = ends_at(other_slot)
+    if (slot.starts_at >= other_slot.starts_at and
+        slot_ends_at <= other_ends_at
+    ):
         return True
-    if other_startdate >= startdate and other_enddate <= enddate:
+    if (other_slot.starts_at >= slot.starts_at and
+        other_ends_at <= slot_ends_at
+    ):
         return True
     return False
 
