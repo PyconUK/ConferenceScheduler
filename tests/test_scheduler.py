@@ -5,6 +5,7 @@ from conference_scheduler.resources import (
     Event, Slot, ScheduledItem, ChangedEventScheduledItem,
     ChangedSlotScheduledItem
 )
+from datetime import datetime
 from conference_scheduler import scheduler, converter
 from conference_scheduler import heuristics as heu
 from conference_scheduler.lp_problem import objective_functions as of
@@ -88,8 +89,8 @@ def test_small_distance_from_other_schedule(slots, events):
 def test_unsolvable_raises_error(events):
     slots = [
         Slot(
-            venue='Main Hall', starts_at='15-Sep-2016 09:30', duration=30,
-            capacity=50, session="01 Morning A"
+            venue='Main Hall', starts_at=datetime(2016, 9, 15, 9, 30),
+            duration=30, capacity=50, session="01 Morning A"
         )
     ]
     with pytest.raises(ValueError):

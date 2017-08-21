@@ -37,28 +37,28 @@ Inputting the data
 
 Let us create these time slots using the :code:`conference_scheduler`::
 
+    >>> from datetime import datetime
     >>> from conference_scheduler.resources import Slot, Event
 
-    >>> talk_slots  = [Slot(venue='Big', starts_at='15-Sep-2016 09:30', duration=30, session="A", capacity=200),
-    ...                Slot(venue='Big', starts_at='15-Sep-2016 10:00', duration=30, session="A", capacity=200),
-    ...                Slot(venue='Small', starts_at='15-Sep-2016 09:30', duration=30, session="B", capacity=50),
-    ...                Slot(venue='Small', starts_at='15-Sep-2016 10:00', duration=30, session="B", capacity=50),
-    ...                Slot(venue='Big', starts_at='15-Sep-2016 12:30', duration=30, session="C", capacity=200),
-    ...                Slot(venue='Big', starts_at='15-Sep-2016 13:00', duration=30, session="C", capacity=200),
-    ...                Slot(venue='Small', starts_at='15-Sep-2016 12:30', duration=30, session="D", capacity=50),
-    ...                Slot(venue='Small', starts_at='15-Sep-2016 13:00', duration=30, session="D", capacity=50),
-    ...                Slot(venue='Big', starts_at='16-Sep-2016 09:30', duration=30, session="E", capacity=50),
-    ...                Slot(venue='Big', starts_at='16-Sep-2016 10:00', duration=30, session="E", capacity=50),
-    ...                Slot(venue='Big', starts_at='16-Sep-2016 12:30', duration=30, session="F", capacity=50),
-    ...                Slot(venue='Big', starts_at='16-Sep-2016 13:00', duration=30, session="F", capacity=50)]
-    >>> workshop_slots = [Slot(venue='Small', starts_at='16-Sep-2016 09:30', duration=60, session="G", capacity=50),
-    ...                   Slot(venue='Small', starts_at='16-Sep-2016 13:00', duration=60, session="H", capacity=50)]
-    >>> outside_slots = [Slot(venue='Outside', starts_at='16-Sep-2016 12:30', duration=90, session="I", capacity=1000),
-    ...                  Slot(venue='Outside', starts_at='16-Sep-2016 13:00', duration=90, session="J", capacity=1000)]
+    >>> talk_slots  = [Slot(venue='Big', starts_at=datetime(2016, 9, 15, 9, 30), duration=30, session="A", capacity=200),
+    ...                Slot(venue='Big', starts_at=datetime(2016, 9, 15, 10, 0), duration=30, session="A", capacity=200),
+    ...                Slot(venue='Small', starts_at=datetime(2016, 9, 15, 9, 30), duration=30, session="B", capacity=50),
+    ...                Slot(venue='Small', starts_at=datetime(2016, 9, 15, 10, 0), duration=30, session="B", capacity=50),
+    ...                Slot(venue='Big', starts_at=datetime(2016, 9, 15, 12, 30), duration=30, session="C", capacity=200),
+    ...                Slot(venue='Big', starts_at=datetime(2016, 9, 15, 13, 0), duration=30, session="C", capacity=200),
+    ...                Slot(venue='Small', starts_at=datetime(2016, 9, 15, 12, 30), duration=30, session="D", capacity=50),
+    ...                Slot(venue='Small', starts_at=datetime(2016, 9, 15, 13, 0), duration=30, session="D", capacity=50),
+    ...                Slot(venue='Big', starts_at=datetime(2016, 9, 16, 9, 30), duration=30, session="E", capacity=50),
+    ...                Slot(venue='Big', starts_at=datetime(2016, 9, 16, 10, 00), duration=30, session="E", capacity=50),
+    ...                Slot(venue='Big', starts_at=datetime(2016, 9, 16, 12, 30), duration=30, session="F", capacity=50),
+    ...                Slot(venue='Big', starts_at=datetime(2016, 9, 16, 13, 0), duration=30, session="F", capacity=50)]
+    >>> workshop_slots = [Slot(venue='Small', starts_at=datetime(2016, 9, 16, 9, 30), duration=60, session="G", capacity=50),
+    ...                   Slot(venue='Small', starts_at=datetime(2016, 9, 16, 13, 0), duration=60, session="H", capacity=50)]
+    >>> outside_slots = [Slot(venue='Outside', starts_at=datetime(2016, 9, 16, 12, 30), duration=90, session="I", capacity=1000),
+    ...                  Slot(venue='Outside', starts_at=datetime(2016, 9, 16, 13, 0), duration=90, session="J", capacity=1000)]
     >>> slots = talk_slots + workshop_slots + outside_slots
 
-**Note** that the :code:`starts_at` format must be :code:`'%d-%b-%Y %H:%M'` and that
-:code:`duration` must be given in minutes.
+**Note** that the :code:`duration` must be given in minutes.
 
 We also have a number of talks and workshops to schedule, because of the
 duration/location of the slots we know some of them are unavailable for a given slot::
@@ -107,22 +107,22 @@ event::
     >>> schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 5 at 15-Sep-2016 09:30 in Small
-    Talk 11 at 15-Sep-2016 09:30 in Big
-    Talk 4 at 15-Sep-2016 10:00 in Small
-    Talk 10 at 15-Sep-2016 10:00 in Big
-    Talk 1 at 15-Sep-2016 12:30 in Small
-    Talk 6 at 15-Sep-2016 12:30 in Big
-    Talk 3 at 15-Sep-2016 13:00 in Small
-    Talk 8 at 15-Sep-2016 13:00 in Big
-    Talk 2 at 16-Sep-2016 09:30 in Big
-    Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 9 at 16-Sep-2016 10:00 in Big
-    Talk 12 at 16-Sep-2016 12:30 in Big
-    Boardgames at 16-Sep-2016 12:30 in Outside
-    Talk 7 at 16-Sep-2016 13:00 in Big
-    Workshop 1 at 16-Sep-2016 13:00 in Small
-    City tour at 16-Sep-2016 13:00 in Outside
+    Talk 5 at 2016-09-15 09:30:00 in Small
+    Talk 11 at 2016-09-15 09:30:00 in Big
+    Talk 4 at 2016-09-15 10:00:00 in Small
+    Talk 10 at 2016-09-15 10:00:00 in Big
+    Talk 1 at 2016-09-15 12:30:00 in Small
+    Talk 6 at 2016-09-15 12:30:00 in Big
+    Talk 3 at 2016-09-15 13:00:00 in Small
+    Talk 8 at 2016-09-15 13:00:00 in Big
+    Talk 2 at 2016-09-16 09:30:00 in Big
+    Workshop 2 at 2016-09-16 09:30:00 in Small
+    Talk 9 at 2016-09-16 10:00:00 in Big
+    Talk 12 at 2016-09-16 12:30:00 in Big
+    Boardgames at 2016-09-16 12:30:00 in Outside
+    Talk 7 at 2016-09-16 13:00:00 in Big
+    Workshop 1 at 2016-09-16 13:00:00 in Small
+    City tour at 2016-09-16 13:00:00 in Outside
 
 We see that all the events are scheduled in appropriate rooms (as indicated by
 the unavailability attribute for the events). Also we have that :code:`Talk 1`
@@ -148,22 +148,22 @@ our scheduler to minimise the difference between room capacity and demand::
     >>> schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 4 at 15-Sep-2016 09:30 in Big
-    Talk 5 at 15-Sep-2016 09:30 in Small
-    Talk 3 at 15-Sep-2016 10:00 in Big
-    Talk 9 at 15-Sep-2016 10:00 in Small
-    Talk 6 at 15-Sep-2016 12:30 in Big
-    Talk 11 at 15-Sep-2016 12:30 in Small
-    Talk 2 at 15-Sep-2016 13:00 in Small
-    Talk 7 at 15-Sep-2016 13:00 in Big
-    Talk 8 at 16-Sep-2016 09:30 in Big
-    Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 12 at 16-Sep-2016 10:00 in Big
-    Talk 1 at 16-Sep-2016 12:30 in Big
-    Boardgames at 16-Sep-2016 12:30 in Outside
-    Talk 10 at 16-Sep-2016 13:00 in Big
-    Workshop 1 at 16-Sep-2016 13:00 in Small
-    City tour at 16-Sep-2016 13:00 in Outside
+    Talk 4 at 2016-09-15 09:30:00 in Big
+    Talk 5 at 2016-09-15 09:30:00 in Small
+    Talk 3 at 2016-09-15 10:00:00 in Big
+    Talk 9 at 2016-09-15 10:00:00 in Small
+    Talk 6 at 2016-09-15 12:30:00 in Big
+    Talk 11 at 2016-09-15 12:30:00 in Small
+    Talk 2 at 2016-09-15 13:00:00 in Small
+    Talk 7 at 2016-09-15 13:00:00 in Big
+    Talk 8 at 2016-09-16 09:30:00 in Big
+    Workshop 2 at 2016-09-16 09:30:00 in Small
+    Talk 12 at 2016-09-16 10:00:00 in Big
+    Talk 1 at 2016-09-16 12:30:00 in Big
+    Boardgames at 2016-09-16 12:30:00 in Outside
+    Talk 10 at 2016-09-16 13:00:00 in Big
+    Workshop 1 at 2016-09-16 13:00:00 in Small
+    City tour at 2016-09-16 13:00:00 in Outside
 
 We see that :code:`Talk 3` has moved to the bigger room but that all other
 constraints still hold. Note however that this has also moved :code:`Talk 2`
@@ -180,22 +180,22 @@ overcrowding in any given slot::
     >>> schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 1 at 15-Sep-2016 09:30 in Small
-    Talk 9 at 15-Sep-2016 09:30 in Big
-    Talk 3 at 15-Sep-2016 10:00 in Big
-    Talk 10 at 15-Sep-2016 10:00 in Small
-    Talk 4 at 15-Sep-2016 12:30 in Small
-    Talk 7 at 15-Sep-2016 12:30 in Big
-    Talk 2 at 15-Sep-2016 13:00 in Big
-    Talk 8 at 15-Sep-2016 13:00 in Small
-    Talk 6 at 16-Sep-2016 09:30 in Big
-    Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 12 at 16-Sep-2016 10:00 in Big
-    Talk 11 at 16-Sep-2016 12:30 in Big
-    Boardgames at 16-Sep-2016 12:30 in Outside
-    Talk 5 at 16-Sep-2016 13:00 in Big
-    Workshop 1 at 16-Sep-2016 13:00 in Small
-    City tour at 16-Sep-2016 13:00 in Outside
+    Talk 1 at 2016-09-15 09:30:00 in Small
+    Talk 9 at 2016-09-15 09:30:00 in Big
+    Talk 3 at 2016-09-15 10:00:00 in Big
+    Talk 10 at 2016-09-15 10:00:00 in Small
+    Talk 4 at 2016-09-15 12:30:00 in Small
+    Talk 7 at 2016-09-15 12:30:00 in Big
+    Talk 2 at 2016-09-15 13:00:00 in Big
+    Talk 8 at 2016-09-15 13:00:00 in Small
+    Talk 6 at 2016-09-16 09:30:00 in Big
+    Workshop 2 at 2016-09-16 09:30:00 in Small
+    Talk 12 at 2016-09-16 10:00:00 in Big
+    Talk 11 at 2016-09-16 12:30:00 in Big
+    Boardgames at 2016-09-16 12:30:00 in Outside
+    Talk 5 at 2016-09-16 13:00:00 in Big
+    Workshop 1 at 2016-09-16 13:00:00 in Small
+    City tour at 2016-09-16 13:00:00 in Outside
 
 Now, both :code:`Talk 2` and :code:`Talk 3` are in the bigger rooms.
 
@@ -218,22 +218,22 @@ We can now solve the problem one more time from scratch just as before::
     >>> alt_schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in alt_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 3 at 15-Sep-2016 09:30 in Big
-    Talk 12 at 15-Sep-2016 09:30 in Small
-    Talk 2 at 15-Sep-2016 10:00 in Big
-    Talk 10 at 15-Sep-2016 10:00 in Small
-    Talk 1 at 15-Sep-2016 12:30 in Big
-    Talk 8 at 15-Sep-2016 12:30 in Small
-    Talk 5 at 15-Sep-2016 13:00 in Big
-    Talk 9 at 15-Sep-2016 13:00 in Small
-    Talk 11 at 16-Sep-2016 09:30 in Big
-    Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 4 at 16-Sep-2016 10:00 in Big
-    Talk 7 at 16-Sep-2016 12:30 in Big
-    Boardgames at 16-Sep-2016 12:30 in Outside
-    Talk 6 at 16-Sep-2016 13:00 in Big
-    Workshop 1 at 16-Sep-2016 13:00 in Small
-    City tour at 16-Sep-2016 13:00 in Outside
+    Talk 3 at 2016-09-15 09:30:00 in Big
+    Talk 12 at 2016-09-15 09:30:00 in Small
+    Talk 2 at 2016-09-15 10:00:00 in Big
+    Talk 10 at 2016-09-15 10:00:00 in Small
+    Talk 1 at 2016-09-15 12:30:00 in Big
+    Talk 8 at 2016-09-15 12:30:00 in Small
+    Talk 5 at 2016-09-15 13:00:00 in Big
+    Talk 9 at 2016-09-15 13:00:00 in Small
+    Talk 11 at 2016-09-16 09:30:00 in Big
+    Workshop 2 at 2016-09-16 09:30:00 in Small
+    Talk 4 at 2016-09-16 10:00:00 in Big
+    Talk 7 at 2016-09-16 12:30:00 in Big
+    Boardgames at 2016-09-16 12:30:00 in Outside
+    Talk 6 at 2016-09-16 13:00:00 in Big
+    Workshop 1 at 2016-09-16 13:00:00 in Small
+    City tour at 2016-09-16 13:00:00 in Outside
 
 This has resulted in a
 completely different schedule with a number of changes. We can however solve the
@@ -246,22 +246,22 @@ old schedule::
     >>> similar_schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in similar_schedule:
     ...     print(f"{item.event.name} at {item.slot.starts_at} in {item.slot.venue}")
-    Talk 1 at 15-Sep-2016 09:30 in Small
-    Talk 9 at 15-Sep-2016 09:30 in Big
-    Talk 3 at 15-Sep-2016 10:00 in Big
-    Talk 10 at 15-Sep-2016 10:00 in Small
-    Talk 4 at 15-Sep-2016 12:30 in Small
-    Talk 7 at 15-Sep-2016 12:30 in Big
-    Talk 2 at 15-Sep-2016 13:00 in Big
-    Talk 8 at 15-Sep-2016 13:00 in Small
-    Talk 11 at 16-Sep-2016 09:30 in Big
-    Workshop 2 at 16-Sep-2016 09:30 in Small
-    Talk 12 at 16-Sep-2016 10:00 in Big
-    Talk 6 at 16-Sep-2016 12:30 in Big
-    Boardgames at 16-Sep-2016 12:30 in Outside
-    Talk 5 at 16-Sep-2016 13:00 in Big
-    Workshop 1 at 16-Sep-2016 13:00 in Small
-    City tour at 16-Sep-2016 13:00 in Outside
+    Talk 1 at 2016-09-15 09:30:00 in Small
+    Talk 9 at 2016-09-15 09:30:00 in Big
+    Talk 3 at 2016-09-15 10:00:00 in Big
+    Talk 10 at 2016-09-15 10:00:00 in Small
+    Talk 4 at 2016-09-15 12:30:00 in Small
+    Talk 7 at 2016-09-15 12:30:00 in Big
+    Talk 2 at 2016-09-15 13:00:00 in Big
+    Talk 8 at 2016-09-15 13:00:00 in Small
+    Talk 11 at 2016-09-16 09:30:00 in Big
+    Workshop 2 at 2016-09-16 09:30:00 in Small
+    Talk 12 at 2016-09-16 10:00:00 in Big
+    Talk 6 at 2016-09-16 12:30:00 in Big
+    Boardgames at 2016-09-16 12:30:00 in Outside
+    Talk 5 at 2016-09-16 13:00:00 in Big
+    Workshop 1 at 2016-09-16 13:00:00 in Small
+    City tour at 2016-09-16 13:00:00 in Outside
 
 
 
@@ -275,17 +275,17 @@ with the original. Firstly, we can see which events moved to different slots::
     >>> event_diff = scheduler.event_schedule_difference(schedule, alt_schedule)
     >>> for item in event_diff:
     ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to {item.new_slot.venue} at {item.new_slot.starts_at}")
-    Talk 1 has moved from Small at 15-Sep-2016 09:30 to Big at 15-Sep-2016 12:30
-    Talk 11 has moved from Big at 16-Sep-2016 12:30 to Big at 16-Sep-2016 09:30
-    Talk 12 has moved from Big at 16-Sep-2016 10:00 to Small at 15-Sep-2016 09:30
-    Talk 2 has moved from Big at 15-Sep-2016 13:00 to Big at 15-Sep-2016 10:00
-    Talk 3 has moved from Big at 15-Sep-2016 10:00 to Big at 15-Sep-2016 09:30
-    Talk 4 has moved from Small at 15-Sep-2016 12:30 to Big at 16-Sep-2016 10:00
-    Talk 5 has moved from Big at 16-Sep-2016 13:00 to Big at 15-Sep-2016 13:00
-    Talk 6 has moved from Big at 16-Sep-2016 09:30 to Big at 16-Sep-2016 13:00
-    Talk 7 has moved from Big at 15-Sep-2016 12:30 to Big at 16-Sep-2016 12:30
-    Talk 8 has moved from Small at 15-Sep-2016 13:00 to Small at 15-Sep-2016 12:30
-    Talk 9 has moved from Big at 15-Sep-2016 09:30 to Small at 15-Sep-2016 13:00
+    Talk 1 has moved from Small at 2016-09-15 09:30:00 to Big at 2016-09-15 12:30:00
+    Talk 11 has moved from Big at 2016-09-16 12:30:00 to Big at 2016-09-16 09:30:00
+    Talk 12 has moved from Big at 2016-09-16 10:00:00 to Small at 2016-09-15 09:30:00
+    Talk 2 has moved from Big at 2016-09-15 13:00:00 to Big at 2016-09-15 10:00:00
+    Talk 3 has moved from Big at 2016-09-15 10:00:00 to Big at 2016-09-15 09:30:00
+    Talk 4 has moved from Small at 2016-09-15 12:30:00 to Big at 2016-09-16 10:00:00
+    Talk 5 has moved from Big at 2016-09-16 13:00:00 to Big at 2016-09-15 13:00:00
+    Talk 6 has moved from Big at 2016-09-16 09:30:00 to Big at 2016-09-16 13:00:00
+    Talk 7 has moved from Big at 2016-09-15 12:30:00 to Big at 2016-09-16 12:30:00
+    Talk 8 has moved from Small at 2016-09-15 13:00:00 to Small at 2016-09-15 12:30:00
+    Talk 9 has moved from Big at 2016-09-15 09:30:00 to Small at 2016-09-15 13:00:00
 
 
 We can also look at slots to see which now have a different event scheduled::
@@ -293,17 +293,17 @@ We can also look at slots to see which now have a different event scheduled::
     >>> slot_diff = scheduler.slot_schedule_difference(schedule, alt_schedule)
     >>> for item in slot_diff:
     ...     print(f"{item.slot.venue} at {item.slot.starts_at} will now host {item.new_event.name} rather than {item.old_event.name}" )
-    Big at 15-Sep-2016 09:30 will now host Talk 3 rather than Talk 9
-    Big at 15-Sep-2016 10:00 will now host Talk 2 rather than Talk 3
-    Big at 15-Sep-2016 12:30 will now host Talk 1 rather than Talk 7
-    Big at 15-Sep-2016 13:00 will now host Talk 5 rather than Talk 2
-    Big at 16-Sep-2016 09:30 will now host Talk 11 rather than Talk 6
-    Big at 16-Sep-2016 10:00 will now host Talk 4 rather than Talk 12
-    Big at 16-Sep-2016 12:30 will now host Talk 7 rather than Talk 11
-    Big at 16-Sep-2016 13:00 will now host Talk 6 rather than Talk 5
-    Small at 15-Sep-2016 09:30 will now host Talk 12 rather than Talk 1
-    Small at 15-Sep-2016 12:30 will now host Talk 8 rather than Talk 4
-    Small at 15-Sep-2016 13:00 will now host Talk 9 rather than Talk 8
+    Big at 2016-09-15 09:30:00 will now host Talk 3 rather than Talk 9
+    Big at 2016-09-15 10:00:00 will now host Talk 2 rather than Talk 3
+    Big at 2016-09-15 12:30:00 will now host Talk 1 rather than Talk 7
+    Big at 2016-09-15 13:00:00 will now host Talk 5 rather than Talk 2
+    Big at 2016-09-16 09:30:00 will now host Talk 11 rather than Talk 6
+    Big at 2016-09-16 10:00:00 will now host Talk 4 rather than Talk 12
+    Big at 2016-09-16 12:30:00 will now host Talk 7 rather than Talk 11
+    Big at 2016-09-16 13:00:00 will now host Talk 6 rather than Talk 5
+    Small at 2016-09-15 09:30:00 will now host Talk 12 rather than Talk 1
+    Small at 2016-09-15 12:30:00 will now host Talk 8 rather than Talk 4
+    Small at 2016-09-15 13:00:00 will now host Talk 9 rather than Talk 8
 
 
 We can use this facility to show how using :code:`number_of_changes` as our objective function
@@ -312,8 +312,8 @@ resulted in far fewer changes::
     >>> event_diff = scheduler.event_schedule_difference(schedule, similar_schedule)
     >>> for item in event_diff:
     ...     print(f"{item.event.name} has moved from {item.old_slot.venue} at {item.old_slot.starts_at} to {item.new_slot.venue} at {item.new_slot.starts_at}")
-    Talk 11 has moved from Big at 16-Sep-2016 12:30 to Big at 16-Sep-2016 09:30
-    Talk 6 has moved from Big at 16-Sep-2016 09:30 to Big at 16-Sep-2016 12:30
+    Talk 11 has moved from Big at 2016-09-16 12:30:00 to Big at 2016-09-16 09:30:00
+    Talk 6 has moved from Big at 2016-09-16 09:30:00 to Big at 2016-09-16 12:30:00
 
 
 Scheduling chairs
@@ -324,34 +324,34 @@ last task which is to schedule chairs for the talk sessions.
 
 We have 6 different sessions of talks to chair::
 
-    Talk 4 at 15-Sep-2016 09:30 in Big
-    Talk 1 at 15-Sep-2016 10:00 in Big
+    Talk 4 at 2016-09-15 09:30:00 in Big
+    Talk 1 at 2016-09-15 10:00:00 in Big
 
-    Talk 7 at 15-Sep-2016 09:30 in Small
-    Talk 6 at 15-Sep-2016 10:00 in Small
+    Talk 7 at 2016-09-15 09:30:00 in Small
+    Talk 6 at 2016-09-15 10:00:00 in Small
 
-    Talk 8 at 15-Sep-2016 12:30 in Big
-    Talk 5 at 15-Sep-2016 13:00 in Big
+    Talk 8 at 2016-09-15 12:30:00 in Big
+    Talk 5 at 2016-09-15 13:00:00 in Big
 
-    Talk 11 at 15-Sep-2016 12:30 in Small
-    Talk 10 at 15-Sep-2016 13:00 in Small
+    Talk 11 at 2016-09-15 12:30:00 in Small
+    Talk 10 at 2016-09-15 13:00:00 in Small
 
-    Talk 3 at 16-Sep-2016 09:30 in Big
-    Talk 2 at 16-Sep-2016 10:00 in Big
+    Talk 3 at 2016-09-16 09:30:00 in Big
+    Talk 2 at 2016-09-16 10:00:00 in Big
 
-    Talk 12 at 16-Sep-2016 12:30 in Big
-    Talk 9 at 16-Sep-2016 13:00 in Big
+    Talk 12 at 2016-09-16 12:30:00 in Big
+    Talk 9 at 2016-09-16 13:00:00 in Big
 
 We will use the conference scheduler, with these sessions corresponding
 to slots::
 
 
-    >>> chair_slots  = [Slot(venue='Big', starts_at='15-Sep-2016 09:30', duration=60, session="A", capacity=200),
-    ...                 Slot(venue='Small', starts_at='15-Sep-2016 09:30', duration=60, session="B", capacity=50),
-    ...                 Slot(venue='Big', starts_at='15-Sep-2016 12:30', duration=60, session="C", capacity=200),
-    ...                 Slot(venue='Small', starts_at='15-Sep-2016 12:30', duration=60, session="D", capacity=50),
-    ...                 Slot(venue='Big', starts_at='16-Sep-2016 12:30', duration=60, session="E", capacity=200),
-    ...                 Slot(venue='Small', starts_at='16-Sep-2016 12:30', duration=60, session="F", capacity=50)]
+    >>> chair_slots  = [Slot(venue='Big', starts_at=datetime(2016, 9, 15, 9, 30), duration=60, session="A", capacity=200),
+    ...                 Slot(venue='Small', starts_at=datetime(2016, 9, 15, 9, 30), duration=60, session="B", capacity=50),
+    ...                 Slot(venue='Big', starts_at=datetime(2016, 9, 15, 12, 30), duration=60, session="C", capacity=200),
+    ...                 Slot(venue='Small', starts_at=datetime(2016, 9, 15, 12, 30), duration=60, session="D", capacity=50),
+    ...                 Slot(venue='Big', starts_at=datetime(2016, 9, 16, 12, 30), duration=60, session="E", capacity=200),
+    ...                 Slot(venue='Small', starts_at=datetime(2016, 9, 16, 12, 30), duration=60, session="F", capacity=50)]
 
 We will need 6 chairpersons for these slots and we will use events as chairs. In
 practice, all chairing will be taken care of by 3 people, with each person
@@ -389,12 +389,12 @@ Now let us get the chair schedule::
     >>> chair_schedule.sort(key=lambda item: item.slot.starts_at)
     >>> for item in chair_schedule:
     ...     print(f"{item.event.name} chairing {item.slot.starts_at} in {item.slot.venue}")
-    Chair A-2 chairing 15-Sep-2016 09:30 in Big
-    Chair B-1 chairing 15-Sep-2016 09:30 in Small
-    Chair B-2 chairing 15-Sep-2016 12:30 in Small
-    Chair C-1 chairing 15-Sep-2016 12:30 in Big
-    Chair A-1 chairing 16-Sep-2016 12:30 in Small
-    Chair D-2 chairing 16-Sep-2016 12:30 in Big
+    Chair A-2 chairing 2016-09-15 09:30:00 in Big
+    Chair B-1 chairing 2016-09-15 09:30:00 in Small
+    Chair B-2 chairing 2016-09-15 12:30:00 in Small
+    Chair C-1 chairing 2016-09-15 12:30:00 in Big
+    Chair A-1 chairing 2016-09-16 12:30:00 in Small
+    Chair D-2 chairing 2016-09-16 12:30:00 in Big
 
 
 Validating a schedule
@@ -415,8 +415,8 @@ Let us modify our schedule so that it schedules an event twice::
     >>> chair_schedule[0] = ScheduledItem(event=events[2], slot=chair_slots[0])
     >>> for item in chair_schedule[:2]:
     ...     print(f"{item.event.name} chairing {item.slot.starts_at} in {item.slot.venue}")
-    Chair B-1 chairing 15-Sep-2016 09:30 in Big
-    Chair B-1 chairing 15-Sep-2016 09:30 in Small
+    Chair B-1 chairing 2016-09-15 09:30:00 in Big
+    Chair B-1 chairing 2016-09-15 09:30:00 in Small
 
 We now see that we have an invalid schedule::
 
