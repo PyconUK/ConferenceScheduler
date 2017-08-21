@@ -1,6 +1,11 @@
 Changelog
 #########
 
+v3.0.1 (2017-08-21)
+-------------------
+* Bug Fix: Remove use of strings instead of datetimes for Slot.starts_at
+  `#104 <https://github.com/PyconUK/ConferenceScheduler/pull/104>`_
+
 v3.0.0 (2017-08-20)
 -------------------
 * New Feature: Equity objective function
