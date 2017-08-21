@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='conference-scheduler',
-    version='3.1.0',
+    version='3.0.0',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     url='https://github.com/PyconUK/ConferenceScheduler',
