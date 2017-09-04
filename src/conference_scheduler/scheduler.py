@@ -18,7 +18,6 @@ import conference_scheduler.validator as val
 from conference_scheduler.resources import (
     Shape, ChangedEventScheduledItem, ChangedSlotScheduledItem
 )
-from conference_scheduler.lp_problem import objective_functions as of
 
 # __all__ is defined so that we can control the order in which the functions
 # are documented by sphinx.
@@ -90,9 +89,7 @@ def heuristic(events,
 
     if objective_function is not None:
 
-        if objective_function is of.equity_capacity_demand_difference:
-            kwargs["beta"] = float('inf')
-
+        kwargs["beta"] = float('inf')
         def func(array):
             return objective_function(
                 events=events, slots=slots, X=array, **kwargs)
