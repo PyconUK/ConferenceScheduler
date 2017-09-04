@@ -18,6 +18,7 @@ import conference_scheduler.validator as val
 from conference_scheduler.resources import (
     Shape, ChangedEventScheduledItem, ChangedSlotScheduledItem
 )
+from conference_scheduler.lp_problem import objective_functions as of
 
 # __all__ is defined so that we can control the order in which the functions
 # are documented by sphinx.
@@ -32,6 +33,7 @@ def heuristic(events,
               slots,
               objective_function=None,
               algorithm=heu.hill_climber,
+              initial_solution=None,
               initial_solution_algorithm_kwargs={},
               objective_function_algorithm_kwargs={},
               **kwargs):
@@ -74,17 +76,22 @@ def heuristic(events,
 
         [(0, 1), (1, 4), (2, 5)]
     """
-    X = heu.get_initial_array(events=events, slots=slots)
-
     def count_violations(array):
         return len(list(val.array_violations(array, events, slots)))
 
-    X = algorithm(initial_array=X,
-                  objective_function=count_violations,
-                  lower_bound=0,
-                  **initial_solution_algorithm_kwargs)
+    if initial_solution is None:
+        X = heu.get_initial_array(events=events, slots=slots)
+        X = algorithm(initial_array=X,
+                      objective_function=count_violations,
+                      lower_bound=0,
+                      **initial_solution_algorithm_kwargs)
+    else:
+        X = initial_solution
 
     if objective_function is not None:
+
+        if objective_function is of.equity_capacity_demand_difference:
+            kwargs["beta"] = float('inf')
 
         def func(array):
             return objective_function(

@@ -2,7 +2,7 @@ from conference_scheduler import converter
 from conference_scheduler.lp_problem import constraints
 
 
-def array_violations(array, events, slots):
+def array_violations(array, events, slots, beta=None):
     """Take a schedule in array form and return any violated constraints
 
     Parameters
@@ -25,7 +25,7 @@ def array_violations(array, events, slots):
     """
     return (
         c.label
-        for c in constraints.all_constraints(events, slots, array)
+        for c in constraints.all_constraints(events, slots, array, beta=beta)
         if not c.condition
     )
 
