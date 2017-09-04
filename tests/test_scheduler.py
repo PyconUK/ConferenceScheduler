@@ -333,3 +333,36 @@ def test_heuristic_solution_with_simulated_annealing(events, slots):
         objective_function=of.efficiency_capacity_demand_difference)
 
     assert solution == [(0, 4), (1, 0), (2, 6)]
+
+
+def test_heuristic_solution_with_sim_annealing_init_sol_and_equity(events,
+                                                                   slots):
+    np.random.seed(1)
+    X_orig = np.array([
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1]
+    ])
+    solution = scheduler.heuristic(
+        events=events,
+        slots=slots,
+        algorithm=heu.simulated_annealing,
+        initial_solution=X_orig,
+        objective_function=of.equity_capacity_demand_difference)
+
+    assert solution == [(0, 3), (1, 4), (2, 6)]
+
+    np.random.seed(1)
+    X_orig = np.array([
+        [1, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1]
+    ])
+    solution = scheduler.heuristic(
+        events=events,
+        slots=slots,
+        algorithm=heu.simulated_annealing,
+        initial_solution=X_orig,
+        objective_function=of.equity_capacity_demand_difference)
+
+    assert solution == [(0, 0), (1, 4), (2, 6)]
